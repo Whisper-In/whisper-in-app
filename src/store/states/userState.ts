@@ -6,7 +6,7 @@ export type UserState = {
 };
 
 export const initialUserState: UserState = {
-  id: "646703dab59557d6aae3197c",
+  id: "646b85083abea58b84fbfa6f",
   name: "",
   avatar: "",
   email: "",

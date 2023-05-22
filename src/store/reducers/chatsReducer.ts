@@ -11,8 +11,7 @@ export const loadChatsReducer = (
   action: LoadChatsAction
 ) => {
   const payload = action.payload as LoadChatsActionPayload[];
-  if (!payload.length) return state;
-
+    
   state.records = payload.map<Chat>((item) => {
     const stateChatMessages =
       state.records.find((chat) => chat.chatId == item.chatId)?.messages ?? [];
@@ -41,7 +40,7 @@ export const addNewChatMessageReducer = (
   let chat = state.records.find((c) => c.chatId == payload.chatId);
 
   if(chat) {
-    chat.messages.push(payload);
+    chat.messages.unshift(payload);
   }
 
   return state;

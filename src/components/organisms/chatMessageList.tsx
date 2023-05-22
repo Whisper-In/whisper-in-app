@@ -1,13 +1,14 @@
 import { useRef } from "react";
 import { FlatList, View } from "react-native";
 import { useSelector } from "react-redux";
-import { ChatMessageActionPayload } from "../../store/slices/chat/types";
 import { ChatMessage } from "../../store/states/chatsState";
 import { RootState, useAppSelector } from "../../store/store";
 import ChatBubble from "../atoms/chatBubble";
+import ChatTypingIndicator from "../atoms/chatTypingIndicator";
 
 export default function ChatMessageList(props: {
   chatMessageList: ChatMessage[];
+  isTyping: boolean;
 }) {
   const listRef = useRef<FlatList>(null);
   const userId = useAppSelector((state) => state.user.id);
@@ -15,18 +16,28 @@ export default function ChatMessageList(props: {
   return (
     <FlatList
       ref={listRef}
-      keyExtractor={(item:ChatMessage, index:number) => index.toString()}
+      keyExtractor={(item: ChatMessage, index: number) => index.toString()}
       data={props.chatMessageList}
       renderItem={({ item }) => (
-        <ChatBubble
-          message={item.message}
-          isSelf={item.senderId == userId}
-          createdAt={item.createdAt}
-        />
+        <ChatBubble isSelf={item.senderId == userId} createdAt={item.createdAt}>
+          {item.message}
+        </ChatBubble>
       )}
+      inverted={true}
       onContentSizeChange={() => {
-        props?.chatMessageList.length && listRef?.current?.scrollToEnd();
+        if (
+          props.chatMessageList.length &&
+          props.chatMessageList[0].senderId == userId
+        )
+          listRef?.current?.scrollToOffset({ animated: false, offset: 0 });
       }}
-    />
+      ListHeaderComponent={() => {
+        if (props.isTyping) {
+          return <ChatTypingIndicator />;
+        } else {
+          return <></>;
+        }
+      }}
+    ></FlatList>
   );
 }

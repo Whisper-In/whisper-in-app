@@ -23,8 +23,8 @@ export default function ChatHistoryList(props: {
           <ChatMessageListItem
             name={item.profiles[0].name}
             imgSrc={item.profiles[0].avatar ?? ""}
-            messagePreview={item.messages[item.messages.length - 1]?.message}
-            lastMessageDateTime={item.messages[item.messages.length - 1]?.createdAt}
+            messagePreview={item.messages[0]?.message}
+            lastMessageDateTime={item.messages[0]?.createdAt}
             onPress={() =>
               props.onPress(
                 item.chatId,

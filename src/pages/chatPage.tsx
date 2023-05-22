@@ -17,6 +17,7 @@ import { ChatCompletionRequestMessageRoleEnum } from "openai";
 import { formatDateTimeTo12HoursTimeString } from "../utils/dateUtil";
 import { addNewChatMessage } from "../store/slices/chats/index";
 import { fetchChatCompletion } from "../store/slices/chats/thunks";
+import { ChatMessage } from "../store/states/chatsState";
 
 export default function ChatPage() {
   const [isTyping, setIsTyping] = useState(false);
@@ -26,13 +27,11 @@ export default function ChatPage() {
 
   const dispatch = useAppDispatch();
 
-  const prevChatMessageList = useSelector((state: RootState) => {
+  const chatMessageList = useSelector((state: RootState) => {
     const chats = state.chats.records.find((c) => c.chatId == chatId);
 
     return chats?.messages ?? [];
   });
-
-  useEffect(() => {}, []);
 
   const onSent = (message: string) => {
     const createdAt = new Date().toString();
@@ -59,10 +58,7 @@ export default function ChatPage() {
 
   return (
     <View style={{ flex: 1 }}>
-      <ChatMessageList chatMessageList={prevChatMessageList} />
-      {isTyping && (
-        <ChatTypingIndicator style={{ position: "absolute", bottom: 60 }} />
-      )}
+      <ChatMessageList chatMessageList={chatMessageList} isTyping={isTyping} />
       <ChatInputBar onSent={onSent} />
     </View>
   );
