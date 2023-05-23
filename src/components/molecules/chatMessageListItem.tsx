@@ -17,8 +17,7 @@ function ChatMessageListItem(props: {
     <TouchableRipple rippleColor="rgba(0,0,0,.1)" onPress={props.onPress}>
       <View
         style={{
-          flexDirection: "row",
-          backgroundColor: "primary",
+          flexDirection: "row",          
           alignItems: "center",
           padding: 12,
         }}

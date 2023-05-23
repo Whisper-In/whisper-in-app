@@ -1,23 +1,18 @@
 import { NativeStackHeaderProps } from "@react-navigation/native-stack";
-import { Appbar, Avatar, MD3Colors } from "react-native-paper";
+import { Appbar, Avatar, useTheme } from "react-native-paper";
 import CustomNavigationBarAvatar from "../atoms/customNavigationBarAvatar";
 
 export default function CustomNavigationBar(props: NativeStackHeaderProps) {
   const routeParams = props.route?.params as any;
-  
+  const theme = useTheme();
+
   return (
-    <Appbar.Header
-      style={{
-        backgroundColor: MD3Colors.primary50,
-      }}
-      elevated={true}
-    >
+    <Appbar.Header>
       {props.back && (
         <Appbar.BackAction
           style={{
             margin: 0,
           }}
-          color={MD3Colors.primary100}
           onPress={props.navigation.goBack}
         />
       )}
@@ -30,8 +25,7 @@ export default function CustomNavigationBar(props: NativeStackHeaderProps) {
           size={35}
         />
       )}
-      <Appbar.Content
-        color={MD3Colors.primary100}
+      <Appbar.Content        
         title={props.options.headerTitle?.toString()}
       />
     </Appbar.Header>

@@ -13,8 +13,7 @@ export default function HomeStackNavigator() {
       screenOptions={{
         orientation: "portrait",
         headerTitle: appJson.expo.name,   
-        header: (props) => <CustomNavigationBar {...props}/>   ,
-        headerShadowVisible: true          
+        header: (props) => <CustomNavigationBar {...props}/>   ,        
       }}      
     >
       <HomeStack.Screen name="Home" component={HomePage} />

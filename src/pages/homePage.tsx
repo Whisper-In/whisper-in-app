@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { RefreshControl, ScrollView, View } from "react-native";
+import { useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import ChatHistoryList from "../components/organisms/chatHistoryList";
@@ -15,6 +16,7 @@ export default function HomePage({
 }: {
   navigation: HomePageNavigationProp;
 }) {
+  const theme = useTheme();
   const [refreshing, setRefreshing] = useState(false);
   const userId = useAppSelector((state) => state.user.id);
   const chats = useAppSelector((state) => state.chats.records);
@@ -25,15 +27,8 @@ export default function HomePage({
     dispatch(fetchChats(userId));
   }, [dispatch]);
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
-
   return (
-    <View>
+    <View style={{flex: 1}}>
       <ChatHistoryList
         data={chats}
         onPress={(chatId, contactId, contactName, isAI, contactAvatar) =>

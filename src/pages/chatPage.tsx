@@ -10,16 +10,17 @@ import {
 } from "../store/store";
 import { useEffect, useState } from "react";
 import * as chatGPT from "../store/services/chatGPTService";
-import ChatTypingIndicator from "../components/atoms/chatTypingIndicator";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { HomeStackNavigatorParamList } from "../navigation/types";
 import { ChatCompletionRequestMessageRoleEnum } from "openai";
 import { formatDateTimeTo12HoursTimeString } from "../utils/dateUtil";
 import { addNewChatMessage } from "../store/slices/chats/index";
 import { fetchChatCompletion } from "../store/slices/chats/thunks";
-import { ChatMessage } from "../store/states/chatsState";
+import { Chat } from "../store/states/chatsState";
+import { useTheme } from "react-native-paper";
 
 export default function ChatPage() {
+  const theme = useTheme();
   const [isTyping, setIsTyping] = useState(false);
   const route = useRoute<RouteProp<HomeStackNavigatorParamList, "Chat">>();
   const { chatId, contactId, isAI } = route.params;
@@ -28,7 +29,7 @@ export default function ChatPage() {
   const dispatch = useAppDispatch();
 
   const chatMessageList = useSelector((state: RootState) => {
-    const chats = state.chats.records.find((c) => c.chatId == chatId);
+    const chats = state.chats.records.find((c:Chat) => c.chatId == chatId);
 
     return chats?.messages ?? [];
   });
@@ -57,7 +58,7 @@ export default function ChatPage() {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1}}>
       <ChatMessageList chatMessageList={chatMessageList} isTyping={isTyping} />
       <ChatInputBar onSent={onSent} />
     </View>

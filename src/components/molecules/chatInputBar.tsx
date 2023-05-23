@@ -1,10 +1,11 @@
 import { useRef, useState } from "react";
 import { TextInput as NativeTextInput, View } from "react-native";
-import { Button, IconButton, TextInput, MD3Colors } from "react-native-paper";
+import { Button, IconButton, TextInput, useTheme } from "react-native-paper";
 
 export default function ChatInputBar(props: {
   onSent: (message: string) => void;
 }) {
+  const theme = useTheme();
   const [message, setMessage] = useState("");
 
   const sendMessage = () => {
@@ -31,7 +32,7 @@ export default function ChatInputBar(props: {
         outlineStyle={{
           borderRadius: 50,
           borderWidth: 0,
-          backgroundColor: MD3Colors.neutral90,
+          backgroundColor: theme.colors.secondary
         }}
         dense={true}
         placeholder="Message"
@@ -44,8 +45,8 @@ export default function ChatInputBar(props: {
       <IconButton
         icon="send"
         centered={true}
-        containerColor={MD3Colors.primary50}
-        iconColor={MD3Colors.primary100}
+        containerColor={theme.colors.primary}
+        iconColor={theme.colors.onPrimary}
         size={28}
         style={{ margin: 0 }}
         onPress={() => {
