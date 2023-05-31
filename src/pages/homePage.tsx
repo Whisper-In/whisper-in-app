@@ -18,10 +18,10 @@ export default function HomePage({
 }) {
   const theme = useTheme();
   const [refreshing, setRefreshing] = useState(false);
-  const userId = useAppSelector((state) => state.user.id);
+  const userId = useAppSelector((state) => state.user.me!.id);
   const chats = useAppSelector((state) => state.chats.records);
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();  
 
   useEffect(() => {
     dispatch(fetchChats(userId));

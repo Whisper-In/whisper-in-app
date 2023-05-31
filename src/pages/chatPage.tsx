@@ -24,7 +24,7 @@ export default function ChatPage() {
   const [isTyping, setIsTyping] = useState(false);
   const route = useRoute<RouteProp<HomeStackNavigatorParamList, "Chat">>();
   const { chatId, contactId, isAI } = route.params;
-  const userId = useAppSelector((state) => state.user.id);
+  const userId = useAppSelector((state) => state.user.me!.id);
 
   const dispatch = useAppDispatch();
 

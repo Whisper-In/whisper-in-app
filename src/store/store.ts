@@ -5,6 +5,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import chatsReducers from "./slices/chats/index";
 import userReducer from "./slices/user"
+import { initAxiosInterceptors } from "./services/axiosInstance";
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -27,11 +28,14 @@ export const store = configureStore({
   })
 });
 
+initAxiosInterceptors(store);
+
 export const persistor = persistStore(store);
 
+export type Store = typeof store;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch: () => (AppDispatch) = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-//persistor.purge();
+persistor.purge();

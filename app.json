@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Whisperin",
-    "slug": "Whisperin",
+    "name": "Whisper In",
+    "slug": "whisperin",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.edwin107.Whisperin"
+      "package": "com.org.whisperin"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -31,6 +31,7 @@
       "eas": {
         "projectId": "2ebb772b-5a0f-443d-8a55-88ff9e7fbc2c"
       }
-    }
+    },
+    "scheme": "whisperin"
   }
 }

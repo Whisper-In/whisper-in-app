@@ -1,13 +1,16 @@
-export type UserState = {
+export type UserProfile = {
   id: string;
   name: string;
   avatar?: string;
   email?: string;
+}
+
+export type UserState = {
+  me?: UserProfile;
+  token?:string;  
+  isAuthenticated?:boolean;
 };
 
 export const initialUserState: UserState = {
-  id: "646b85083abea58b84fbfa6f",
-  name: "",
-  avatar: "",
-  email: "",
+  isAuthenticated: false
 };

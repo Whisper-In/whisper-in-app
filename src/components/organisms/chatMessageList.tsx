@@ -10,7 +10,7 @@ export default function ChatMessageList(props: {
   isTyping: boolean;
 }) {
   const listRef = useRef<FlatList>(null);
-  const userId = useAppSelector((state) => state.user.id);
+  const userId = useAppSelector((state) => state.user.me!.id);
 
   return (
     <FlatList
