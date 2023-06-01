@@ -50,7 +50,7 @@ export const lightTheme: MD3Theme = {
     ...DefaultTheme,
     dark: true,
     colors: {
-      primary: "#25A1C3",
+      primary: "#3B96EB",
       onPrimary: "#b0c3e8",
       primaryContainer: "rgb(0, 74, 117)",
       onPrimaryContainer: "#82a2e0",

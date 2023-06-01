@@ -18,6 +18,7 @@ import { stringify } from "querystring";
 import { useAppDispatch } from "../store/store";
 import { setUser } from "../store/slices/user/index";
 import { IUserDto } from "../store/dtos/user.dtos";
+import { setIsLoading } from "../store/slices/app/index";
 
 export default function SignInPage({
   navigation,
@@ -26,12 +27,12 @@ export default function SignInPage({
 }) {
   const theme = useTheme();
   const [fontsLoaded] = useFonts({
-    Condiment: require("../assets/fonts/Condiment-Regular.ttf"),
+    MadeTommyBold: require("../assets/fonts/MADE_TOMMY_Bold.otf"),
   });
 
   const dispatch = useAppDispatch();
 
-  const handleOpenURL = (event: { url: string }) => {
+  const handleOpenURL = (event: { url: string }) => {    
     const url = new URL(decodeURI(event.url));
     const params = new URLSearchParams(url.search);
 
@@ -55,9 +56,13 @@ export default function SignInPage({
     }
   };
 
-  useEffect(() => {
+  useEffect(() => {    
     Linking.addEventListener("url", handleOpenURL);
   }, []);
+
+  const openGoogleLogin = () => {        
+    Linking.openURL(`${REACT_APP_WHISPER_SERVICE_BASEURL}/auth/google/login`);
+  };
 
   if (!fontsLoaded) {
     return null;
@@ -73,7 +78,7 @@ export default function SignInPage({
       >
         <View>
           <Text style={{ ...style["logo-title"], color: theme.colors.primary }}>
-            Whisperin
+            Whisper In
           </Text>
         </View>
       </View>
@@ -86,13 +91,7 @@ export default function SignInPage({
         }}
       >
         <Text style={style.login}>Login Now</Text>
-        <GoogleSignInButton
-          onPress={() =>
-            Linking.openURL(
-              `${REACT_APP_WHISPER_SERVICE_BASEURL}/auth/google/login`
-            )
-          }
-        />
+        <GoogleSignInButton onPress={() => openGoogleLogin()} />
       </View>
     </View>
   );
@@ -107,8 +106,9 @@ const style = StyleSheet.create({
     fontStyle: "italic",
   },
   "logo-title": {
-    fontFamily: "Condiment",
-    fontSize: 64,
+    fontFamily: "MadeTommyBold",
+    fontWeight: "900",
+    fontSize: 48,
   },
   login: {
     fontSize: 18,

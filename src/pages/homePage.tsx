@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { RefreshControl, ScrollView, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,18 +17,17 @@ export default function HomePage({
   navigation: HomePageNavigationProp;
 }) {
   const theme = useTheme();
-  const [refreshing, setRefreshing] = useState(false);
-  const userId = useAppSelector((state) => state.user.me!.id);
+  const me = useAppSelector((state) => state.user.me!);
   const chats = useAppSelector((state) => state.chats.records);
 
-  const dispatch = useAppDispatch();  
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchChats(userId));
-  }, [dispatch]);
+  useEffect(() => {    
+    dispatch(fetchChats(me.id))
+  }, []);
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <ChatHistoryList
         data={chats}
         onPress={(chatId, contactId, contactName, isAI, contactAvatar) =>

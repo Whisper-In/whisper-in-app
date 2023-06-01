@@ -2,7 +2,9 @@ import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 import { Appbar, Avatar, useTheme } from "react-native-paper";
 import CustomNavigationBarAvatar from "../atoms/customNavigationBarAvatar";
 
-export default function CustomNavigationBar(props: NativeStackHeaderProps) {
+export default function CustomNavigationBar(
+  props: NativeStackHeaderProps & { onAvatarPress?: () => void }
+) {
   const routeParams = props.route?.params as any;
   const theme = useTheme();
 
@@ -10,23 +12,24 @@ export default function CustomNavigationBar(props: NativeStackHeaderProps) {
     <Appbar.Header>
       {props.back && (
         <Appbar.BackAction
-          style={{
-            margin: 0,
-          }}
           onPress={props.navigation.goBack}
         />
       )}
       {routeParams?.avatar && (
         <CustomNavigationBarAvatar
-          style={{
-            marginRight: 10,
-          }}
           imgSrc={routeParams.avatar}
-          size={35}
+          onPress={() => {
+            if (props.onAvatarPress) {
+              props.onAvatarPress();
+            }
+          }}
         />
       )}
-      <Appbar.Content        
-        title={props.options.headerTitle?.toString()}
+      <Appbar.Content
+        titleStyle={{
+          fontSize: 20,
+        }}
+        title={props.options.headerTitle!.toString()}
       />
     </Appbar.Header>
   );

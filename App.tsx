@@ -16,16 +16,20 @@ import { persistor, store } from "./src/store/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { View } from "react-native";
 import { darkTheme, lightTheme } from "./themes";
+import ActivityIndicator from "./src/components/atoms/activityIndicator";
 
-export default function App() {  
+export default function App() {
   const isDarkMode = true; //TODO: Change with states
   const theme = !isDarkMode ? lightTheme : darkTheme;
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <StatusBar style="auto" />
       <PaperProvider theme={theme}>
         <ReduxProvider store={store}>
           <PersistGate loading={null} persistor={persistor}>
+            <ActivityIndicator />
+
             <NavigationContainer
               theme={{
                 dark: theme.dark,
@@ -44,7 +48,6 @@ export default function App() {
           </PersistGate>
         </ReduxProvider>
       </PaperProvider>
-      <StatusBar style="auto" />
     </View>
   );
 }

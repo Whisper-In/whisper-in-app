@@ -27,11 +27,11 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "scheme": "whisperin",
     "extra": {
       "eas": {
-        "projectId": "2ebb772b-5a0f-443d-8a55-88ff9e7fbc2c"
+        "projectId": "5f25c368-0dfe-4277-924d-5f1400552b5f"
       }
-    },
-    "scheme": "whisperin"
+    }
   }
 }
