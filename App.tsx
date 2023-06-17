@@ -17,37 +17,49 @@ import { PersistGate } from "redux-persist/integration/react";
 import { View } from "react-native";
 import { darkTheme, lightTheme } from "./themes";
 import ActivityIndicator from "./src/components/atoms/activityIndicator";
+import { StripeProvider } from "@stripe/stripe-react-native";
+import appJson from "./app.json";
+import {REACT_APP_STRIPE_PUBLISHABLE_KEY} from "@env";
+
+const stripePublishableKey=REACT_APP_STRIPE_PUBLISHABLE_KEY;
 
 export default function App() {
-  const isDarkMode = true; //TODO: Change with states
+  const isDarkMode = false; //TODO: Change with states
   const theme = !isDarkMode ? lightTheme : darkTheme;
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <StatusBar style="auto" />
-      <PaperProvider theme={theme}>
-        <ReduxProvider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <ActivityIndicator />
+      <StripeProvider
+        publishableKey={stripePublishableKey}
+        urlScheme={appJson.expo.scheme}
+        merchantIdentifier={`merchant.com.${appJson.expo.slug}`}
+      >
+        <PaperProvider theme={theme}>
+          <ReduxProvider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              <ActivityIndicator />
 
-            <NavigationContainer
-              theme={{
-                dark: theme.dark,
-                colors: {
-                  background: theme.colors.background,
-                  primary: theme.colors.primary,
-                  text: theme.colors.onSurface,
-                  card: theme.colors.surface,
-                  border: theme.colors.outline,
-                  notification: theme.colors.tertiary,
-                },
-              }}
-            >
-              <HomeStackNavigator />
-            </NavigationContainer>
-          </PersistGate>
-        </ReduxProvider>
-      </PaperProvider>
+              <NavigationContainer
+                theme={{
+                  dark: theme.dark,
+                  colors: {
+                    background: theme.colors.background,
+                    primary: theme.colors.primary,
+                    text: theme.colors.onSurface,
+                    card: theme.colors.surface,
+                    border: theme.colors.outline,
+                    notification: theme.colors.tertiary,
+                  },
+                }}
+              >
+                <HomeStackNavigator />
+              </NavigationContainer>
+            </PersistGate>
+          </ReduxProvider>
+        </PaperProvider>
+      </StripeProvider>
+
     </View>
   );
 }

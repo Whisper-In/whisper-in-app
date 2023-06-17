@@ -9,13 +9,12 @@ import * as chatGPTService from "../../services/chatGPTService";
 import * as chatService from "../../services/chatService";
 import { ChatCompletionResponseMessage } from "openai";
 import { RootState } from "../../store";
-import axiosInstance from "../../services/axiosInstance";
 
 export const fetchChats = createAsyncThunk<LoadChatsActionPayload[], string>(
   "chats/fetchChats",
   async (userId: string) => {
     let payload: LoadChatsActionPayload[] = [];
-    
+
     try {
       const userChats = await chatService.getUserChats(userId);
       payload = userChats.map((userChat) => ({

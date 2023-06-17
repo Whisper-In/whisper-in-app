@@ -1,14 +1,16 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import CustomNavigationBar from "../components/organisms/customNavigationBar";
 import ChatPage from "../pages/chatPage";
 import HomePage from "../pages/homePage";
 import { HomePageNavigationProp, HomeStackNavigatorParamList } from "./types";
 import appJson from "../../app.json";
 import { useAppSelector } from "../store/store";
 import SignInPage from "../pages/signInPage";
-import CustomNavigationBarAvatar from "../components/atoms/customNavigationBarAvatar";
 import SettingsPage from "../pages/settingsPage";
 import { useNavigation } from "@react-navigation/native";
+import SearchPage from "../pages/searchPage";
+import NavBarBackButton from "../components/molecules/navBarBackButton";
+import NavBarHeaderRight from "../components/molecules/navBarHeaderRight";
+import ProfilePage from "../pages/profilePage";
 
 const HomeStack = createNativeStackNavigator<HomeStackNavigatorParamList>();
 
@@ -33,29 +35,30 @@ export default function HomeStackNavigator() {
           name="Home"
           component={HomePage}
           options={({ route }) => ({
-            header: (props) => (
-              <CustomNavigationBar
-                {...props}
-                onAvatarPress={() => {
-                  navigation.navigate("Settings");
-                }}
-              />
-            ),
+            headerTitle: "Recent Chats",
+            headerRight: (props) => <NavBarHeaderRight {...props} onSearchPress={() => navigation.navigate("Search")} />
           })}
-          initialParams={{ avatar: me?.avatar }}
         />
         <HomeStack.Screen
           name="Chat"
           component={ChatPage}
           options={({ route }) => ({
             headerTitle: route.params.name,
-            header: (props) => <CustomNavigationBar {...props} />,
+            headerLeft: (props) => <NavBarBackButton {...props} avatar={route.params.avatar} onPress={() => navigation.goBack()} />,
           })}
         />
-        <HomeStack.Screen name="Settings" component={SettingsPage} 
-        options={{
-          headerTitle: "Settings",          
-        }}/>
+        <HomeStack.Screen name="Settings" component={SettingsPage}
+          options={{
+            headerTitle: "Settings",
+          }} />
+        <HomeStack.Screen name="Search" component={SearchPage} />
+        <HomeStack.Screen
+          name="Profile"
+          component={ProfilePage}
+          options={({ route }) => ({            
+            headerTitle: "",
+            headerTransparent: true
+          })} />
       </HomeStack.Navigator>
     );
   } else {

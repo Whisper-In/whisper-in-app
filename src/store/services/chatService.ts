@@ -12,34 +12,17 @@ export const getUserChats = async (userId: string) => {
     );
 
     return result.data;
-  } catch (error) {    
-    throw error;
-  }
-};
-
-export const getChatMessages = async (chatId: string) => {
-  try {
-    const result = await axiosInstance.get<IUserChatMessagesDto[]>(
-      `${route}/chat-messages/${chatId}`
-    );
-
-    return result.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const insertNewChatMessage = async (data: {
-  chatId: string;
-  senderId: string;
-  message: string;
-}) => {
+export const createNewChat = async (userId: string, aiProfileId: string) => {
   try {
-    await axiosInstance.post(
-      `${route}/chat-messages/insert`,
-      data
-    );    
+    const result = await axiosInstance.post(`${route}/user-chats/new-chat`, { userId, aiProfileId });
+
+    return result.data.chatId;
   } catch (error) {
     throw error;
   }
-};
+}

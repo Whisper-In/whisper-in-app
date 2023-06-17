@@ -2,7 +2,7 @@ import { FlatList, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Chat } from "../../store/states/chatsState";
 import ChatMessageListItem from "../molecules/chatMessageListItem";
-import SkeletonPlaceHolder from "react-native-skeleton-placeholder";
+import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 
 export default function ChatHistoryList(props: {
   data: Chat[];
@@ -53,35 +53,35 @@ export default function ChatHistoryList(props: {
 
 function ChatMessageListLoading() {
   return (
-    <SkeletonPlaceHolder highlightColor="#888">
-      <SkeletonPlaceHolder.Item
+    <SkeletonPlaceholder highlightColor="#888">
+      <SkeletonPlaceholder.Item
         flexDirection="row"
         alignItems="center"
         padding={12}
         marginBottom={12}
       >
-        <SkeletonPlaceHolder.Item
+        <SkeletonPlaceholder.Item
           width={50}
           height={50}
           borderRadius={50}
           opacity={0.2}
-        ></SkeletonPlaceHolder.Item>
+        ></SkeletonPlaceholder.Item>
 
-        <SkeletonPlaceHolder.Item marginLeft={10} flexGrow={1}>
-          <SkeletonPlaceHolder.Item
+        <SkeletonPlaceholder.Item marginLeft={10} flexGrow={1}>
+          <SkeletonPlaceholder.Item
             width={150}
             height={10}
             marginBottom={10}
             opacity={0.2}
-          ></SkeletonPlaceHolder.Item>
+          ></SkeletonPlaceholder.Item>
 
-          <SkeletonPlaceHolder.Item
+          <SkeletonPlaceholder.Item
             width={250}
             height={10}
             opacity={0.2}
-          ></SkeletonPlaceHolder.Item>
-        </SkeletonPlaceHolder.Item>
-      </SkeletonPlaceHolder.Item>
-    </SkeletonPlaceHolder>
+          ></SkeletonPlaceholder.Item>
+        </SkeletonPlaceholder.Item>
+      </SkeletonPlaceholder.Item>
+    </SkeletonPlaceholder>
   );
 }

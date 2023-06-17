@@ -3,18 +3,18 @@ import { DefaultTheme, MD3Theme } from "react-native-paper";
 export const lightTheme: MD3Theme = {
     ...DefaultTheme,
     colors: {
-      primary: "rgb(0, 99, 154)",
-      onPrimary: "rgb(255, 255, 255)",
-      primaryContainer: "rgb(206, 229, 255)",
-      onPrimaryContainer: "rgb(0, 29, 50)",
-      secondary: "rgb(0, 104, 116)",
-      onSecondary: "rgb(255, 255, 255)",
-      secondaryContainer: "rgb(151, 240, 255)",
-      onSecondaryContainer: "rgb(0, 31, 36)",
-      tertiary: "rgb(0, 104, 116)",
-      onTertiary: "rgb(255, 255, 255)",
-      tertiaryContainer: "rgb(151, 240, 255)",
-      onTertiaryContainer: "rgb(0, 31, 36)",
+      primary: "#3B96EB",
+      onPrimary: "#FFF",
+      primaryContainer: "rgb(0, 74, 117)",
+      onPrimaryContainer: "#DDD",
+      secondary: "#BBB",
+      onSecondary: "#000",
+      secondaryContainer: "rgb(0, 79, 88)",
+      onSecondaryContainer: "#666666",
+      tertiary: "rgb(79, 216, 235)",
+      onTertiary: "rgb(0, 54, 61)",
+      tertiaryContainer: "rgb(0, 79, 88)",
+      onTertiaryContainer: "rgb(151, 240, 255)",
       error: "rgb(186, 26, 26)",
       onError: "rgb(255, 255, 255)",
       errorContainer: "rgb(255, 218, 214)",
@@ -92,4 +92,6 @@ export const lightTheme: MD3Theme = {
       backdrop: "rgba(44, 49, 55, 0.4)",
     },
   };
+
+  export const skeletonHighlight = "#888";
   

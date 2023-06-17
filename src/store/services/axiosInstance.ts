@@ -1,7 +1,5 @@
 import { REACT_APP_WHISPER_SERVICE_BASEURL } from "@env";
 import axios from "axios";
-import { config } from "dotenv";
-import { UserState } from "../states/userState";
 import { Store } from "../store";
 
 const baseURL = `${REACT_APP_WHISPER_SERVICE_BASEURL}`;

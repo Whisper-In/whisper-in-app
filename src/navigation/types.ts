@@ -10,7 +10,12 @@ export type HomeStackNavigatorParamList = {
     isAI: boolean;
     avatar?: string;
   };
-  Settings: undefined
+  Settings: undefined,
+  Search: undefined,
+  Profile: {
+    profileId: string;
+    isAI: boolean;
+  }
 };
 
 export type HomePageNavigationProp = NativeStackNavigationProp<

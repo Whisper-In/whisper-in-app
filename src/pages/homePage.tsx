@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
-import { useTheme } from "react-native-paper";
+import { Alert, ScrollView, View } from "react-native";
+import { Text, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import ChatHistoryList from "../components/organisms/chatHistoryList";
@@ -10,6 +10,7 @@ import { getUserChats } from "../store/services/chatService";
 import { fetchChats } from "../store/slices/chats/thunks";
 import { Chat } from "../store/states/chatsState";
 import { RootState, useAppDispatch, useAppSelector } from "../store/store";
+import { FETCH_CHATS_RETRY_COUNT, FETCH_CHATS_RETRY_INTERVAL } from "../constants";
 
 export default function HomePage({
   navigation,
@@ -19,11 +20,25 @@ export default function HomePage({
   const theme = useTheme();
   const me = useAppSelector((state) => state.user.me!);
   const chats = useAppSelector((state) => state.chats.records);
+  let retries = 0
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {    
-    dispatch(fetchChats(me.id))
+  const dispathcFetchChats = () => {
+    dispatch(fetchChats(me.id)).catch(() => {
+      if (retries < FETCH_CHATS_RETRY_COUNT) {
+        setTimeout(() => {
+          retries++;
+          dispathcFetchChats()
+        }, FETCH_CHATS_RETRY_INTERVAL);
+      } else {
+        Alert.alert("Unable to Fetch Chats", "Please restart the app and try again.")
+      }
+    });
+  }
+
+  useEffect(() => {
+    dispathcFetchChats();
   }, []);
 
   return (
@@ -39,7 +54,7 @@ export default function HomePage({
             avatar: contactAvatar,
           })
         }
-      />
+      />    
     </View>
   );
 }

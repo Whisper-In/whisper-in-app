@@ -7,18 +7,14 @@ import {
   View,
   ViewStyle,
 } from "react-native";
-import { Button, shadow, Text, useTheme } from "react-native-paper";
-import { Style } from "util";
+import { Text, useTheme } from "react-native-paper";
 import GoogleSignInButton from "../components/atoms/googleSignInButton";
-import * as Google from "expo-auth-session/providers/google";
 import { HomePageNavigationProp } from "../navigation/types";
-import { useCallback, useEffect } from "react";
+import {  useEffect } from "react";
 import { REACT_APP_WHISPER_SERVICE_BASEURL } from "@env";
-import { stringify } from "querystring";
 import { useAppDispatch } from "../store/store";
 import { setUser } from "../store/slices/user/index";
-import { IUserDto } from "../store/dtos/user.dtos";
-import { setIsLoading } from "../store/slices/app/index";
+import { IUserDeepLinkDto } from "../store/dtos/profile.dtos";
 
 export default function SignInPage({
   navigation,
@@ -37,7 +33,7 @@ export default function SignInPage({
     const params = new URLSearchParams(url.search);
 
     const userString = params.get("user");
-    const user: IUserDto = userString ? JSON.parse(userString) : {};
+    const user: IUserDeepLinkDto = userString ? JSON.parse(userString) : {};
 
     const token = params.get("token");
 

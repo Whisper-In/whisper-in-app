@@ -1,0 +1,2 @@
+export const FETCH_CHATS_RETRY_INTERVAL = 3000;
+export const FETCH_CHATS_RETRY_COUNT = 5;
