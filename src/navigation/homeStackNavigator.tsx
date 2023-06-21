@@ -5,7 +5,7 @@ import { HomePageNavigationProp, HomeStackNavigatorParamList } from "./types";
 import appJson from "../../app.json";
 import { useAppSelector } from "../store/store";
 import SignInPage from "../pages/signInPage";
-import SettingsPage from "../pages/settingsPage";
+import AccountPage from "../pages/accountPage";
 import { useNavigation } from "@react-navigation/native";
 import SearchPage from "../pages/searchPage";
 import NavBarBackButton from "../components/molecules/navBarBackButton";
@@ -34,22 +34,24 @@ export default function HomeStackNavigator() {
         <HomeStack.Screen
           name="Home"
           component={HomePage}
-          options={({ route }) => ({
-            headerTitle: "Recent Chats",
-            headerRight: (props) => <NavBarHeaderRight {...props} onSearchPress={() => navigation.navigate("Search")} />
-          })}
+          options={{
+            headerShown: false
+          }}
         />
         <HomeStack.Screen
           name="Chat"
           component={ChatPage}
           options={({ route }) => ({
             headerTitle: route.params.name,
-            headerLeft: (props) => <NavBarBackButton {...props} avatar={route.params.avatar} onPress={() => navigation.goBack()} />,
+            headerLeft: (props) => <NavBarBackButton 
+            {...props} 
+            avatar={route.params.avatar} 
+            onPress={() => navigation.goBack()} />,
           })}
         />
-        <HomeStack.Screen name="Settings" component={SettingsPage}
+        <HomeStack.Screen name="Account" component={AccountPage}
           options={{
-            headerTitle: "Settings",
+            headerTitle: "Account",
           }} />
         <HomeStack.Screen name="Search" component={SearchPage} />
         <HomeStack.Screen

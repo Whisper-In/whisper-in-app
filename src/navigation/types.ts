@@ -10,7 +10,7 @@ export type HomeStackNavigatorParamList = {
     isAI: boolean;
     avatar?: string;
   };
-  Settings: undefined,
+  Account: undefined,
   Search: undefined,
   Profile: {
     profileId: string;

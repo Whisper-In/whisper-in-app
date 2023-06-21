@@ -9,7 +9,7 @@ export const createSubscriptionPaymentSheet = async (
     customerStripeId?: string) => {
     try {
         const result = await axiosInstance.post(`${route}/payment-sheet`, {
-            amount,            
+            amount,
             metadata,
             customerStripeId
         });
@@ -17,5 +17,15 @@ export const createSubscriptionPaymentSheet = async (
         return <ICreatePaymentSheetDto>result.data;
     } catch (error) {
         console.log(error)
+    }
+}
+
+export const cancelSubscription = async (stripeSubscriptionId: string) => {
+    try {
+        const result = await axiosInstance.post(`${route}/cancel-subscription`, { stripeSubscriptionId });
+
+        return result.data;
+    } catch (error) {
+        console.log(error);
     }
 }

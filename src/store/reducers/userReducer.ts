@@ -6,10 +6,13 @@ export const loadUser = (state: UserState, action: any) => {
 };
 
 export const setUserReducer = (state: UserState, action: SetUserAction) => {
-  state.token = action.payload.token;
+  if(action.payload.token)
+    state.token = action.payload.token;
+    
   state.me = {
-    id: action.payload.id,
+    id: action.payload.id ?? state.me!.id,
     name: action.payload.name,
+    aboutMe: action.payload.aboutMe,
     email: action.payload.email,
     avatar: action.payload.avatar,
   };

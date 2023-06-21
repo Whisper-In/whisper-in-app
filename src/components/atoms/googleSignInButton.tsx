@@ -18,10 +18,16 @@ export default function GoogleSignInButton({
 }: {
   onPress: () => void;
   disabled?: boolean;
-  style?: StyleProp<ViewStyle>;
+  style?: ViewStyle;
 }) {
   return (
-    <TouchableHighlight style={style} disabled={disabled} onPress={onPress}>
+    <TouchableHighlight
+      style={{
+        borderRadius: 100,
+        ...style
+      }}
+      disabled={disabled}
+      onPress={onPress}>
       <View
         style={{
           backgroundColor: !disabled ? "#fff" : "#aaa",

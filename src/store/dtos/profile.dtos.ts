@@ -1,7 +1,8 @@
-export interface IUserDeepLinkDto {
+export interface IUserProfileDto {
   _id: string;
   name: string;
   email: string;
+  aboutMe?:string;
   avatar?: string;
 }
 
@@ -21,6 +22,7 @@ export interface IProfileSearchDto {
 export interface IProfileDto {
   id: string;
   name: string;
+  aboutMe?:string;
   email?: string;
   userName: string;
   avatar?: string;

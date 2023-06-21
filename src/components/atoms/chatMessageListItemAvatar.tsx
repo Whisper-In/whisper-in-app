@@ -1,16 +1,27 @@
-import { StyleProp, ViewStyle } from "react-native";
-import { Avatar } from "react-native-paper";
+import { GestureResponderEvent, StyleProp, TouchableHighlight, View, ViewStyle } from "react-native";
+import { Avatar, TouchableRipple } from "react-native-paper";
 
 export default function ChatMessageListItemAvatar(props: {
   imgSrc: string;
   size: number;
-  style?: StyleProp<ViewStyle>;
+  style?: ViewStyle;
+  onPress?: (event: GestureResponderEvent) => void;
 }) {
   return (
-    <Avatar.Image
-      style={props.style}
-      source={{ uri: props.imgSrc }}
-      size={props.size}
-    />
+    <TouchableRipple
+      style={{
+        height: props.size,
+        width: props.size,
+        borderRadius: 999,    
+        ...props.style            
+      }}
+      borderless={true}
+      disabled={!props.onPress}
+      onPress={props.onPress}>
+      <Avatar.Image        
+        source={{ uri: props.imgSrc }}
+        size={props.size}
+      />
+    </TouchableRipple>
   );
 }

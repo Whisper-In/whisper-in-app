@@ -14,7 +14,7 @@ import {  useEffect } from "react";
 import { REACT_APP_WHISPER_SERVICE_BASEURL } from "@env";
 import { useAppDispatch } from "../store/store";
 import { setUser } from "../store/slices/user/index";
-import { IUserDeepLinkDto } from "../store/dtos/profile.dtos";
+import { IUserProfileDto } from "../store/dtos/profile.dtos";
 
 export default function SignInPage({
   navigation,
@@ -33,7 +33,7 @@ export default function SignInPage({
     const params = new URLSearchParams(url.search);
 
     const userString = params.get("user");
-    const user: IUserDeepLinkDto = userString ? JSON.parse(userString) : {};
+    const user: IUserProfileDto = userString ? JSON.parse(userString) : {};
 
     const token = params.get("token");
 
@@ -43,6 +43,7 @@ export default function SignInPage({
           id: user._id,
           name: user.name,
           email: user.email,
+          aboutMe: user.aboutMe,
           avatar: user.avatar,
           token,
         })

@@ -3,4 +3,5 @@ export interface ICreatePaymentSheetDto {
     ephemeralKey: string;
     customer?: string;
     publishableKey: string;
+    subscriptionId?:string;
 }

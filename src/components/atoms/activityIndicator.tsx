@@ -1,6 +1,5 @@
 import { View } from "react-native";
 import {
-  useTheme,
   ActivityIndicator as PaperActivityIndicator,
 } from "react-native-paper";
 import { useAppSelector } from "../../store/store";

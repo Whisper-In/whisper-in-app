@@ -1,13 +1,19 @@
-import { StyleProp, TouchableOpacity, View, ViewStyle } from "react-native";
+import { TouchableOpacity, View, ViewStyle } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 
-export default function SubscribeButton(props: { price: number, isSubscribed: boolean, onPress?: () => void, style?: ViewStyle }) {
+export default function SubscribeButton(props: { 
+    price: number,     
+    isSubscribed: boolean, 
+    disabled?: boolean,
+    onPress?: () => void, 
+    style?: ViewStyle }) {
     const theme = useTheme();
 
     return (
-        <TouchableOpacity disabled={props.isSubscribed} onPress={props.onPress}>
+        <TouchableOpacity disabled={props.disabled} onPress={props.onPress}>
             <View style={{
                 justifyContent: "space-between",
+                opacity: props.disabled ? .5 : 1,
                 backgroundColor: !props.isSubscribed ? theme.colors.primary : theme.colors.surfaceDisabled,
                 borderRadius: 9999,
                 flexDirection: "row",
@@ -23,12 +29,12 @@ export default function SubscribeButton(props: { price: number, isSubscribed: bo
                 }}>
                     {!props.isSubscribed ?
                         <>
-                            <Text style={{ flexGrow: 1, color: theme.colors.onPrimary}}>Subscribe</Text>
+                            <Text style={{ flexGrow: 1, color: theme.colors.onPrimary }}>Subscribe</Text>
 
-                            <Text style={{color: theme.colors.onPrimary}}>{props.price ? `$${props.price}` : "FREE"}</Text>
+                            <Text style={{ color: theme.colors.onPrimary }}>{props.price ? `$${props.price}` : "FREE"}</Text>
                         </>
                         :
-                        <Text style={{color: theme.colors.onSecondary}}>Subscribed</Text>}
+                        <Text style={{ color: theme.colors.onSecondary }}>Subscribed</Text>}
                 </View>
             </View>
         </TouchableOpacity>

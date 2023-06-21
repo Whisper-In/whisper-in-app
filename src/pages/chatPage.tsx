@@ -1,35 +1,42 @@
 import { View } from "react-native";
-import ChatInputBar from "../components/molecules/chatInputBar";
+import ChatInputBar from "../components/organisms/chatInputBar";
 import ChatMessageList from "../components/organisms/chatMessageList";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
-  AppDispatch,
   RootState,
   useAppDispatch,
   useAppSelector,
 } from "../store/store";
 import { useEffect, useState } from "react";
-import * as chatGPT from "../store/services/chatGPTService";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { HomeStackNavigatorParamList } from "../navigation/types";
-import { ChatCompletionRequestMessageRoleEnum } from "openai";
-import { formatDateTimeTo12HoursTimeString } from "../utils/dateUtil";
+import { HomePageNavigationProp, HomeStackNavigatorParamList } from "../navigation/types";
 import { addNewChatMessage } from "../store/slices/chats/index";
 import { fetchChatCompletion } from "../store/slices/chats/thunks";
 import { Chat } from "../store/states/chatsState";
 import { useTheme } from "react-native-paper";
+import NavBarBackButton from "../components/molecules/navBarBackButton";
 
-export default function ChatPage() {
+export default function ChatPage({ navigation }: { navigation: HomePageNavigationProp }) {
   const theme = useTheme();
   const [isTyping, setIsTyping] = useState(false);
   const route = useRoute<RouteProp<HomeStackNavigatorParamList, "Chat">>();
   const { chatId, contactId, isAI } = route.params;
   const userId = useAppSelector((state) => state.user.me!.id);
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: (props) => <NavBarBackButton
+        {...props}
+        avatar={route.params.avatar}
+        onPress={() => navigation.goBack()}
+        onAvatarPress={() => navigation.navigate("Profile", { profileId: contactId, isAI })} />
+    });
+  }, []);
+
   const dispatch = useAppDispatch();
 
   const chatMessageList = useSelector((state: RootState) => {
-    const chats = state.chats.records.find((c:Chat) => c.chatId == chatId);
+    const chats = state.chats.records.find((c: Chat) => c.chatId == chatId);
 
     return chats?.messages ?? [];
   });
@@ -58,7 +65,7 @@ export default function ChatPage() {
   };
 
   return (
-    <View style={{ flex: 1}}>
+    <View style={{ flex: 1 }}>
       <ChatMessageList chatMessageList={chatMessageList} isTyping={isTyping} />
       <ChatInputBar onSent={onSent} />
     </View>

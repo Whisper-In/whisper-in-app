@@ -10,13 +10,14 @@ import * as chatService from "../../services/chatService";
 import { ChatCompletionResponseMessage } from "openai";
 import { RootState } from "../../store";
 
-export const fetchChats = createAsyncThunk<LoadChatsActionPayload[], string>(
+export const fetchChats = createAsyncThunk<LoadChatsActionPayload[] | any, string>(
   "chats/fetchChats",
   async (userId: string) => {
-    let payload: LoadChatsActionPayload[] = [];
+    let payload: LoadChatsActionPayload[] = [];    
 
     try {
       const userChats = await chatService.getUserChats(userId);
+      
       payload = userChats.map((userChat) => ({
         chatId: userChat.chatId,
         profiles: userChat.profiles.map<LoadChatsProfile>((profile) => ({
@@ -28,6 +29,7 @@ export const fetchChats = createAsyncThunk<LoadChatsActionPayload[], string>(
       }));      
     } catch (error) {
       console.log(error);
+      return {error};
     }
 
     return payload;

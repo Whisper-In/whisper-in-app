@@ -38,7 +38,7 @@ export default function ChatBubble({
       {createdAt?.length && (
         <Text
           style={{
-            color: isSelf ? theme.colors.onPrimaryContainer : theme.colors.onSecondaryContainer,
+            color: isSelf ? theme.colors.onPrimary : theme.colors.onSecondary,
             fontSize: 12,
             textAlign: "right",
           }}

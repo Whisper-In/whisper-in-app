@@ -8,16 +8,21 @@ import userReducer from "./slices/user";
 import appReducer from "./slices/app";
 import { initAxiosInterceptors } from "./services/axiosInstance";
 
+const appPersistConfig = {
+  key: "app",
+  storage: AsyncStorage,
+  blacklist: ["isLoading"]
+}
+
 const rootReducer = combineReducers({
-  app: appReducer,
+  app: persistReducer(appPersistConfig, appReducer),
   user: userReducer,
-  chats: chatsReducers,  
+  chats: chatsReducers,
 });
 
 const rootPersistConfig = {
   key: "root",
-  storage: AsyncStorage,
-  blacklist: ["app"]
+  storage: AsyncStorage
 };
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

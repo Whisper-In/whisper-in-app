@@ -1,11 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { initialUserState } from "../../states/userState";
-import { logoutUserReducer, setUserReducer } from "../../reducers/userReducer";
+import { loadUser, logoutUserReducer, setUserReducer } from "../../reducers/userReducer";
+import { fetchUserProfile } from "./thunks";
 
 const userSlice = createSlice({
   name: "user",
-  reducers: { setUser: setUserReducer, logoutUser: logoutUserReducer },
   initialState: initialUserState,
+  reducers: { setUser: setUserReducer, logoutUser: logoutUserReducer },  
+  extraReducers: (builder) => {
+    builder.addCase(fetchUserProfile.fulfilled, setUserReducer);    
+  },
 });
 
 export const { setUser, logoutUser } = userSlice.actions;

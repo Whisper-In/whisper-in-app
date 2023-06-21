@@ -13,6 +13,7 @@ export default function ChatHistoryList(props: {
     isAI: boolean,
     contactAvatar?: string
   ) => void;
+  onAvatarPress: (profileId: string, isAI: boolean) => void;
 }) {
   if (!props.data?.length) {
     return (
@@ -28,8 +29,10 @@ export default function ChatHistoryList(props: {
         <FlatList
           data={props.data}
           keyExtractor={(item) => item.chatId}
-          renderItem={({ item }) => (
-            <ChatMessageListItem
+          renderItem={({ item }) => {
+            const profile = item.profiles[0];
+
+            return <ChatMessageListItem
               name={item.profiles[0].name}
               imgSrc={item.profiles[0].avatar ?? ""}
               messagePreview={item.messages[0]?.message}
@@ -37,14 +40,16 @@ export default function ChatHistoryList(props: {
               onPress={() =>
                 props.onPress(
                   item.chatId,
-                  item.profiles[0].id,
-                  item.profiles[0].name,
-                  item.profiles[0].isAI,
-                  item.profiles[0].avatar
+                  profile.id,
+                  profile.name,
+                  profile.isAI,
+                  profile.avatar
                 )
               }
+              onAvatarPress={() => props.onAvatarPress(profile.id, profile.isAI)}
             />
-          )}
+          }
+          }
         />
       </SafeAreaView>
     );

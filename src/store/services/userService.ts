@@ -1,15 +1,23 @@
-import axios from "axios";
-import { REACT_APP_WHISPER_SERVICE_BASEURL } from "@env";
-import { IUserChatDto, IUserChatMessagesDto } from "../dtos/chat.dtos";
+import { IUserProfileDto } from "../dtos/profile.dtos";
 import axiosInstance from "./axiosInstance";
 
 const route = "user";
 
-export const createUserAISubscription = async (userId: string, aiProfileId: string, tier:number) => {
+export const createUserAISubscription = async (userId: string, aiProfileId: string, tier:number, subscriptionId?: string) => {
   try {
-    const result:string = await axiosInstance.post(`${route}/ai-subscription`, { aiProfileId, tier });
+    const result:string = await axiosInstance.post(`${route}/ai-subscription`, { aiProfileId, tier, subscriptionId });
 
     return result;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const getUserProfile =async (userId: string) => {
+  try {
+    const result = await axiosInstance.get<IUserProfileDto>(`${route}/${userId}`);
+
+    return result.data;
   } catch (error) {
     throw error;
   }

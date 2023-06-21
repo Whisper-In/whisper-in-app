@@ -10,8 +10,9 @@ function ChatMessageListItem(props: {
   messagePreview: string;
   lastMessageDateTime?: string;
   onPress?: (event: GestureResponderEvent) => void;
+  onAvatarPress?: (event: GestureResponderEvent) => void;
 }) {
-  const lastMessageDate = formatLastMessageDate(props.lastMessageDateTime);  
+  const lastMessageDate = formatLastMessageDate(props.lastMessageDateTime);
   return (
     <TouchableRipple rippleColor="rgba(0,0,0,.1)" onPress={props.onPress}>
       <View
@@ -27,6 +28,7 @@ function ChatMessageListItem(props: {
           style={{
             marginRight: 10,
           }}
+          onPress={props.onAvatarPress}
         />
         <View style={{ flex: 1 }}>
           <View

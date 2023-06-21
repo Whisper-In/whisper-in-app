@@ -7,3 +7,11 @@ export const setIsLoadingReducer = (
   state.isLoading = action.payload;
   return state;
 };
+
+export const setDarkModeReducer = (
+  state: AppState,
+  action: { payload: boolean }
+) => {
+  state.darkMode = action.payload;
+  return state;
+}
