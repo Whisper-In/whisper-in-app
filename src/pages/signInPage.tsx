@@ -10,11 +10,13 @@ import {
 import { Text, useTheme } from "react-native-paper";
 import GoogleSignInButton from "../components/atoms/googleSignInButton";
 import { HomePageNavigationProp } from "../navigation/types";
-import {  useEffect } from "react";
+import { useEffect } from "react";
 import { REACT_APP_WHISPER_SERVICE_BASEURL } from "@env";
 import { useAppDispatch } from "../store/store";
 import { setUser } from "../store/slices/user/index";
 import { IUserProfileDto } from "../store/dtos/profile.dtos";
+import { Image } from "react-native";
+import { url } from "inspector";
 
 export default function SignInPage({
   navigation,
@@ -22,13 +24,10 @@ export default function SignInPage({
   navigation: HomePageNavigationProp;
 }) {
   const theme = useTheme();
-  const [fontsLoaded] = useFonts({
-    MadeTommyBold: require("../assets/fonts/MADE_TOMMY_Bold.otf"),
-  });
 
   const dispatch = useAppDispatch();
 
-  const handleOpenURL = (event: { url: string }) => {    
+  const handleOpenURL = (event: { url: string }) => {
     const url = new URL(decodeURI(event.url));
     const params = new URLSearchParams(url.search);
 
@@ -53,30 +52,26 @@ export default function SignInPage({
     }
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     Linking.addEventListener("url", handleOpenURL);
   }, []);
 
-  const openGoogleLogin = () => {        
+  const openGoogleLogin = () => {
     Linking.openURL(`${REACT_APP_WHISPER_SERVICE_BASEURL}/auth/google/login`);
   };
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
+  
   return (
     <View style={{ flex: 1 }}>
       <View
         style={{
           alignItems: "center",
-          marginTop: 150,
+          marginTop: 200,
         }}
       >
         <View>
-          <Text style={{ ...style["logo-title"], color: theme.colors.primary }}>
-            Whisper In
-          </Text>
+          <Image
+            style={{ width: 300, height: 50, resizeMode: "contain" }}
+            source={require("../assets/images/icons/icon-full.png")} />
         </View>
       </View>
 

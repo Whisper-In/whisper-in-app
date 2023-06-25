@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import SettingListItem from "../../components/molecules/settingListItem";
 import { setDarkMode } from "../../store/slices/app";
 import { HomePageNavigationProp } from "../../navigation/types";
-import { REACT_APP_WHIPERIN_URL } from "@env";
+import { REACT_APP_WHISPERIN_URL } from "@env";
 import { useEffect } from "react";
 import { fetchUserProfile } from "../../store/slices/user/thunks";
 
@@ -16,7 +16,7 @@ export default function SettingsScreen({ navigation }: { navigation: HomePageNav
     const onToggleDarkMode = () => { dispatch(setDarkMode(!isDarkMode)) };
 
     const openAboutPage = () => {
-        Linking.openURL(REACT_APP_WHIPERIN_URL)
+        Linking.openURL(REACT_APP_WHISPERIN_URL)
             .catch((error) => {
                 Alert.alert("Failed to redirect to About page.");
             });

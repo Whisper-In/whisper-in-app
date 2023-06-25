@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { ChatMessage } from "../../store/states/chatsState";
 import { RootState, useAppSelector } from "../../store/store";
 import ChatBubble from "../atoms/chatBubble";
+import ChatAudioBubble from "../atoms/chatAudioBubble";
 
 export default function ChatMessageList(props: {
   chatMessageList: ChatMessage[];
@@ -32,8 +33,8 @@ export default function ChatMessageList(props: {
       }}
       ListHeaderComponent={() => {
         if (props.isTyping) {
-          return <ChatBubble isSelf={false}>...</ChatBubble>;
-        } else {
+          return <ChatBubble isSelf={false} />;
+        } else {          
           return <></>;
         }
       }}

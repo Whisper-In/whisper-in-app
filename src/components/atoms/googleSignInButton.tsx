@@ -1,12 +1,7 @@
 import {
   View,
   Image,
-  Touchable,
-  TouchableOpacity,
   Text,
-  TouchableHighlight,
-  StyleProp,
-  StyleSheet,
   ViewStyle,
 } from "react-native";
 import { TouchableRipple } from "react-native-paper";
@@ -21,11 +16,12 @@ export default function GoogleSignInButton({
   style?: ViewStyle;
 }) {
   return (
-    <TouchableHighlight
+    <TouchableRipple    
       style={{
         borderRadius: 100,
         ...style
       }}
+      borderless={true}
       disabled={disabled}
       onPress={onPress}>
       <View
@@ -57,6 +53,6 @@ export default function GoogleSignInButton({
           Sign in with Google
         </Text>
       </View>
-    </TouchableHighlight>
+    </TouchableRipple>
   );
 }
