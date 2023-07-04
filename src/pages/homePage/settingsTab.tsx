@@ -8,7 +8,7 @@ import { REACT_APP_WHISPERIN_URL } from "@env";
 import { useEffect } from "react";
 import { fetchUserProfile } from "../../store/slices/user/thunks";
 
-export default function SettingsScreen({ navigation }: { navigation: HomePageNavigationProp }) {
+export default function SettingsTab({ navigation }: { navigation: HomePageNavigationProp }) {
     const theme = useTheme();
     const me = useAppSelector((state) => state.user.me);
     const dispatch = useAppDispatch();

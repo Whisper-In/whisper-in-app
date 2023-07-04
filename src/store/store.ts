@@ -7,11 +7,12 @@ import chatsReducers from "./slices/chats/index";
 import userReducer from "./slices/user";
 import appReducer from "./slices/app";
 import { initAxiosInterceptors } from "./services/axiosInstance";
+import { initElevenServiceStore } from "./services/elevenLabsService";
 
 const appPersistConfig = {
   key: "app",
   storage: AsyncStorage,
-  blacklist: ["isLoading"]
+  blacklist: ["isLoading", "currentPlayingSoundURL"]
 }
 
 const rootReducer = combineReducers({
@@ -37,6 +38,7 @@ export const store = configureStore({
 });
 
 initAxiosInterceptors(store);
+initElevenServiceStore(store);
 
 export const persistor = persistStore(store);
 

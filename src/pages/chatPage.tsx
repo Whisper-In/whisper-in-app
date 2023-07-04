@@ -15,6 +15,7 @@ import { fetchChatCompletion } from "../store/slices/chats/thunks";
 import { Chat } from "../store/states/chatsState";
 import { useTheme } from "react-native-paper";
 import NavBarBackButton from "../components/molecules/navBarBackButton";
+import { ChatMessageActionPayload } from "../store/slices/chats/types";
 
 export default function ChatPage({ navigation }: { navigation: HomePageNavigationProp }) {
   const theme = useTheme();
@@ -36,7 +37,7 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
   const dispatch = useAppDispatch();
 
   const chatMessageList = useSelector((state: RootState) => {
-    const chats = state.chats.records.find((c: Chat) => c.chatId == chatId);
+    const chats = state.chats.chats.find((c: Chat) => c.chatId == chatId);
 
     return chats?.messages ?? [];
   });
@@ -56,11 +57,17 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
     setIsTyping(true);
 
     if (isAI) {
-      dispatch(fetchChatCompletion({ chatId, contactId, message })).finally(
-        () => {
+      const getReply = async () => {
+        try {
+          await dispatch(fetchChatCompletion({ chatId, contactId, message }));
+        } catch (error) {
+          console.log(error);
+        } finally {
           setIsTyping(false);
         }
-      );
+      }
+
+      getReply();
     }
   };
 

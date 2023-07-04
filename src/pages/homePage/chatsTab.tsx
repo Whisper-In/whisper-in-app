@@ -7,15 +7,16 @@ import { useEffect } from "react";
 import { HomePageNavigationProp } from "../../navigation/types";
 import { logoutUser } from "../../store/slices/user";
 
-export default function ChatsScreen({ navigation }: { navigation: HomePageNavigationProp }) {
+export default function ChatsTab({ navigation }: { navigation: HomePageNavigationProp }) {
     const me = useAppSelector((state) => state.user.me!);
-    const chats = useAppSelector((state) => state.chats.records);
+    const chats = useAppSelector((state) => state.chats.chats);
     let retries = 0
 
     const dispatch = useAppDispatch();
 
     const dispathcFetchChats = () => {
         dispatch(fetchChats(me.id)).catch(error => {
+            console.log(error)
             if (retries < FETCH_CHATS_RETRY_COUNT) {
                 setTimeout(() => {
                     retries++;

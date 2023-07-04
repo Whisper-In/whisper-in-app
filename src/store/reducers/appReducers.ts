@@ -15,3 +15,12 @@ export const setDarkModeReducer = (
   state.darkMode = action.payload;
   return state;
 }
+
+export const setCurrentPlayingSoundURLReducer = (
+  state: AppState,
+  action: { payload: string | undefined}
+) => {
+  state.currentPlayingSoundURL = action.payload;
+
+  return state;
+}

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoadChatsProfile, LoadChatsActionPayload } from "./types";
 import {
   loadChatsReducer,
-  addNewChatMessageReducer,
+  addNewChatMessageReducer,  
 } from "../../reducers/chatsReducer";
 import { initialChatHistoryState } from "../../states/chatsState";
 import { fetchChatCompletion, fetchChats } from "./thunks";
@@ -14,7 +14,7 @@ export const chatHistorySlice = createSlice({
   reducers: { addNewChatMessage: addNewChatMessageReducer },
   extraReducers: (builder) => {
     builder.addCase(fetchChats.fulfilled, loadChatsReducer);
-    builder.addCase(fetchChatCompletion.fulfilled, addNewChatMessageReducer);
+    builder.addCase(fetchChatCompletion.fulfilled, addNewChatMessageReducer);    
   },
 });
 

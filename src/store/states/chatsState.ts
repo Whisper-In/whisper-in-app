@@ -1,6 +1,7 @@
 export type ChatMessage = {
   senderId: string;
   message: string;
+  audioUrl?: string;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -19,9 +20,9 @@ export type Chat = {
 };
 
 export type ChatsState = {
-  records: Chat[];
+  chats: Chat[];
 };
 
 export const initialChatHistoryState: ChatsState = {
-  records: [],
+  chats: [],
 };

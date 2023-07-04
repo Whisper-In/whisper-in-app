@@ -19,6 +19,7 @@ export default function GoogleSignInButton({
     <TouchableRipple    
       style={{
         borderRadius: 100,
+        elevation: 5,
         ...style
       }}
       borderless={true}

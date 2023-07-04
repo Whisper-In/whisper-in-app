@@ -56,10 +56,10 @@ export default function SignInPage({
     Linking.addEventListener("url", handleOpenURL);
   }, []);
 
-  const openGoogleLogin = () => {
+  const openGoogleLogin = () => {    
     Linking.openURL(`${REACT_APP_WHISPER_SERVICE_BASEURL}/auth/google/login`);
   };
-  
+
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -82,7 +82,13 @@ export default function SignInPage({
           justifyContent: "center",
         }}
       >
-        <Text style={style.login}>Login Now</Text>
+        <Text style={{
+          ...theme.fonts.titleLarge,
+          color: theme.colors.onSurface,
+          fontWeight: "900",
+          marginBottom: 14
+        }}>Login Now</Text>
+        
         <GoogleSignInButton onPress={() => openGoogleLogin()} />
       </View>
     </View>
@@ -101,10 +107,5 @@ const style = StyleSheet.create({
     fontFamily: "MadeTommyBold",
     fontWeight: "900",
     fontSize: 48,
-  },
-  login: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
+  }
 });

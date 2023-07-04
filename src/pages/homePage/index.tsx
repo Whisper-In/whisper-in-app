@@ -1,7 +1,7 @@
 import { HomePageNavigationProp as HomePageNavigationProp } from "../../navigation/types";
-import ChatsScreen from "./chatsScreen";
+import ChatsScreen from "./chatsTab";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import SettingsScreen from "./settingsScreen";
+import SettingsTab from "./settingsTab";
 import NavBarHeaderRight from "../../components/molecules/navBarHeaderRight";
 import Icon from "react-native-paper/src/components/Icon";
 
@@ -32,7 +32,7 @@ export default function HomePage({
       />
       <Tab.Screen
         name="Settings"
-        component={SettingsScreen}
+        component={SettingsTab}
         options={{
           headerTitle: "Settings",
           tabBarIcon: ({ focused, color, size }) => <Icon source="account-circle" size={size} color={color} />,

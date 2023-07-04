@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, memo, useEffect } from "react";
 import { View } from "react-native";
 import Animated, { Easing, useAnimatedProps, useSharedValue, withDelay, withRepeat, withSequence, withTiming } from "react-native-reanimated";
 import { Text, useTheme } from "react-native-paper";
@@ -7,7 +7,7 @@ import { Svg, Circle } from "react-native-svg";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-export default function ChatBubble({
+function ChatBubble({
   createdAt,
   isSelf,
   children,
@@ -27,20 +27,22 @@ export default function ChatBubble({
   const dotAnimationDuration = 500
 
   useEffect(() => {
-    dotYArray.forEach((dotY, i) => {
-      dotY.value = withDelay(
-        i * dotAnimationDuration/1.5,
-        withRepeat(
-          withTiming(2, { 
-            duration: dotAnimationDuration ,
-            easing: Easing.inOut(Easing.ease)
-          }),
-          -1,
-          true
-        )
-      );
-    })
-  });
+    if (!children) {
+      dotYArray.forEach((dotY, i) => {
+        dotY.value = withDelay(
+          i * dotAnimationDuration / 1.5,
+          withRepeat(
+            withTiming(2, {
+              duration: dotAnimationDuration,
+              easing: Easing.inOut(Easing.ease)
+            }),
+            50,
+            true
+          )
+        );
+      });
+    }
+  }, []);
 
   const dotAnimatedPropsArray = dotYArray.map((dotY) => useAnimatedProps(() => ({ cy: dotY.value })));
 
@@ -83,10 +85,18 @@ export default function ChatBubble({
           :
           <Svg width={30} height={15} viewBox="0 0 30 10">
             {
-              dotsArray.map((i) => <AnimatedCircle key={i} animatedProps={dotAnimatedPropsArray[i]} cx={i * dotsDistance + dotRadius} r={dotRadius} fill={textColor} />)
+              dotsArray.map((i) =>
+                <AnimatedCircle
+                  key={i}
+                  animatedProps={dotAnimatedPropsArray[i]}
+                  cx={i * dotsDistance + dotRadius}
+                  r={dotRadius}
+                  fill={textColor} />)
             }
           </Svg>
       }
     </View>
   );
 }
+
+export default memo(ChatBubble, (prevProps, nextProps) => prevProps.children === nextProps.children);
