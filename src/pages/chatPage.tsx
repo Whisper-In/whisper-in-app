@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { KeyboardAvoidingView, Platform, View } from "react-native";
 import ChatInputBar from "../components/organisms/chatInputBar";
 import ChatMessageList from "../components/organisms/chatMessageList";
 import { useSelector } from "react-redux";
@@ -72,9 +72,11 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={{ flex: 1 }}>
       <ChatMessageList chatMessageList={chatMessageList} isTyping={isTyping} />
       <ChatInputBar onSent={onSent} />
-    </View>
+    </KeyboardAvoidingView>
   );
 }

@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
 import { useSelector } from "react-redux";
 import { ChatMessage } from "../../store/states/chatsState";
@@ -16,39 +16,39 @@ export default function ChatMessageList(props: {
 
   const renderItem = useCallback(({ item }: { item: ChatMessage }) => {
     const isSelf = item.senderId == userId;
-    if (isSelf) {
-      return (
-        <ChatBubble isSelf={isSelf} createdAt={item.createdAt}>
-          {item.message}
-        </ChatBubble>
-      );
-    } else {
+    let chatBubble = (
+      <ChatBubble isSelf={isSelf} createdAt={item.createdAt}>
+        {item.message}
+      </ChatBubble>
+    )
+
+    if (!isSelf) {
       if (item.audioUrl) {
-        return (
+        chatBubble = (
           <ChatAudioBubble
             isSelf={isSelf}
             audioUrl={item.audioUrl}
             createdAt={item.createdAt} />
         );
-      } else {
-        return (
-          <ChatBubble isSelf={isSelf} createdAt={item.createdAt}>
-            {item.message}
-          </ChatBubble>
-        );
       }
-
     }
+
+    return (
+      <View style={{ transform: [{ scale: -1 }] }}>
+        {chatBubble}
+      </View>
+    );
   }, [props.chatMessageList]);
 
+  //Use scale=-1 instead of inverted flatlist to avoid react native's inverted flatlist performance bug
   return (
     <FlatList
       ref={listRef}
+      style={{ transform: [{ scale: -1 }] }}
       keyExtractor={(item: ChatMessage, index: number) => index.toString()}
       data={props.chatMessageList}
-      initialNumToRender={50}
+      initialNumToRender={25}
       renderItem={renderItem}
-      inverted={true}
       onContentSizeChange={() => {
         if (
           props.chatMessageList.length &&
@@ -58,7 +58,11 @@ export default function ChatMessageList(props: {
       }}
       ListHeaderComponent={() => {
         if (props.isTyping) {
-          return <ChatBubble isSelf={false} />;
+          return (
+            <View style={{ transform: [{ scale: -1 }] }}>
+              <ChatBubble isSelf={false} />
+            </View>
+          );
         } else {
           return <></>;
         }

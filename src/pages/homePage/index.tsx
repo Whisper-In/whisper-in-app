@@ -15,21 +15,25 @@ export default function HomePage({
 
   return (
     <Tab.Navigator screenOptions={{
-      headerRight: () => <NavBarHeaderRight onSearchPress={() => navigation.navigate("Search")} />,
       tabBarShowLabel: false,
       tabBarStyle: {
-        height: 52,
-        borderTopWidth: 0
+        height: 60,
+        borderTopWidth: 0,
       },
     }}>
-      <Tab.Screen
-        name="Chats"
-        component={ChatsScreen}
-        options={{
-          headerTitle: "Recent Chats",
-          tabBarIcon: ({ focused, color, size }) => <Icon source="chat" size={size} color={color} />,
-        }}
-      />
+      <Tab.Group screenOptions={{
+        headerRight: () => <NavBarHeaderRight onSearchPress={() => navigation.navigate("Search")} />,
+      }}>
+        <Tab.Screen
+          name="Chats"
+          component={ChatsScreen}
+          options={{
+            headerTitle: "Recent Chats",
+            tabBarIcon: ({ focused, color, size }) => <Icon source="chat" size={size} color={color} />,
+          }}
+        />
+      </Tab.Group>
+
       <Tab.Screen
         name="Settings"
         component={SettingsTab}

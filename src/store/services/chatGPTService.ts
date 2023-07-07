@@ -3,7 +3,7 @@ import {
   ChatCompletionResponseMessage,
 } from "openai";
 import { IUserChatMessagesDto } from "../dtos/chat.dtos";
-import axiosInstance from "./axiosInstance";
+import axiosInstance from "../axiosInstance";
 
 const route = "chat-gpt";
 

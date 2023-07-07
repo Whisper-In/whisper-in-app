@@ -1,5 +1,5 @@
 import { ICreatePaymentSheetDto } from "../dtos/payment.dtos";
-import axiosInstance from "./axiosInstance"
+import axiosInstance from "../axiosInstance"
 
 const route = "payment";
 

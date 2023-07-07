@@ -15,7 +15,7 @@ export default function SettingsTab({ navigation }: { navigation: HomePageNaviga
     const isDarkMode = useAppSelector((state) => state.app.darkMode);
     const onToggleDarkMode = () => { dispatch(setDarkMode(!isDarkMode)) };
 
-    const openAboutPage = () => {
+    const openAboutPage = () => {        
         Linking.openURL(REACT_APP_WHISPERIN_URL)
             .catch((error) => {
                 Alert.alert("Failed to redirect to About page.");

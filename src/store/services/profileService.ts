@@ -1,6 +1,6 @@
 import { ICreatePaymentSheetDto } from "../dtos/payment.dtos";
 import { IProfileDto, IProfileSearchDto } from "../dtos/profile.dtos";
-import axiosInstance from "./axiosInstance"
+import axiosInstance from "../axiosInstance"
 
 const route = "profile";
 

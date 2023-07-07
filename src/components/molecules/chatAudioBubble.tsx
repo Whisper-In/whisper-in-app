@@ -1,13 +1,13 @@
-import { Dispatch, SetStateAction, memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { View, ViewStyle } from "react-native";
-import { IconButton, Text, TouchableRipple, useTheme } from "react-native-paper";
-import { AVPlaybackStatusSuccess, Audio } from "expo-av";
-import { Rect, Svg } from "react-native-svg";
+import { Text, TouchableRipple, useTheme } from "react-native-paper";
+import { AVPlaybackStatusSuccess, Audio, InterruptionModeIOS } from "expo-av";
 import AudioTimeline from "../atoms/audioTimeline";
 import { formatDateTimeTo12HoursTimeString } from "../../utils/dateUtil";
 import Icon from "react-native-paper/src/components/Icon";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { setCurrentPlayingSoundURL } from "../../store/slices/app";
+import SoundPlayer from "react-native-sound-player";
 
 function ChatAudioBubble({
   audioUrl: soundUrl,
@@ -41,8 +41,13 @@ function ChatAudioBubble({
 
   useEffect(() => {
     const loadSound = async () => {
-      try {
-        const { sound } = await Audio.Sound.createAsync({ uri: soundUrl });
+      try {        
+        await Audio.setAudioModeAsync({
+          playsInSilentModeIOS: true,
+          interruptionModeIOS: InterruptionModeIOS.DoNotMix
+        });
+
+        const { sound } = await Audio.Sound.createAsync({ uri: soundUrl });        
 
         sound.setOnPlaybackStatusUpdate((status: any) => {
           if (!status.error) {
@@ -66,8 +71,7 @@ function ChatAudioBubble({
 
         setSound(sound);
       } catch (error) {
-        //console.log("Load sound: ", error);
-        setLoadFailed(true);
+        failedToLoad("Load", error);
       }
     }
 
@@ -80,7 +84,7 @@ function ChatAudioBubble({
       if (sound?._loaded) {
         sound.unloadAsync()
           .catch((error) => {
-            //console.log("Unload: ", error);
+            failedToLoad("Unload", error);
           });
       }
     }
@@ -98,14 +102,18 @@ function ChatAudioBubble({
           }
         }
       } catch (error) {
-        //console.log("Update: ", error);
-        setLoadFailed(true);
+        failedToLoad("Update", error);
       }
     }
 
     soundUpdate();
 
   }, [currentPlayingSoundURL]);
+
+  const failedToLoad = (tag: string, error: any) => {
+    console.log(`${tag}:`, error);
+    setLoadFailed(true);
+  }
 
   const chatBubbleStyle: ViewStyle = {
     maxWidth: "90%",

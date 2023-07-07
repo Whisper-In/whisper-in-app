@@ -26,7 +26,7 @@ function ChatBubble({
   const dotYArray = dotsArray.map(() => useSharedValue(7));
   const dotAnimationDuration = 500
 
-  useEffect(() => {
+  useEffect(() => {  
     if (!children) {
       dotYArray.forEach((dotY, i) => {
         dotY.value = withDelay(
@@ -36,7 +36,7 @@ function ChatBubble({
               duration: dotAnimationDuration,
               easing: Easing.inOut(Easing.ease)
             }),
-            50,
+            -1,
             true
           )
         );

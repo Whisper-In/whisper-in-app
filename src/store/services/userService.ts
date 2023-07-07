@@ -1,5 +1,5 @@
 import { IUserProfileDto } from "../dtos/profile.dtos";
-import axiosInstance from "./axiosInstance";
+import axiosInstance from "../axiosInstance";
 
 const route = "user";
 

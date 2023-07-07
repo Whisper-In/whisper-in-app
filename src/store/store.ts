@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import chatsReducers from "./slices/chats/index";
 import userReducer from "./slices/user";
 import appReducer from "./slices/app";
-import { initAxiosInterceptors } from "./services/axiosInstance";
+import { initAxiosInterceptors } from "./axiosInstance";
 import { initElevenServiceStore } from "./services/elevenLabsService";
 
 const appPersistConfig = {

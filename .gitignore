@@ -24,4 +24,5 @@ ios
 *.code-workspace
 
 *.apk
-android
+
+debug
