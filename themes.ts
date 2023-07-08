@@ -4,9 +4,9 @@ import { MD3Type } from "react-native-paper/src/types";
 
 const fontConfig:Partial<MD3Type> = {
   fontFamily: Platform.select({
-    web: 'PlusJakartaSans-Regular',
-    ios: 'PlusJakartaSans-Regular',
-    default: 'PlusJakartaSans-Regular'
+    web: 'Inter-Regular',
+    ios: 'Inter-Regular',
+    default: 'Inter-Regular'
   })
 }
 

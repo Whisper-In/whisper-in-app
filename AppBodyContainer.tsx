@@ -16,7 +16,7 @@ export default function AppBodyContainer() {
     return (
         <>
             <StatusBar style={isDarkMode ? "light" : "dark"} />
-            <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+            <View style={{ flex: 1, backgroundColor: theme.colors.surface }}>
                 <PaperProvider theme={theme}>
                     <ActivityIndicator />
 
@@ -24,7 +24,7 @@ export default function AppBodyContainer() {
                         theme={{
                             dark: theme.dark,
                             colors: {
-                                background: theme.colors.background,
+                                background: theme.colors.surface,
                                 primary: theme.colors.primary,
                                 text: theme.colors.onSurface,
                                 card: theme.colors.surface,

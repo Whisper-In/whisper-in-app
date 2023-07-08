@@ -27,7 +27,7 @@ export default function HomePage({
           name="Chats"
           component={ChatsScreen}
           options={{
-            headerTitle: "Recent Chats",
+            headerTitle: "Chats",
             tabBarIcon: ({ focused, color, size }) => <Icon source="chat" size={size} color={color} />,
           }}
         />

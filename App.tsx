@@ -19,7 +19,8 @@ const stripePublishableKey = REACT_APP_STRIPE_PUBLISHABLE_KEY;
 
 export default function App() {
   const [isLoaded] = useFonts({
-    "PlusJakartaSans-Regular": require("./src/assets/fonts/PlusJakartaSans-Regular.ttf")
+    "PlusJakartaSans-Regular": require("./src/assets/fonts/PlusJakartaSans-Regular.ttf"),
+    "Inter-Regular": require("./src/assets/fonts/Inter-Regular.ttf")
   });
 
   const handleOnLayout = useCallback(async () => {

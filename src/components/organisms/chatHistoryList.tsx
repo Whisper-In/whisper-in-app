@@ -1,4 +1,4 @@
-import { FlatList, ScrollView } from "react-native";
+import { FlatList, ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Chat } from "../../store/states/chatsState";
 import ChatMessageListItem from "../molecules/chatMessageListItem";
@@ -17,15 +17,15 @@ export default function ChatHistoryList(props: {
 }) {
   if (!props.data?.length) {
     return (
-      <SafeAreaView>
+      <View>
         {[...Array(8)].map((x, i) => (
           <ChatMessageListLoading key={i}></ChatMessageListLoading>
         ))}
-      </SafeAreaView>
+      </View>
     );
   } else {
     return (
-      <SafeAreaView>
+      <View>
         <FlatList
           data={props.data}
           keyExtractor={(item) => item.chatId}
@@ -51,7 +51,7 @@ export default function ChatHistoryList(props: {
           }
           }
         />
-      </SafeAreaView>
+      </View>
     );
   }
 }

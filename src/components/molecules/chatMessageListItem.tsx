@@ -19,7 +19,8 @@ function ChatMessageListItem(props: {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          padding: 12,
+          paddingHorizontal: 12,
+          paddingVertical: 25
         }}
       >
         <ChatMessageListItemAvatar
