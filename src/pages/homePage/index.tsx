@@ -17,7 +17,7 @@ export default function HomePage({
     <Tab.Navigator screenOptions={{
       tabBarShowLabel: false,
       tabBarStyle: {        
-        borderTopWidth: 0,
+        borderTopWidth: 0
       },
     }}>
       <Tab.Group screenOptions={{

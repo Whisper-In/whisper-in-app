@@ -75,7 +75,7 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.select({ ios: 64 + inset.bottom })}
+      keyboardVerticalOffset={Platform.select({ ios: 30 + inset.bottom })}
       style={{ flex: 1 }}>
       <ChatMessageList chatMessageList={chatMessageList} isTyping={isTyping} />
       <ChatInputBar onSent={onSent} />

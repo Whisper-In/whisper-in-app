@@ -12,13 +12,15 @@ import SoundPlayer from "react-native-sound-player";
 function ChatAudioBubble({
   audioUrl: soundUrl,
   isSelf,
-  createdAt
+  createdAt,
 }: {
-  audioUrl: string,
+  audioUrl: string;
   isSelf: boolean;
   createdAt?: string;
 }) {
-  const currentPlayingSoundURL = useAppSelector((state) => state.app.currentPlayingSoundURL);
+  const currentPlayingSoundURL = useAppSelector(
+    (state) => state.app.currentPlayingSoundURL
+  );
   const [sound, setSound] = useState<Audio.Sound | undefined>(undefined);
   const [duration, setDuration] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -32,42 +34,53 @@ function ChatAudioBubble({
   const toggleSound = async () => {
     if (sound) {
       if (!isSoundPlaying) {
-        dispatch(setCurrentPlayingSoundURL(soundUrl));
+        if (currentPlayingSoundURL == soundUrl) {
+          try {
+            await sound.replayAsync();
+          } catch (error) {}
+        } else {
+          dispatch(setCurrentPlayingSoundURL(soundUrl));
+        }
       } else {
         dispatch(setCurrentPlayingSoundURL(undefined));
       }
     }
-  }
+  };
 
   useEffect(() => {
     const loadSound = async () => {
-      try {        
+      try {
         await Audio.setAudioModeAsync({
           playsInSilentModeIOS: true,
-          interruptionModeIOS: InterruptionModeIOS.DoNotMix
-        });        
-        const { sound } = await Audio.Sound.createAsync({ uri: `file://${soundUrl}` });        
+          interruptionModeIOS: InterruptionModeIOS.DoNotMix,
+        });
+        const { sound } = await Audio.Sound.createAsync({
+          uri: `file://${soundUrl}`,
+        });
 
         sound.setOnPlaybackStatusUpdate((status: any) => {
           if (!status.error) {
             const successStatus: AVPlaybackStatusSuccess = status;
 
             if (successStatus.isLoaded && duration == 0) {
-              setDuration((successStatus.playableDurationMillis ?? 0) / (60000));
+              setDuration((successStatus.playableDurationMillis ?? 0) / 60000);
             }
 
             if (successStatus.didJustFinish && !successStatus.isPlaying) {
               dispatch(setCurrentPlayingSoundURL(undefined));
               setProgress(1);
-            }
-            else if (successStatus.isPlaying) {
-              if(successStatus.playableDurationMillis == undefined || successStatus.playableDurationMillis <= 0)
-              {
-                setProgress(0)
+            } else if (successStatus.isPlaying) {
+              if (
+                successStatus.playableDurationMillis == undefined ||
+                successStatus.playableDurationMillis <= 0
+              ) {
+                setProgress(0);
               } else {
-                setProgress(successStatus.positionMillis/successStatus.playableDurationMillis);
+                setProgress(
+                  successStatus.positionMillis /
+                    successStatus.playableDurationMillis
+                );
               }
-              
             }
 
             setIsSoundPlaying(successStatus.isPlaying);
@@ -78,21 +91,19 @@ function ChatAudioBubble({
       } catch (error) {
         failedToLoad("Load", error);
       }
-    }
+    };
 
     loadSound();
-
   }, []);
 
   useEffect(() => {
     return () => {
       if (sound?._loaded) {
-        sound.unloadAsync()
-          .catch((error) => {
-            failedToLoad("Unload", error);
-          });
+        sound.unloadAsync().catch((error) => {
+          failedToLoad("Unload", error);
+        });
       }
-    }
+    };
   }, [sound]);
 
   useEffect(() => {
@@ -109,16 +120,15 @@ function ChatAudioBubble({
       } catch (error) {
         failedToLoad("Update", error);
       }
-    }
+    };
 
     soundUpdate();
-
   }, [currentPlayingSoundURL]);
 
   const failedToLoad = (tag: string, error: any) => {
     console.log(`${tag}:`, error);
     setLoadFailed(true);
-  }
+  };
 
   const chatBubbleStyle: ViewStyle = {
     maxWidth: "90%",
@@ -129,15 +139,17 @@ function ChatAudioBubble({
     borderTopLeftRadius: isSelf ? undefined : 0,
     borderBottomRightRadius: isSelf ? 0 : undefined,
     backgroundColor: isSelf ? theme.colors.primary : theme.colors.secondary,
-  }
+  };
 
   if (loadFailed) {
     return (
       <View style={chatBubbleStyle}>
-        <Text style={{
-          color: theme.colors.error,
-          fontStyle: "italic"
-        }}>
+        <Text
+          style={{
+            color: theme.colors.error,
+            fontStyle: "italic",
+          }}
+        >
           Failed to load audio.
         </Text>
       </View>
@@ -145,20 +157,21 @@ function ChatAudioBubble({
   }
 
   return (
-    <View
-      style={chatBubbleStyle}
-    >
-      <View style={{
-        flexDirection: "row",
-        alignItems: "center"
-      }}>
+    <View style={chatBubbleStyle}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
         <TouchableRipple
           onPress={toggleSound}
           borderless={true}
           style={{
             borderRadius: 25,
-            marginRight: 5
-          }}>
+            marginRight: 5,
+          }}
+        >
           <Icon
             color={color}
             source={!isSoundPlaying ? "play-circle" : "stop-circle"}
@@ -169,19 +182,26 @@ function ChatAudioBubble({
         <AudioTimeline
           color={color}
           seekerColor={theme.colors.primary}
-          progress={progress} />
+          progress={progress}
+        />
       </View>
 
-      <View style={{
-        flexDirection: "row"
-      }}>
+      <View
+        style={{
+          flexDirection: "row",
+        }}
+      >
         <View style={{ width: 60 }}></View>
-        <Text style={{
-          flexGrow: 1,
-          color: color,
-          fontSize: 12,
-        }}>
-          {isSoundPlaying ? (duration * (progress)).toFixed(2) : duration.toFixed(2)}
+        <Text
+          style={{
+            flexGrow: 1,
+            color: color,
+            fontSize: 12,
+          }}
+        >
+          {isSoundPlaying
+            ? (duration * progress).toFixed(2)
+            : duration.toFixed(2)}
         </Text>
 
         {createdAt?.length && (
@@ -200,4 +220,7 @@ function ChatAudioBubble({
   );
 }
 
-export default memo(ChatAudioBubble, (prevProps, nextProps) => prevProps.audioUrl === nextProps.audioUrl);
+export default memo(
+  ChatAudioBubble,
+  (prevProps, nextProps) => prevProps.audioUrl === nextProps.audioUrl
+);

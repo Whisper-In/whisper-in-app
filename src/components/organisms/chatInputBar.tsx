@@ -28,7 +28,8 @@ export default function ChatInputBar(props: {
         justifyContent: "flex-start",
         backgroundColor: theme.colors.surface,
         paddingHorizontal: 16,
-        paddingVertical: 12,
+        paddingTop: 12,
+        paddingBottom: 35,
         maxHeight: 125
       }}
     >
