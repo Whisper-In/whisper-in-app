@@ -32,6 +32,7 @@ export default function ChatInputBar(props: {
     >
       <View style={{ flexGrow: 1, flexBasis: 1, marginRight: 5 }}>
         <TextInput
+          style={{ color: theme.colors.onSurface }}
           multiline={true}
           placeholder="Write a message..."
           placeholderTextColor={theme.colors.onSurface}
