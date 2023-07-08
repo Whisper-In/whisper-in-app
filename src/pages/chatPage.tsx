@@ -15,7 +15,7 @@ import { fetchChatCompletion } from "../store/slices/chats/thunks";
 import { Chat } from "../store/states/chatsState";
 import { useTheme } from "react-native-paper";
 import NavBarBackButton from "../components/molecules/navBarBackButton";
-import { ChatMessageActionPayload } from "../store/slices/chats/types";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ChatPage({ navigation }: { navigation: HomePageNavigationProp }) {
   const theme = useTheme();
@@ -23,6 +23,7 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
   const route = useRoute<RouteProp<HomeStackNavigatorParamList, "Chat">>();
   const { chatId, contactId, isAI } = route.params;
   const userId = useAppSelector((state) => state.user.me!.id);
+  const inset = useSafeAreaInsets();
 
   useEffect(() => {
     navigation.setOptions({
@@ -74,7 +75,7 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.select({ios:65})}
+      keyboardVerticalOffset={Platform.select({ ios: 64 + inset.bottom })}
       style={{ flex: 1 }}>
       <ChatMessageList chatMessageList={chatMessageList} isTyping={isTyping} />
       <ChatInputBar onSent={onSent} />

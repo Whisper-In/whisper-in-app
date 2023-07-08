@@ -11,6 +11,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import { useCallback } from "react";
 import { View } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -33,17 +34,19 @@ export default function App() {
 
   return (
     <View style={{ flex: 1 }} onLayout={handleOnLayout}>
-      <StripeProvider
-        publishableKey={stripePublishableKey}
-        urlScheme={appJson.expo.scheme}
-        merchantIdentifier={`merchant.com.${appJson.expo.slug}`}
-      >
-        <ReduxProvider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <AppBodyContainer />
-          </PersistGate>
-        </ReduxProvider>
-      </StripeProvider>
+      <SafeAreaProvider>
+        <StripeProvider
+          publishableKey={stripePublishableKey}
+          urlScheme={appJson.expo.scheme}
+          merchantIdentifier={`merchant.com.${appJson.expo.slug}`}
+        >
+          <ReduxProvider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              <AppBodyContainer />
+            </PersistGate>
+          </ReduxProvider>
+        </StripeProvider>
+      </SafeAreaProvider>
     </View>
   );
 }

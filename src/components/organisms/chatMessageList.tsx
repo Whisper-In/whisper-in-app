@@ -6,6 +6,7 @@ import { RootState, useAppSelector } from "../../store/store";
 import ChatBubble from "../molecules/chatBubble";
 import ChatAudioBubble from "../molecules/chatAudioBubble";
 import { Audio } from "expo-av";
+import ChatInputBar from "./chatInputBar";
 
 export default function ChatMessageList(props: {
   chatMessageList: ChatMessage[];
@@ -66,7 +67,7 @@ export default function ChatMessageList(props: {
         } else {
           return <></>;
         }
-      }}
+      }}      
     ></FlatList>
   );
 }

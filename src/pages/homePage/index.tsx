@@ -16,8 +16,7 @@ export default function HomePage({
   return (
     <Tab.Navigator screenOptions={{
       tabBarShowLabel: false,
-      tabBarStyle: {
-        height: 60,
+      tabBarStyle: {        
         borderTopWidth: 0,
       },
     }}>
