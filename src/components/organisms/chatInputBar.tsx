@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextInput, View } from "react-native";
+import { Platform, TextInput, View } from "react-native";
 import { IconButton, useTheme } from "react-native-paper";
 
 export default function ChatInputBar(props: {
@@ -7,6 +7,8 @@ export default function ChatInputBar(props: {
 }) {
   const theme = useTheme();
   const [message, setMessage] = useState("");
+  const textinputVerticalPadding = Platform.select({ios: 11, android: 7});
+  const sendIconSize = Platform.select({ios: 22, android: 24});
 
   const sendMessage = () => {
     if (!message) {
@@ -37,7 +39,8 @@ export default function ChatInputBar(props: {
             backgroundColor: theme.colors.background,
             borderRadius: 25,
             paddingHorizontal: 10,
-            paddingVertical: 10
+            paddingTop: textinputVerticalPadding,
+            paddingBottom: textinputVerticalPadding
           }}
           multiline={true}
           placeholder="Message"
@@ -56,7 +59,7 @@ export default function ChatInputBar(props: {
         centered={true}
         containerColor={theme.colors.primary}
         iconColor={theme.colors.onPrimary}
-        size={30}
+        size={sendIconSize}
         style={{ margin: 0 }}
         onPress={() => {
           sendMessage();
