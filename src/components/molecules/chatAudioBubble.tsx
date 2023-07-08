@@ -46,8 +46,8 @@ function ChatAudioBubble({
           playsInSilentModeIOS: true,
           interruptionModeIOS: InterruptionModeIOS.DoNotMix
         });
-
-        const { sound } = await Audio.Sound.createAsync({ uri: soundUrl });        
+        console.log("Load")
+        const { sound } = await Audio.Sound.createAsync({ uri: `file://${soundUrl}` });        
 
         sound.setOnPlaybackStatusUpdate((status: any) => {
           if (!status.error) {
@@ -62,7 +62,13 @@ function ChatAudioBubble({
               setProgress(1);
             }
             else if (successStatus.isPlaying) {
-              setProgress(successStatus.positionMillis / (successStatus.playableDurationMillis ?? 0));
+              if(successStatus.playableDurationMillis == undefined || successStatus.playableDurationMillis <= 0)
+              {
+                setProgress(0)
+              } else {
+                setProgress(successStatus.positionMillis/successStatus.playableDurationMillis);
+              }
+              
             }
 
             setIsSoundPlaying(successStatus.isPlaying);

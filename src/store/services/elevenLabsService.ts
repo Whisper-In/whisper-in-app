@@ -16,6 +16,7 @@ export const getTextToSpeech = async (aiProfileId: string, text: string) => {
         const result = await ReactNativeBlobUtil
             .config({
                 fileCache: true,
+                appendExt: 'mp3'
             })
             .fetch(
                 "POST",
