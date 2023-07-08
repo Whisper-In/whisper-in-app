@@ -45,8 +45,7 @@ function ChatAudioBubble({
         await Audio.setAudioModeAsync({
           playsInSilentModeIOS: true,
           interruptionModeIOS: InterruptionModeIOS.DoNotMix
-        });
-        console.log("Load")
+        });        
         const { sound } = await Audio.Sound.createAsync({ uri: `file://${soundUrl}` });        
 
         sound.setOnPlaybackStatusUpdate((status: any) => {
