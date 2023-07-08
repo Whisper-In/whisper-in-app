@@ -7,12 +7,32 @@ import { StripeProvider } from "@stripe/stripe-react-native";
 import appJson from "./app.json";
 import { REACT_APP_STRIPE_PUBLISHABLE_KEY } from "@env";
 import AppBodyContainer from "./AppBodyContainer";
+import * as SplashScreen from "expo-splash-screen";
+import { useFonts } from "expo-font";
+import { useCallback } from "react";
+import { View } from "react-native";
+
+SplashScreen.preventAutoHideAsync();
 
 const stripePublishableKey = REACT_APP_STRIPE_PUBLISHABLE_KEY;
 
 export default function App() {
+  const [isLoaded] = useFonts({
+    "PlusJakartaSans-Regular": require("./src/assets/fonts/PlusJakartaSans-Regular.ttf")
+  });
+
+  const handleOnLayout = useCallback(async () => {
+    if (isLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [isLoaded]);
+
+  if (!isLoaded) {
+    return null;
+  }
+
   return (
-    <>
+    <View style={{ flex: 1 }} onLayout={handleOnLayout}>
       <StripeProvider
         publishableKey={stripePublishableKey}
         urlScheme={appJson.expo.scheme}
@@ -24,6 +44,6 @@ export default function App() {
           </PersistGate>
         </ReduxProvider>
       </StripeProvider>
-    </>
+    </View>
   );
 }
