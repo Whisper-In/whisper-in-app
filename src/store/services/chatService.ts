@@ -30,12 +30,12 @@ export const createNewChat = async (userId: string, aiProfileId: string) => {
 
 export const getChat = async (chatId: string) => {
   try {
-    const result = await axiosInstance.get<IUserChatDto>(`${route}/${chatId}`);
+    const result = await axiosInstance.get<IUserChatDto>(`${route}/${chatId}`);        
     
     return {
       chatId: result.data.chatId,
       profiles: result.data.profiles,
-      features: result.data.features
+      features: result.data.features.map(f => ChatFeature[f as keyof typeof ChatFeature])
     };
   } catch (error) {
     throw error;

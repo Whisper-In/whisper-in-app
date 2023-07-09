@@ -7,7 +7,7 @@ export interface IUserChatProfileDto {
 
 export interface IUserChatDto {
   chatId: string;
-  features: number[],
+  features: string[],
   profiles: IUserChatProfileDto[]  
 }
 

@@ -20,7 +20,7 @@ export enum ChatFeature {
 export type Chat = {
   chatId: string;
   isAudioRepliesOff?: boolean;  
-  features?: ChatFeature[];
+  features?: number[];
   profiles: ChatProfile[];
   messages: ChatMessage[];
 };

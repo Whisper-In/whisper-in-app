@@ -9,6 +9,7 @@ export interface IUserProfileDto {
 export interface IPriceTierDto {
   price: number,
   tier: number,
+  features: string[]
 }
 
 export interface IProfileSearchDto {

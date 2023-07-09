@@ -38,7 +38,7 @@ export const updateChatFeaturesReducer = (state: ChatsState,
 
   const chat = state.chats.find((chat) => chat.chatId == payload.chatId);
 
-  if (chat) {
+  if (chat) {    
     chat.features = payload.features;
   }
 

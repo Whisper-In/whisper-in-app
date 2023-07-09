@@ -39,7 +39,7 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
     });
 
     getChat(chatId).then((result) => {
-      if (result) {        
+      if (result) {
         dispatch(updateChatFeatures({ chatId, features: result.features }));
       }
     }).catch((error) => console.log("Failed to retrieve chat features.", error));

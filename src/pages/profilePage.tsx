@@ -15,6 +15,7 @@ import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import { createNewChat } from "../store/services/chatService";
 import { createUserAISubscription } from "../store/services/userService";
 import { fetchChats } from "../store/slices/chats/thunks";
+import { ChatFeature } from "../store/states/chatsState";
 
 export default function ProfilePage({ navigation }: { navigation: HomePageNavigationProp }) {
     const theme = useTheme();
@@ -166,6 +167,14 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
         }
     }
 
+    const getFeatures = (priceTiers: IPriceTierDto[]):ChatFeature[] => {                
+        if(priceTiers.length) {
+            return priceTiers[0].features.map(f => ChatFeature[f as keyof typeof ChatFeature]);
+        } else {
+            return [];
+        }
+    }
+
     if (profile) {
         return (
             <View style={{ flex: 1 }}>
@@ -214,6 +223,7 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
                             isSubscribed={isSubscribed}
                             price={getSubscriptionPrice(profile.priceTiers)}
                             onPress={() => !isSubscribed ? openPaymentSheet() : cancelSubscription()}
+                            features={getFeatures(profile.priceTiers)}
                             style={{
                                 marginBottom: 20
                             }} />}
