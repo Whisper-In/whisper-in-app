@@ -8,7 +8,7 @@ import {
   useAppSelector,
 } from "../store/store";
 import { useEffect, useState } from "react";
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
 import { HomePageNavigationProp, HomeStackNavigatorParamList } from "../navigation/types";
 import { addNewChatMessage, toggleAudioReplies, updateChatFeatures } from "../store/slices/chats/index";
 import { fetchChatCompletion } from "../store/slices/chats/thunks";
@@ -37,13 +37,19 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
         onPress={() => navigation.goBack()}
         onAvatarPress={() => navigation.navigate("Profile", { profileId: contactId, isAI })} />
     });
-
-    getChat(chatId).then((result) => {
-      if (result) {
-        dispatch(updateChatFeatures({ chatId, features: result.features }));
-      }
-    }).catch((error) => console.log("Failed to retrieve chat features.", error));
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', (e) => {      
+      getChat(chatId).then((result) => {
+        if (result) {
+          dispatch(updateChatFeatures({ chatId, features: result.features }));
+        }
+      }).catch((error) => console.log("Failed to retrieve chat features.", error));
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     navigation.setOptions({
