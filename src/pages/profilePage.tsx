@@ -103,7 +103,7 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
 
         const priceTier = profile!.priceTiers?.length ? profile!.priceTiers[0] : null;
 
-        if (priceTier) {
+        if (priceTier && priceTier.price > 0) {
             const subscriptionId = await initializePaymentSheet(profile!.id, priceTier.price);
 
             if (!subscriptionId) {
@@ -130,7 +130,7 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
             _createNewChat();
 
         } else {
-            await createUserAISubscription(me!.id, profile!.id, 0);
+            await createUserAISubscription(me!.id, profile!.id, priceTier?.tier);
 
             _createNewChat();
         }

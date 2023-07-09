@@ -15,7 +15,7 @@ export default function ChatMessageList(props: {
   const listRef = useRef<FlatList>(null);
   const userId = useAppSelector((state) => state.user.me!.id);
 
-  const renderItem = useCallback(({ item }: { item: ChatMessage }) => {
+  const renderItem = useCallback(({ item, index }: { item: ChatMessage, index: number }) => {
     const isSelf = item.senderId == userId;
     let chatBubble = (
       <ChatBubble isSelf={isSelf} createdAt={item.createdAt}>
@@ -35,7 +35,8 @@ export default function ChatMessageList(props: {
     }
 
     return (
-      <View style={{ transform: [{ scale: -1 }] }}>
+      <View
+        style={{ transform: [{ scale: -1 }] }}>
         {chatBubble}
       </View>
     );
@@ -45,6 +46,7 @@ export default function ChatMessageList(props: {
   return (
     <FlatList
       ref={listRef}
+      removeClippedSubviews={false}
       style={{ transform: [{ scale: -1 }] }}
       keyExtractor={(item: ChatMessage, index: number) => index.toString()}
       data={props.chatMessageList}
@@ -67,7 +69,7 @@ export default function ChatMessageList(props: {
         } else {
           return <></>;
         }
-      }}      
+      }}
     ></FlatList>
   );
 }

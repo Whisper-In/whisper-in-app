@@ -8,7 +8,7 @@ export interface IUserProfileDto {
 
 export interface IPriceTierDto {
   price: number,
-  tier: number
+  tier: number,
 }
 
 export interface IProfileSearchDto {

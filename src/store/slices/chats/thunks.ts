@@ -4,7 +4,7 @@ import {
   LoadChatsActionPayload,
   LoadChatsProfile,
 } from "./types";
-import { ChatMessage } from "../../states/chatsState";
+import { ChatFeature, ChatMessage } from "../../states/chatsState";
 import * as chatGPTService from "../../services/chatGPTService";
 import * as elevenLabsService from "../../services/elevenLabsService";
 import * as chatService from "../../services/chatService";
@@ -49,7 +49,7 @@ export const fetchChatCompletion = createAsyncThunk<
   ) => {
     let payload: ChatMessageActionPayload = {
       chatId: props.chatId,
-      senderId: props.contactId,      
+      senderId: props.contactId,
       message: "",
       audioUrl: "",
       createdAt: "",
@@ -70,12 +70,15 @@ export const fetchChatCompletion = createAsyncThunk<
             role: item.senderId != props.contactId ? "user" : "assistant",
             content: item.message,
           }))
-      );      
-
-      const textToSpeechResult = await elevenLabsService.getTextToSpeech(
-        props.contactId,
-        chatGPTResult.message
       );
+
+      let textToSpeechResult;
+      if (chat?.features?.includes(ChatFeature.AUDIO) && !chat?.isAudioRepliesOff) {
+        textToSpeechResult = await elevenLabsService.getTextToSpeech(
+          props.contactId,
+          chatGPTResult.message
+        );
+      }
 
       const createdAt = new Date().toString();
 
@@ -83,7 +86,7 @@ export const fetchChatCompletion = createAsyncThunk<
         chatId: props.chatId,
         senderId: props.contactId,
         message: chatGPTResult.message,
-        audioUrl: textToSpeechResult.data,
+        audioUrl: textToSpeechResult?.data,
         createdAt,
         updatedAt: createdAt,
       };

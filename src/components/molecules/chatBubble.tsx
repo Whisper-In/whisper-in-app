@@ -10,7 +10,7 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 function ChatBubble({
   createdAt,
   isSelf,
-  children,
+  children
 }: {
   createdAt?: string;
   isSelf: boolean;
@@ -26,7 +26,7 @@ function ChatBubble({
   const dotYArray = dotsArray.map(() => useSharedValue(7));
   const dotAnimationDuration = 500
 
-  useEffect(() => {  
+  useEffect(() => {
     if (!children) {
       dotYArray.forEach((dotY, i) => {
         dotY.value = withDelay(
@@ -47,7 +47,7 @@ function ChatBubble({
   const dotAnimatedPropsArray = dotYArray.map((dotY) => useAnimatedProps(() => ({ cy: dotY.value })));
 
   return (
-    <View
+    <View      
       style={{
         maxWidth: "90%",
         alignSelf: isSelf ? "flex-end" : "flex-start",
@@ -62,7 +62,7 @@ function ChatBubble({
       {
         children ?
           <>
-            <Text
+            <Text selectable={true}
               style={{
                 color: textColor
               }}

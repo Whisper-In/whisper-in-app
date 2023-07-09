@@ -10,18 +10,22 @@ import {
 import { useEffect, useState } from "react";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { HomePageNavigationProp, HomeStackNavigatorParamList } from "../navigation/types";
-import { addNewChatMessage } from "../store/slices/chats/index";
+import { addNewChatMessage, toggleAudioReplies, updateChatFeatures } from "../store/slices/chats/index";
 import { fetchChatCompletion } from "../store/slices/chats/thunks";
-import { Chat } from "../store/states/chatsState";
+import { Chat, ChatFeature } from "../store/states/chatsState";
 import { useTheme } from "react-native-paper";
 import NavBarBackButton from "../components/molecules/navBarBackButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import NavBarHeaderRightChatPage from "../components/molecules/navBarHeaderRightChatPage";
+import { IProfileDto } from "../store/dtos/profile.dtos";
+import { getChat } from "../store/services/chatService";
 
 export default function ChatPage({ navigation }: { navigation: HomePageNavigationProp }) {
   const theme = useTheme();
   const [isTyping, setIsTyping] = useState(false);
   const route = useRoute<RouteProp<HomeStackNavigatorParamList, "Chat">>();
   const { chatId, contactId, isAI } = route.params;
+  const chat = useAppSelector((state) => state.chats.chats.find(chat => chat.chatId == chatId))!;
   const userId = useAppSelector((state) => state.user.me!.id);
   const inset = useSafeAreaInsets();
 
@@ -33,7 +37,22 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
         onPress={() => navigation.goBack()}
         onAvatarPress={() => navigation.navigate("Profile", { profileId: contactId, isAI })} />
     });
+
+    getChat(chatId).then((result) => {
+      if (result) {
+        dispatch(updateChatFeatures({ chatId, features: result.features }));
+      }
+    }).catch((error) => console.log("Failed to retrieve chat features.", error));
   }, []);
+
+  useEffect(() => {    
+    navigation.setOptions({
+      headerRight: chat.features?.includes(ChatFeature.AUDIO) ? (props) => <NavBarHeaderRightChatPage
+        {...props}
+        onAudioRepliesToggle={() => { dispatch(toggleAudioReplies({ chatId, isAudioRepliesOff: !chat.isAudioRepliesOff })) }}
+        isAudioRepliesOff={chat.isAudioRepliesOff} /> : undefined
+    });
+  }, [chat.isAudioRepliesOff, chat.features]);
 
   const dispatch = useAppDispatch();
 
@@ -75,7 +94,7 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.select({ ios: 30 + inset.bottom })}
+      keyboardVerticalOffset={Platform.select({ ios: 64 + inset.bottom })}
       style={{ flex: 1 }}>
       <ChatMessageList chatMessageList={chatMessageList} isTyping={isTyping} />
       <ChatInputBar onSent={onSent} />

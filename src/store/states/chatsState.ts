@@ -13,8 +13,14 @@ export type ChatProfile = {
   isAI: boolean;
 };
 
+export enum ChatFeature {
+  AUDIO
+}
+
 export type Chat = {
   chatId: string;
+  isAudioRepliesOff?: boolean;  
+  features?: ChatFeature[];
   profiles: ChatProfile[];
   messages: ChatMessage[];
 };

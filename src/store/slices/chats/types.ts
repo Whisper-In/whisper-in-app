@@ -17,7 +17,7 @@ export type LoadChatsAction = {
 export type ChatMessageActionPayload = {
   chatId: string;
   senderId: string;
-  audioUrl?: string;
+  audioUrl?: string;  
   message: string;
   createdAt?: string;
   updatedAt?: string;

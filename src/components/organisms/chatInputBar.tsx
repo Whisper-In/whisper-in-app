@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Platform, TextInput, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Keyboard, Platform, TextInput, View } from "react-native";
 import { IconButton, useTheme } from "react-native-paper";
 
 export default function ChatInputBar(props: {
@@ -7,8 +7,13 @@ export default function ChatInputBar(props: {
 }) {
   const theme = useTheme();
   const [message, setMessage] = useState("");
-  const textinputVerticalPadding = Platform.select({ios: 11, android: 7});
-  const sendIconSize = Platform.select({ios: 22, android: 24});
+
+  const paddingBottomKeyboardClosed = Platform.select({ ios: 35, android: 25 });
+  const paddingBottomKeyboardOpen = Platform.select({ ios: 5, android: 5 });
+  const [paddingBottom, setPaddingBottom] = useState(paddingBottomKeyboardClosed);
+
+  const textinputVerticalPadding = Platform.select({ ios: 11, android: 7 });
+  const sendIconSize = Platform.select({ ios: 22, android: 24 });
 
   const sendMessage = () => {
     if (!message) {
@@ -20,16 +25,26 @@ export default function ChatInputBar(props: {
     props.onSent(message);
   };
 
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () => { setPaddingBottom(paddingBottomKeyboardOpen) });
+    const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", () => { setPaddingBottom(paddingBottomKeyboardClosed) });
+
+    return (() => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    });
+  }, []);
+
   return (
     <View
       style={{
         flexDirection: "row",
         alignItems: "flex-end",
         justifyContent: "flex-start",
-        backgroundColor: theme.colors.surface,
+        backgroundColor: "transparent",
         paddingHorizontal: 16,
         paddingTop: 12,
-        paddingBottom: 35,
+        paddingBottom,
         maxHeight: 125
       }}
     >
