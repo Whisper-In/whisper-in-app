@@ -35,7 +35,7 @@ export const getChat = async (chatId: string) => {
     return {
       chatId: result.data.chatId,
       profiles: result.data.profiles,
-      features: result.data.features?.map<ChatFeature>(feature => ChatFeature[feature as keyof typeof ChatFeature])
+      features: result.data.features
     };
   } catch (error) {
     throw error;
