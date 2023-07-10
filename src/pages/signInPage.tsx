@@ -82,12 +82,12 @@ export default function SignInPage({
           justifyContent: "center",
         }}
       >
-        <Text style={{
+        {/* <Text style={{
           ...theme.fonts.titleLarge,
           color: theme.colors.onSurface,
           fontWeight: "900",
           marginBottom: 14
-        }}>Login Now</Text>
+        }}>Login Now</Text> */}
         
         <GoogleSignInButton onPress={() => openGoogleLogin()} />
       </View>

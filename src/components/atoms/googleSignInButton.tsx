@@ -37,6 +37,7 @@ export default function GoogleSignInButton({
           shadowColor: "#000",
           height: 50,
           width: 300,
+          borderWidth: 0.2
         }}
       >
         <Image
