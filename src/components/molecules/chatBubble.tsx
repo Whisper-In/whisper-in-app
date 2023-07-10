@@ -72,7 +72,7 @@ function ChatBubble({
         borderBottomRightRadius: isSelf ? 0 : undefined,
         backgroundColor: isSelf ? theme.colors.primary : theme.colors.secondary,
       }}
-      onLongPress={(event) => copyToClipboard()}>
+      onLongPress={(event) => Platform.OS == "android" && copyToClipboard()}>
       <View
         style={{
           maxWidth: "90%",
@@ -87,7 +87,7 @@ function ChatBubble({
         {
           children ?
             <>
-              <Text
+              <Text selectable={Platform.OS == "ios"}
                 style={{
                   color: textColor
                 }}
