@@ -1,9 +1,10 @@
 import { ReactNode, memo, useEffect } from "react";
 import { View } from "react-native";
 import Animated, { Easing, useAnimatedProps, useSharedValue, withDelay, withRepeat, withSequence, withTiming } from "react-native-reanimated";
-import { Text, useTheme } from "react-native-paper";
+import { Text, TouchableRipple, useTheme } from "react-native-paper";
 import { formatDateTimeTo12HoursTimeString } from "../../utils/dateUtil";
 import { Svg, Circle } from "react-native-svg";
+import Clipboard from "@react-native-clipboard/clipboard";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -46,57 +47,71 @@ function ChatBubble({
 
   const dotAnimatedPropsArray = dotYArray.map((dotY) => useAnimatedProps(() => ({ cy: dotY.value })));
 
+  const copyToClipboard = () => {
+    Clipboard.setString(children as string);
+  }
+
   return (
-    <View      
-      style={{
-        maxWidth: "90%",
+    <TouchableRipple
+      borderless={true}
+      style={{        
         alignSelf: isSelf ? "flex-end" : "flex-start",
-        margin: 10,
-        padding: 15,
+        margin: 10,        
         borderRadius: 20,
         borderTopLeftRadius: isSelf ? undefined : 0,
-        borderBottomRightRadius: isSelf ? 0 : undefined,
-        backgroundColor: isSelf ? theme.colors.primary : theme.colors.secondary,
+        borderBottomRightRadius: isSelf ? 0 : undefined,        
       }}
-    >
-      {
-        children ?
-          <>
-            <Text selectable={true}
-              style={{
-                color: textColor
-              }}
-            >
-              {children}
-            </Text>
-
-            {createdAt?.length && (
+      onLongPress={(event) => copyToClipboard()}>
+      <View
+        style={{
+          maxWidth: "90%",
+          alignSelf: isSelf ? "flex-end" : "flex-start",          
+          padding: 15,
+          borderRadius: 20,
+          borderTopLeftRadius: isSelf ? undefined : 0,
+          borderBottomRightRadius: isSelf ? 0 : undefined,
+          backgroundColor: isSelf ? theme.colors.primary : theme.colors.secondary,
+        }}
+      >
+        {
+          children ?
+            <>
               <Text
                 style={{
-                  color: textColor,
-                  fontSize: 12,
-                  textAlign: "right",
+                  color: textColor
                 }}
               >
-                {formatDateTimeTo12HoursTimeString(createdAt)}
+                {children}
               </Text>
-            )}
-          </>
-          :
-          <Svg width={30} height={15} viewBox="0 0 30 10">
-            {
-              dotsArray.map((i) =>
-                <AnimatedCircle
-                  key={i}
-                  animatedProps={dotAnimatedPropsArray[i]}
-                  cx={i * dotsDistance + dotRadius}
-                  r={dotRadius}
-                  fill={textColor} />)
-            }
-          </Svg>
-      }
-    </View>
+
+              {createdAt?.length && (
+                <Text
+                  style={{
+                    color: textColor,
+                    fontSize: 12,
+                    textAlign: "right",
+                  }}
+                >
+                  {formatDateTimeTo12HoursTimeString(createdAt)}
+                </Text>
+              )}
+            </>
+            :
+            <Svg width={30} height={15} viewBox="0 0 30 10">
+              {
+                dotsArray.map((i) =>
+                  <AnimatedCircle
+                    key={i}
+                    animatedProps={dotAnimatedPropsArray[i]}
+                    cx={i * dotsDistance + dotRadius}
+                    r={dotRadius}
+                    fill={textColor} />)
+              }
+            </Svg>
+        }
+      </View>
+    </TouchableRipple>
   );
 }
 
-export default memo(ChatBubble, (prevProps, nextProps) => prevProps.children === nextProps.children);
+export default memo(ChatBubble, (prevProps, nextProps) => prevProps.children === nextProps.children && prevProps.isSelf == nextProps.isSelf);

@@ -61,7 +61,7 @@ export default function ChatInputBar(props: {
           multiline={true}
           placeholder="Message"
           placeholderTextColor={theme.colors.onSurface}
-          onChangeText={(text) => setMessage(text)}
+          onChangeText={(text) => { setMessage(text) }}
           value={message}
           maxLength={3000}
           onEndEditing={() => {

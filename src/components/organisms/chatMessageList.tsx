@@ -15,8 +15,9 @@ export default function ChatMessageList(props: {
   const listRef = useRef<FlatList>(null);
   const userId = useAppSelector((state) => state.user.me!.id);
 
-  const renderItem = useCallback(({ item, index }: { item: ChatMessage, index: number }) => {
-    const isSelf = item.senderId == userId;
+  const renderItem = useCallback(({ item, index }: { item: ChatMessage, index: number }) => {    
+    const isSelf = item.senderId == userId;  
+    
     let chatBubble = (
       <ChatBubble isSelf={isSelf} createdAt={item.createdAt}>
         {item.message}
@@ -45,8 +46,7 @@ export default function ChatMessageList(props: {
   //Use scale=-1 instead of inverted flatlist to avoid react native's inverted flatlist performance bug
   return (
     <FlatList
-      ref={listRef}
-      removeClippedSubviews={false}
+      ref={listRef}      
       style={{ transform: [{ scale: -1 }] }}
       keyExtractor={(item: ChatMessage, index: number) => index.toString()}
       data={props.chatMessageList}
