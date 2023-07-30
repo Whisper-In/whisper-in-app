@@ -16,7 +16,7 @@ import { useAppDispatch } from "../store/store";
 import { setUser } from "../store/slices/user/index";
 import { IUserProfileDto } from "../store/dtos/profile.dtos";
 import { Image } from "react-native";
-import { url } from "inspector";
+import * as WebBrowser from "expo-web-browser";
 
 export default function SignInPage({
   navigation,
@@ -57,7 +57,7 @@ export default function SignInPage({
   }, []);
 
   const openGoogleLogin = () => {    
-    Linking.openURL(`${REACT_APP_WHISPER_SERVICE_BASEURL}/auth/google/login`);
+    WebBrowser.openAuthSessionAsync(`${REACT_APP_WHISPER_SERVICE_BASEURL}/auth/google/login`);    
   };
 
   return (
