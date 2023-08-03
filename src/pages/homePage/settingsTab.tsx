@@ -15,7 +15,9 @@ export default function SettingsTab({ navigation }: { navigation: HomePageNaviga
     const isDarkMode = useAppSelector((state) => state.app.darkMode);
     const onToggleDarkMode = () => { dispatch(setDarkMode(!isDarkMode)) };
 
-    const openAboutPage = () => {        
+    const name = me!.name ?? me!.email?.split("@")[0];
+
+    const openAboutPage = () => {
         Linking.openURL(REACT_APP_WHISPERIN_URL)
             .catch((error) => {
                 Alert.alert("Failed to redirect to About page.");
@@ -39,12 +41,21 @@ export default function SettingsTab({ navigation }: { navigation: HomePageNaviga
                 padding: 24,
                 borderBottomColor: theme.colors.secondary,
             }}>
-                <Avatar.Image source={{ uri: me?.avatar }} style={{
-                    marginRight: 24
-                }} />
+                {
+                    me?.avatar ?
+                        <Avatar.Image source={{ uri: me?.avatar }} style={{
+                            marginRight: 24
+                        }} />
+                        : <Avatar.Text label={name[0].toUpperCase()}
+                            labelStyle={{ color: theme.colors.onPrimary }}
+                            style={{
+                                backgroundColor: theme.colors.primary,
+                                marginRight: 24,
+                            }} />
+                }
 
                 <View style={{ flex: 1 }}>
-                    <Text style={{ ...theme.fonts.titleLarge }}>{me?.name}</Text>
+                    <Text style={{ ...theme.fonts.titleLarge }}>{name}</Text>
 
                     {
                         me?.aboutMe &&

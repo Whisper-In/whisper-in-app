@@ -10,8 +10,8 @@ const axiosInstance = axios.create({ baseURL });
 
 export const initAxiosInterceptors = (store:Store) => {
     axiosInstance.interceptors.request.use(config => {        
-        const token = store.getState()?.user?.token;          
-        
+        const token = store.getState()?.user?.token;                 
+
         if(token != null) {
             config.headers.Authorization = `Bearer ${token}`;
         }

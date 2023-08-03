@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Keyboard, Platform, TextInput, View } from "react-native";
 import { IconButton, useTheme } from "react-native-paper";
 

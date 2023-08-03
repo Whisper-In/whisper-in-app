@@ -17,6 +17,7 @@ import { setUser } from "../store/slices/user/index";
 import { IUserProfileDto } from "../store/dtos/profile.dtos";
 import { Image } from "react-native";
 import * as WebBrowser from "expo-web-browser";
+import AppleSignInButton from "../components/atoms/appleSignInButton";
 
 export default function SignInPage({
   navigation,
@@ -60,6 +61,10 @@ export default function SignInPage({
     WebBrowser.openAuthSessionAsync(`${REACT_APP_WHISPER_SERVICE_BASEURL}/auth/google/login`);    
   };
 
+  const openAppleLogin = () => {    
+    WebBrowser.openAuthSessionAsync(`${REACT_APP_WHISPER_SERVICE_BASEURL}/auth/apple/login`); 
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -89,6 +94,8 @@ export default function SignInPage({
           marginBottom: 14
         }}>Login Now</Text> */}
         
+        <AppleSignInButton style={{marginBottom: 15}} onPress={() => openAppleLogin()}/>
+
         <GoogleSignInButton onPress={() => openGoogleLogin()} />
       </View>
     </View>

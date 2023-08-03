@@ -192,7 +192,7 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
                         ...theme.fonts.titleLarge,
                         marginBottom: 30
                     }}>
-                        {profile.name}
+                        {profile.name ?? profile.email}
                     </Text>
 
                     {

@@ -10,7 +10,7 @@ export const getUserChats = async (userId: string) => {
   try {
     const result = await axiosInstance.get<IUserChatDto[]>(
       `${route}/user-chats/${userId}`
-    );
+    );         
 
     return result.data;
   } catch (error) {
