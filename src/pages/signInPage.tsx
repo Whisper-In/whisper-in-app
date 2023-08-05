@@ -53,16 +53,14 @@ export default function SignInPage({
     }
   };
 
-  useEffect(() => {
-    Linking.addEventListener("url", handleOpenURL);
-  }, []);
-
-  const openGoogleLogin = () => {    
-    WebBrowser.openAuthSessionAsync(`${REACT_APP_WHISPER_SERVICE_BASEURL}/auth/google/login`);    
+  const openGoogleLogin = async () => {    
+    const result:any = await WebBrowser.openAuthSessionAsync(`${REACT_APP_WHISPER_SERVICE_BASEURL}/auth/google/login`);    
+    handleOpenURL({url: result.url});
   };
 
-  const openAppleLogin = () => {    
-    WebBrowser.openAuthSessionAsync(`${REACT_APP_WHISPER_SERVICE_BASEURL}/auth/apple/login`); 
+  const openAppleLogin = async () => {    
+    const result:any = await WebBrowser.openAuthSessionAsync(`${REACT_APP_WHISPER_SERVICE_BASEURL}/auth/apple/login`); 
+    handleOpenURL({url: result.url});
   }
 
   return (
