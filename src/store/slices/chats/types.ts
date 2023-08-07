@@ -3,6 +3,7 @@ export type LoadChatsProfile = {
   name: string;
   avatar?: string;
   isAI: boolean;
+  isBlocked?: boolean;
 };    
 
 export type LoadChatsActionPayload = {

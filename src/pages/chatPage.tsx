@@ -29,6 +29,8 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
   const userId = useAppSelector((state) => state.user.me!.id);
   const inset = useSafeAreaInsets();
 
+  const contact = chat.profiles.find((p) => p.id == contactId);
+
   useEffect(() => {
     navigation.setOptions({
       headerLeft: (props) => <NavBarBackButton
@@ -40,7 +42,7 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
   }, []);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', (e) => {      
+    const unsubscribe = navigation.addListener('focus', (e) => {
       getChat(chatId).then((result) => {
         if (result) {
           dispatch(updateChatFeatures({ chatId, features: result.features }));
@@ -80,6 +82,10 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
       })
     );
 
+    if (chat.profiles.find(p => p.id == contactId)?.isBlocked) {
+      return;
+    }
+
     setIsTyping(true);
 
     if (isAI) {
@@ -102,7 +108,7 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       keyboardVerticalOffset={Platform.select({ ios: 64 + inset.bottom })}
       style={{ flex: 1 }}>
-      <ChatMessageList chatMessageList={chatMessageList} isTyping={isTyping} />
+      <ChatMessageList contactName={contact!.name} isBlocked={contact?.isBlocked} chatMessageList={chatMessageList} isTyping={isTyping} />
       <ChatInputBar onSent={onSent} />
     </KeyboardAvoidingView>
   );

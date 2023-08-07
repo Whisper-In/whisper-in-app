@@ -1,8 +1,8 @@
 import ReactNativeBlobUtil from 'react-native-blob-util';
-import { REACT_APP_WHISPER_SERVICE_BASEURL } from '@env';
+import { REACT_APP_WHISPERIN_SERVICE_BASEURL } from '@env';
 import { Store } from '../store';
 
-const baseURL = `${REACT_APP_WHISPER_SERVICE_BASEURL}`;
+const baseURL = `${REACT_APP_WHISPERIN_SERVICE_BASEURL}`;
 const route = "eleven-labs";
 
 let storeRef: Store;

@@ -1,9 +1,16 @@
 export interface IUserProfileDto {
   _id: string;
-  name: string;
-  email: string;
-  aboutMe?:string;
+  name?: string;
+  userName?: string;
+  aboutMe?: string;
+  birthday?: Date;
+  gender?: string;
   avatar?: string;
+  email?: string;
+  googleId?: string;
+  appleId?: string;
+  stripeId?: string;
+  isAgreeTnC?: boolean;
 }
 
 export interface IPriceTierDto {
@@ -23,11 +30,12 @@ export interface IProfileSearchDto {
 export interface IProfileDto {
   id: string;
   name: string;
-  aboutMe?:string;
+  aboutMe?: string;
   email?: string;
   userName: string;
   avatar?: string;
   priceTiers: IPriceTierDto[];
   isSubscribed?: boolean;
   isSubscriptionExpired?: boolean;
+  isBlocked?: boolean;
 }

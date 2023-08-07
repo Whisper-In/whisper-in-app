@@ -11,6 +11,7 @@ export type ChatProfile = {
   name: string;
   avatar?: string;
   isAI: boolean;
+  isBlocked?:boolean;
 };
 
 export enum ChatFeature {

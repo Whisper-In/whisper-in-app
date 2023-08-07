@@ -7,6 +7,7 @@ import { HomePageNavigationProp } from "../../navigation/types";
 import { REACT_APP_WHISPERIN_URL } from "@env";
 import { useEffect } from "react";
 import { fetchUserProfile } from "../../store/slices/user/thunks";
+import * as WebBrowser from "expo-web-browser";
 
 export default function SettingsTab({ navigation }: { navigation: HomePageNavigationProp }) {
     const theme = useTheme();
@@ -15,10 +16,10 @@ export default function SettingsTab({ navigation }: { navigation: HomePageNaviga
     const isDarkMode = useAppSelector((state) => state.app.darkMode);
     const onToggleDarkMode = () => { dispatch(setDarkMode(!isDarkMode)) };
 
-    const name = me!.name ?? me!.email?.split("@")[0];
+    const name = me!.name ?? me!.email?.split("@")[0]!;
 
     const openAboutPage = () => {
-        Linking.openURL(REACT_APP_WHISPERIN_URL)
+        WebBrowser.openBrowserAsync(REACT_APP_WHISPERIN_URL)
             .catch((error) => {
                 Alert.alert("Failed to redirect to About page.");
             });

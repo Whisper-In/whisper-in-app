@@ -18,7 +18,7 @@ export const fetchChats = createAsyncThunk<LoadChatsActionPayload[] | any, strin
 
     try {
       const userChats = await chatService.getUserChats(userId);
-
+      
       payload = userChats.map((userChat) => ({
         chatId: userChat.chatId,
         profiles: userChat.profiles.map<LoadChatsProfile>((profile) => ({
@@ -26,6 +26,7 @@ export const fetchChats = createAsyncThunk<LoadChatsActionPayload[] | any, strin
           name: profile.name,
           avatar: profile.avatar,
           isAI: profile.isAI,
+          isBlocked: profile.isBlocked
         })),
       }));
     } catch (error) {

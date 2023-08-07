@@ -19,9 +19,7 @@ export default function HomeStackNavigator() {
 
   const isSignedIn = useAppSelector(
     (state) => state.user?.token?.length != null
-  );
-
-  const me = useAppSelector((state) => state.user?.me);
+  );      
 
   if (isSignedIn) {
     return (

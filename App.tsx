@@ -13,6 +13,7 @@ import { useCallback } from "react";
 import { View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { RootSiblingParent } from 'react-native-root-siblings';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -45,7 +46,9 @@ export default function App() {
           <ReduxProvider store={store}>
             <PersistGate loading={null} persistor={persistor}>
               <RootSiblingParent>
-                <AppBodyContainer />
+                <ActionSheetProvider>
+                  <AppBodyContainer />
+                </ActionSheetProvider>
               </RootSiblingParent>
             </PersistGate>
           </ReduxProvider>

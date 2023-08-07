@@ -2,28 +2,33 @@ import { useFonts } from "expo-font";
 import {
   Alert,
   Linking,
-  StyleSheet,
-  StyleSheetProperties,
+  Platform,
+  ScrollView,
   View,
-  ViewStyle,
 } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import GoogleSignInButton from "../components/atoms/googleSignInButton";
 import { HomePageNavigationProp } from "../navigation/types";
-import { useEffect } from "react";
-import { REACT_APP_WHISPER_SERVICE_BASEURL } from "@env";
+import { useEffect, useState } from "react";
+import { REACT_APP_WHISPERIN_SERVICE_BASEURL } from "@env";
 import { useAppDispatch } from "../store/store";
 import { setUser } from "../store/slices/user/index";
 import { IUserProfileDto } from "../store/dtos/profile.dtos";
 import { Image } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import AppleSignInButton from "../components/atoms/appleSignInButton";
+import BottomPopup from "../components/molecules/bottomPopup";
+import { updateUserProfile } from "../store/services/userService";
+import TermsAndConditions from "../components/content/termsAndConditions";
 
 export default function SignInPage({
   navigation,
 }: {
   navigation: HomePageNavigationProp;
 }) {
+  const [isShowTnCModal, setShowTnCModal] = useState(false);
+  const [userData, setUserData] = useState<{ user: IUserProfileDto, token: string | null }>();
+
   const theme = useTheme();
 
   const dispatch = useAppDispatch();
@@ -34,33 +39,69 @@ export default function SignInPage({
 
     const userString = params.get("user");
     const user: IUserProfileDto = userString ? JSON.parse(userString) : {};
-
     const token = params.get("token");
 
-    if (user != null && token?.length) {
+    setUserData({
+      user,
+      token,
+    });
+
+    if (!user.isAgreeTnC) {
+      setShowTnCModal(true);
+    }
+  };
+
+  const loginUser = () => {
+    if (userData?.user != null && userData?.token?.length) {
       dispatch(
         setUser({
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          aboutMe: user.aboutMe,
-          avatar: user.avatar,
-          token,
+          id: userData?.user._id,
+          name: userData?.user.name,
+          email: userData?.user.email,
+          aboutMe: userData?.user.aboutMe,
+          avatar: userData?.user.avatar,
+          token: userData.token,
         })
       );
     } else {
       Alert.alert("Login Failed.", "Failed to login. Please try again.");
     }
+  }
+
+  const agreeTnC = () => {
+    if (userData?.user != null) {
+      updateUserProfile({ _id: userData?.user._id, isAgreeTnC: true });
+    }
+
+    setShowTnCModal(false);
+  }
+
+  useEffect(() => {
+    if (userData?.user.isAgreeTnC) {
+      loginUser();
+    }
+  }, [userData]);
+
+  if (Platform.OS == "android") {
+    useEffect(() => {
+      Linking.addEventListener("url", handleOpenURL);
+    }, []);
+  }
+
+  const openGoogleLogin = async () => {
+    const result: any = await WebBrowser.openAuthSessionAsync(`${REACT_APP_WHISPERIN_SERVICE_BASEURL}/auth/google/login`);
+
+    if (Platform.OS == "ios") {
+      handleOpenURL({ url: result.url });
+    }
   };
 
-  const openGoogleLogin = async () => {    
-    const result:any = await WebBrowser.openAuthSessionAsync(`${REACT_APP_WHISPER_SERVICE_BASEURL}/auth/google/login`);    
-    handleOpenURL({url: result.url});
-  };
+  const openAppleLogin = async () => {
+    const result: any = await WebBrowser.openAuthSessionAsync(`${REACT_APP_WHISPERIN_SERVICE_BASEURL}/auth/apple/login`);
 
-  const openAppleLogin = async () => {    
-    const result:any = await WebBrowser.openAuthSessionAsync(`${REACT_APP_WHISPER_SERVICE_BASEURL}/auth/apple/login`); 
-    handleOpenURL({url: result.url});
+    if (Platform.OS == "ios") {
+      handleOpenURL({ url: result.url });
+    }
   }
 
   return (
@@ -91,26 +132,27 @@ export default function SignInPage({
           fontWeight: "900",
           marginBottom: 14
         }}>Login Now</Text> */}
-        
-        <AppleSignInButton style={{marginBottom: 15}} onPress={() => openAppleLogin()}/>
+
+        <AppleSignInButton style={{ marginBottom: 15 }} onPress={() => openAppleLogin()} />
 
         <GoogleSignInButton onPress={() => openGoogleLogin()} />
       </View>
+
+      <BottomPopup
+        header="Terms and Conditions"
+        isShowModal={isShowTnCModal}
+        showOk={true}
+        okText="Agree"
+        onOk={() => {
+          agreeTnC();
+          loginUser();
+        }}
+        showCancel={true}
+        cancelText="Cancel"
+        onCancel={() => setShowTnCModal(false)}
+      >
+        <TermsAndConditions/>
+      </BottomPopup>
     </View>
   );
 }
-
-const style = StyleSheet.create({
-  welcome: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 14,
-    marginLeft: 14,
-    fontStyle: "italic",
-  },
-  "logo-title": {
-    fontFamily: "MadeTommyBold",
-    fontWeight: "900",
-    fontSize: 48,
-  }
-});

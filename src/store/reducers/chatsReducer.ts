@@ -24,6 +24,7 @@ export const loadChatsReducer = (
         name: profile.name,
         avatar: profile.avatar,
         isAI: profile.isAI,
+        isBlocked: profile.isBlocked
       })),
       messages: [...stateChatMessages],
     };

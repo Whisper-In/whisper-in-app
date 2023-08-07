@@ -7,17 +7,21 @@ import ChatBubble from "../molecules/chatBubble";
 import ChatAudioBubble from "../molecules/chatAudioBubble";
 import { Audio } from "expo-av";
 import ChatInputBar from "./chatInputBar";
+import { Text, useTheme } from "react-native-paper";
 
 export default function ChatMessageList(props: {
   chatMessageList: ChatMessage[];
   isTyping: boolean;
+  isBlocked?: boolean;
+  contactName: string;
 }) {
+  const theme = useTheme();
   const listRef = useRef<FlatList>(null);
   const userId = useAppSelector((state) => state.user.me!.id);
 
-  const renderItem = useCallback(({ item, index }: { item: ChatMessage, index: number }) => {    
-    const isSelf = item.senderId == userId;  
-    
+  const renderItem = useCallback(({ item, index }: { item: ChatMessage, index: number }) => {
+    const isSelf = item.senderId == userId;
+
     let chatBubble = (
       <ChatBubble isSelf={isSelf} createdAt={item.createdAt}>
         {item.message}
@@ -46,7 +50,7 @@ export default function ChatMessageList(props: {
   //Use scale=-1 instead of inverted flatlist to avoid react native's inverted flatlist performance bug
   return (
     <FlatList
-      ref={listRef}      
+      ref={listRef}
       style={{ transform: [{ scale: -1 }] }}
       keyExtractor={(item: ChatMessage, index: number) => index.toString()}
       data={props.chatMessageList}
@@ -60,15 +64,22 @@ export default function ChatMessageList(props: {
           listRef?.current?.scrollToOffset({ animated: false, offset: 0 });
       }}
       ListHeaderComponent={() => {
-        if (props.isTyping) {
-          return (
-            <View style={{ transform: [{ scale: -1 }] }}>
-              <ChatBubble isSelf={false} />
-            </View>
-          );
-        } else {
-          return <></>;
-        }
+        return (
+          <View style={{ transform: [{ scale: -1 }] }}>
+            {
+              props.isBlocked ?
+                <Text style={{
+                  textAlign: "center",
+                  color: theme.colors.error
+                }}>
+                  Unblock {props.contactName} to receive replies.
+                </Text>
+                :
+                props.isTyping &&
+                <ChatBubble isSelf={false} />
+            }
+          </View>
+        );
       }}
     ></FlatList>
   );
