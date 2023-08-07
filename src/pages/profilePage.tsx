@@ -281,7 +281,7 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
                 width: "100%"
             }
         }, async (index) => {
-            if (index != null && reportReasons) {
+            if (index != null && reportReasons && index < reportReasons.length) {                
                 const { reportReasonCode } = reportReasons[index]
 
                 try {
