@@ -228,18 +228,35 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
         }
     }
 
-    const toggleBlockStatus = async () => {
+    const toggleBlockStatus = () => {
         if (profile) {
             profile.isBlocked = !profile.isBlocked;
 
-            try {
-                await updateChatProfileBlockStatus(me?.id!, profile?.id!, profile?.isBlocked);
-            } catch (error) {
-                console.log(error);
+            const _toggleBlockStatus = async () => {
+                try {
+
+                    await updateChatProfileBlockStatus(me?.id!, profile?.id!, profile.isBlocked ?? false);
+                } catch (error) {
+                    console.log(error);
+                }
+
+                setProfile({ ...profile });
+                dispatch(fetchChats(me!.id));
             }
 
-            setProfile({ ...profile });
-            dispatch(fetchChats(me!.id));
+            Alert.alert(
+                `${profile.isBlocked ? 'Block' : 'Unblock'} Profile`,
+                `Are you sure you want to ${profile.isBlocked ? 'block' : 'unblock'} ${profile.name}'s profile?`,
+                [
+                    {
+                        text: "Yes",
+                        onPress: () => _toggleBlockStatus()
+                    },
+                    {
+                        text: "No"
+                    }
+                ]
+            );
         }
     }
 
@@ -263,16 +280,16 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
                 textAlign: "center",
                 width: "100%"
             }
-        }, async (index) => {              
+        }, async (index) => {
             if (index != null && reportReasons) {
                 const { reportReasonCode } = reportReasons[index]
 
                 try {
                     await reportService.sendReport(me!.id, profile!.id, reportReasonCode);
 
-                    Alert.prompt("Profile has been successfully reported. Thank you.");
+                    Alert.alert("Profile Reported", "Profile has been successfully reported. Thank you.");
                 } catch (error) {
-                    Alert.prompt("Opps, failed to report profile. Please try again.");
+                    Alert.alert("Report Profile Failed", "Opps, failed to report profile. Please try again.");
                 }
             }
         });
