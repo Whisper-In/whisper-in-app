@@ -18,7 +18,7 @@ import { Image } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import AppleSignInButton from "../components/atoms/appleSignInButton";
 import BottomPopup from "../components/molecules/bottomPopup";
-import { updateUserProfile } from "../store/services/userService";
+import { updateUserProfile, updateUserTnC } from "../store/services/userService";
 import TermsAndConditions from "../components/content/termsAndConditions";
 
 export default function SignInPage({
@@ -68,12 +68,18 @@ export default function SignInPage({
     }
   }
 
-  const agreeTnC = () => {
+  const agreeTnC = async () => {
     if (userData?.user != null) {
-      updateUserProfile({ _id: userData?.user._id, isAgreeTnC: true });
+
+      try {
+        await updateUserTnC(userData?.user._id, true); 
+      } catch (error) {
+        console.log(error);
+      }      
     }
 
     setShowTnCModal(false);
+    loginUser();
   }
 
   useEffect(() => {
@@ -144,8 +150,7 @@ export default function SignInPage({
         showOk={true}
         okText="Agree"
         onOk={() => {
-          agreeTnC();
-          loginUser();
+          agreeTnC();          
         }}
         showCancel={true}
         cancelText="Cancel"

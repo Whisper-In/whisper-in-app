@@ -32,3 +32,13 @@ export const updateUserProfile = async (userProfile: IUserProfileDto) => {
     throw error;
   }
 }
+
+export const updateUserTnC = async (userId:string, isAgreeTnC:boolean) => {
+  try {
+    const result = await axiosInstance.put(route, {userId, isAgreeTnC});
+
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+}
