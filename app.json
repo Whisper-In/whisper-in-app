@@ -16,7 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.org.whisperin",
+      "bundleIdentifier": "com.whisperin.whisperin",
       "buildNumber": "1.0.3",
       "entitlements": {
         "com.apple.developer.applesignin": [
