@@ -17,8 +17,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.org.whisperin",
+      "buildNumber": "1.0.3",
       "entitlements": {
-        "com.apple.developer.applesignin": ["Default"]
+        "com.apple.developer.applesignin": [
+          "Default"
+        ]
       }
     },
     "android": {
@@ -26,7 +29,8 @@
         "foregroundImage": "./src/assets/images/icons/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.org.whisperin"
+      "package": "com.org.whisperin",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -34,7 +38,7 @@
     "scheme": "whisperin",
     "extra": {
       "eas": {
-        "projectId": "5f25c368-0dfe-4277-924d-5f1400552b5f"
+        "projectId": "9e72f34a-21d8-48a2-93ca-8a23b82ad511"
       }
     }
   }
