@@ -47,7 +47,7 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
 
     useEffect(() => {
         initHeaderRight();
-    }, [reportReasons]);
+    }, [reportReasons, profile]);
 
 
     const initHeaderRight = () => {
@@ -289,6 +289,7 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
 
                     Alert.alert("Profile Reported", "Profile has been successfully reported. Thank you.");
                 } catch (error) {
+                    console.log(error);
                     Alert.alert("Report Profile Failed", "Opps, failed to report profile. Please try again.");
                 }
             }
