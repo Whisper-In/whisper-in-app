@@ -17,7 +17,22 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.whisperin.whisperin",
-      "buildNumber": "1.0.3",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to take photos and videos to share with friends.", 
+        "NSPhotoLibraryUsageDescription": "This app uses the photo library to share photos and videos with friends.", 
+        "NSMicrophoneUsageDescription": "This app uses the microphone to record audio to share with friends.",
+        "NSPhotoLibraryAddUsageDescription": "This app uses the photo library to save photos and videos to share with friends.",
+        "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you.",
+        "NSCalendarsUsageDescription": "This app uses the calendar to schedule events with friends.",
+        "NSContactsUsageDescription": "This app uses the contacts to share events with friends.",
+        "NSLocationWhenInUseUsageDescription": "This app uses your location to share events with friends.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app uses your location to share events with friends.",
+        "NSLocationAlwaysUsageDescription": "This app uses your location to share events with friends.",
+        "NSMotionUsageDescription": "This app uses the motion sensor to share events with friends.",
+        "NSBluetoothAlwaysUsageDescription": "This app uses bluetooth to share events with friends.",
+        "NSBluetoothPeripheralUsageDescription": "This app uses bluetooth to share events with friends."
+      },
+      "buildNumber": "1.0.4",
       "entitlements": {
         "com.apple.developer.applesignin": [
           "Default"
