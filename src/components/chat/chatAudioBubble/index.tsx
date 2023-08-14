@@ -2,12 +2,12 @@ import { memo, useEffect, useState } from "react";
 import { View, ViewStyle } from "react-native";
 import { Text, TouchableRipple, useTheme } from "react-native-paper";
 import { AVPlaybackStatusSuccess, Audio, InterruptionModeIOS } from "expo-av";
-import AudioTimeline from "../atoms/audioTimeline";
-import { formatDateTimeTo12HoursTimeString } from "../../utils/dateUtil";
+import AudioTimeline from "./audioTimeline";
 import Icon from "react-native-paper/src/components/Icon";
-import { useAppDispatch, useAppSelector } from "../../store/store";
-import { setCurrentPlayingSoundURL } from "../../store/slices/app";
 import SoundPlayer from "react-native-sound-player";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { setCurrentPlayingSoundURL } from "../../../store/slices/app";
+import { formatDateTimeTo12HoursTimeString } from "../../../utils/dateUtil";
 
 function ChatAudioBubble({
   audioUrl: soundUrl,

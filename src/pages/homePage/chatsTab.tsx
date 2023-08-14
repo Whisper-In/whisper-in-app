@@ -1,5 +1,5 @@
 import { Alert, View } from "react-native";
-import ChatHistoryList from "../../components/organisms/chatHistoryList";
+import ChatHistoryList from "../../components/chat/chatHistoryList";
 import { FETCH_CHATS_RETRY_COUNT, FETCH_CHATS_RETRY_INTERVAL } from "../../constants";
 import { fetchChats } from "../../store/slices/chats/thunks";
 import { useAppDispatch, useAppSelector } from "../../store/store";

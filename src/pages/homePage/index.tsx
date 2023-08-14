@@ -2,8 +2,8 @@ import { HomePageNavigationProp as HomePageNavigationProp } from "../../navigati
 import ChatsScreen from "./chatsTab";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import SettingsTab from "./settingsTab";
-import NavBarHeaderRight from "../../components/molecules/navBarHeaderRight";
 import Icon from "react-native-paper/src/components/Icon";
+import NavBarHeaderRight from "../../components/nav/navBarHeaderRight";
 
 const Tab = createBottomTabNavigator();
 

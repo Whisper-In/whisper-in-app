@@ -2,7 +2,7 @@ import { View } from "react-native";
 import {
   ActivityIndicator as PaperActivityIndicator,
 } from "react-native-paper";
-import { useAppSelector } from "../../store/store";
+import { useAppSelector } from "../store/store";
 
 export default function ActivityIndicator() {
   const isLoading = useAppSelector((state) => state.app.isLoading);

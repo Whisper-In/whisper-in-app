@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { Text, useTheme } from "react-native-paper";
-import GoogleSignInButton from "../components/atoms/googleSignInButton";
+import GoogleSignInButton from "../components/signin/googleSignInButton";
 import { HomePageNavigationProp } from "../navigation/types";
 import { useEffect, useState } from "react";
 import { REACT_APP_WHISPERIN_SERVICE_BASEURL } from "@env";
@@ -16,10 +16,10 @@ import { setUser } from "../store/slices/user/index";
 import { IUserProfileDto } from "../store/dtos/profile.dtos";
 import { Image } from "react-native";
 import * as WebBrowser from "expo-web-browser";
-import AppleSignInButton from "../components/atoms/appleSignInButton";
-import BottomPopup from "../components/molecules/bottomPopup";
+import BottomPopup from "../components/bottomPopup";
 import { updateUserProfile, updateUserTnC } from "../store/services/userService";
 import TermsAndConditions from "../components/content/termsAndConditions";
+import AppleSignInButton from "../components/signin/appleSignInButton";
 
 export default function SignInPage({
   navigation,

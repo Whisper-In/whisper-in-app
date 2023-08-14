@@ -8,7 +8,7 @@ import * as profileService from "../store/services/profileService";
 import { PaymentSheet, initPaymentSheet, presentPaymentSheet } from "@stripe/stripe-react-native";
 import appJson from "../../app.json";
 import { useAppDispatch, useAppSelector } from "../store/store";
-import SubscribeButton from "../components/atoms/subscribeButton";
+import SubscribeButton from "../components/profile/subscribeButton";
 import { Tabs, TabScreen } from "react-native-paper-tabs";
 import Icon from "react-native-paper/src/components/Icon";
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";

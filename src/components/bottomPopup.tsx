@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Modal, ScrollView, View, useWindowDimensions } from "react-native";
 import { Button, Text, useTheme } from "react-native-paper";
-import { useAppSelector } from "../../store/store";
+import { useAppSelector } from "../store/store";
 
 export default function BottomPopup({
     isShowModal,

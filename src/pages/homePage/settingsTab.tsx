@@ -1,7 +1,7 @@
 import { Alert, FlatList, Linking, View } from "react-native";
 import { Avatar, List, Switch, Text, useTheme } from "react-native-paper";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import SettingListItem from "../../components/molecules/settingListItem";
+import SettingListItem from "../../components/home/settingListItem";
 import { setDarkMode } from "../../store/slices/app";
 import { HomePageNavigationProp } from "../../navigation/types";
 import { REACT_APP_WHISPERIN_URL } from "@env";

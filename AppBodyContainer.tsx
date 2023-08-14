@@ -1,5 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import ActivityIndicator from "./src/components/atoms/activityIndicator";
+import ActivityIndicator from "./src/components/activityIndicator";
 import HomeStackNavigator from "./src/navigation/homeStackNavigator";
 import { useAppSelector } from "./src/store/store";
 import { darkTheme, lightTheme } from "./themes";

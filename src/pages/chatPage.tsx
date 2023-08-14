@@ -1,6 +1,5 @@
 import { KeyboardAvoidingView, Platform, View } from "react-native";
-import ChatInputBar from "../components/organisms/chatInputBar";
-import ChatMessageList from "../components/organisms/chatMessageList";
+import ChatInputBar from "../components/chat/chatInputBar";
 import { useSelector } from "react-redux";
 import {
   RootState,
@@ -14,11 +13,12 @@ import { addNewChatMessage, toggleAudioReplies, updateChatFeatures } from "../st
 import { fetchChatCompletion } from "../store/slices/chats/thunks";
 import { Chat, ChatFeature } from "../store/states/chatsState";
 import { useTheme } from "react-native-paper";
-import NavBarBackButton from "../components/molecules/navBarBackButton";
+import NavBarBackButton from "../components/nav/navBarBackButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import NavBarHeaderRightChatPage from "../components/molecules/navBarHeaderRightChatPage";
 import { IProfileDto } from "../store/dtos/profile.dtos";
 import { getChat } from "../store/services/chatService";
+import ChatMessageList from "../components/home/chatMessageList";
+import NavBarHeaderRightChatPage from "../components/nav/navBarHeaderRightChatPage";
 
 export default function ChatPage({ navigation }: { navigation: HomePageNavigationProp }) {
   const theme = useTheme();

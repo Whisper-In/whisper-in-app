@@ -8,7 +8,7 @@ import SignInPage from "../pages/signInPage";
 import AccountPage from "../pages/accountPage";
 import { useNavigation } from "@react-navigation/native";
 import SearchPage from "../pages/searchPage";
-import NavBarBackButton from "../components/molecules/navBarBackButton";
+import NavBarBackButton from "../components/nav/navBarBackButton";
 import NavBarHeaderRight from "../components/molecules/navBarHeaderRight";
 import ProfilePage from "../pages/profilePage";
 

@@ -2,10 +2,10 @@ import { FlatList, View } from "react-native";
 import { Text } from "react-native-paper";
 import { HomePageNavigationProp } from "../navigation/types";
 import { useEffect, useState } from "react";
-import SearchNavigationBar from "../components/organisms/searchNavigationBar";
+import SearchNavigationBar from "../components/searchNavigationBar";
 import { searchProfiles } from "../store/services/profileService";
 import { IProfileSearchDto } from "../store/dtos/profile.dtos";
-import SearchProfileListItem from "../components/molecules/searchProfileListItem";
+import SearchProfileListItem from "../components/search/searchProfileListItem";
 
 export default function SearchPage({ navigation }: { navigation: HomePageNavigationProp }) {
     const [query, setQuery] = useState<string>();
