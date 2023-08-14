@@ -47,7 +47,6 @@ export default function GoogleSignInButton({
         <Text
           style={{
             fontWeight: "bold",
-            fontFamily: "Roboto",
             fontSize: 14,
             color: "#555",
           }}

@@ -47,8 +47,7 @@ export default function AppleSignInButton({
 
         <Text
           style={{
-            fontWeight: "bold",
-            fontFamily: "Roboto",
+            fontWeight: "bold",            
             fontSize: 14,
             color: "#555",
           }}
