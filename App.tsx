@@ -34,6 +34,8 @@ export default function App() {
   if (!isLoaded) {
     return null;
   }
+  
+  console.log(store.getState().user.token);
 
   return (
     <View style={{ flex: 1 }} onLayout={handleOnLayout}>

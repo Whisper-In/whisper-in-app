@@ -1,3 +1,7 @@
+export enum ProfileModels {
+  AIProfile, UserProfile
+}
+
 export interface IUserProfileDto {
   _id: string;
   name?: string;

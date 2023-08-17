@@ -4,12 +4,13 @@ export type UserProfile = {
   aboutMe?: string;
   avatar?: string;
   email?: string;
+  linkedAIProfile?: string;
 }
 
 export type UserState = {
   me?: UserProfile;
-  token?:string;  
-  isAuthenticated?:boolean;
+  token?: string;
+  isAuthenticated?: boolean;
 };
 
 export const initialUserState: UserState = {

@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
 import { useSelector } from "react-redux";
-import { ChatMessage } from "../../store/states/chatsState";
-import { RootState, useAppSelector } from "../../store/store";
-import ChatBubble from "../chat/chatBubble";
-import ChatAudioBubble from "../chat/chatAudioBubble";
+import { ChatMessage } from "../../../store/states/chatsState";
+import { RootState, useAppSelector } from "../../../store/store";
+import ChatBubble from "../../chat/chatBubble";
+import ChatAudioBubble from "../../chat/chatAudioBubble";
 import { Audio } from "expo-av";
-import ChatInputBar from "../chat/chatInputBar";
+import ChatInputBar from "../../chat/chatInputBar";
 import { Text, useTheme } from "react-native-paper";
 
 export default function ChatMessageList(props: {

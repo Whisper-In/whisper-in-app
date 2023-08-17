@@ -6,6 +6,7 @@ import { formatDateTimeTo12HoursTimeString } from "../../utils/dateUtil";
 import { Svg, Circle } from "react-native-svg";
 import Clipboard from "@react-native-clipboard/clipboard";
 import Toast from 'react-native-root-toast';
+import { showToast } from "../../utils/toast";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -52,12 +53,7 @@ function ChatBubble({
     Clipboard.setString(children as string);
 
     if (Platform.OS == "ios") {
-      Toast.show("Copied to clipboard.", {
-        backgroundColor: theme.colors.onSecondary,
-        containerStyle: {
-          borderRadius: 999
-        }
-      });
+      showToast("Copied to clipboard.", theme);
     }
   }
 

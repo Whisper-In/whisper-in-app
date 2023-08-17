@@ -1,24 +1,28 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { Alert, Pressable, View } from "react-native";
 import { Avatar, Text, useTheme } from "react-native-paper";
-import { HomePageNavigationProp, HomeStackNavigatorParamList } from "../navigation/types";
+import { HomePageNavigationProp, HomeStackNavigatorParamList } from "../../navigation/types";
 import { useEffect, useRef, useState } from "react";
-import { IPriceTierDto, IProfileDto } from "../store/dtos/profile.dtos";
-import * as profileService from "../store/services/profileService";
+import { IPriceTierDto, IProfileDto } from "../../store/dtos/profile.dtos";
+import * as profileService from "../../store/services/profileService";
 import { PaymentSheet, initPaymentSheet, presentPaymentSheet } from "@stripe/stripe-react-native";
-import appJson from "../../app.json";
-import { useAppDispatch, useAppSelector } from "../store/store";
-import SubscribeButton from "../components/profile/subscribeButton";
+import appJson from "../../../app.json";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import SubscribeButton from "../../components/profile/subscribeButton";
 import { Tabs, TabScreen } from "react-native-paper-tabs";
 import Icon from "react-native-paper/src/components/Icon";
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
-import { createNewChat, updateChatProfileBlockStatus } from "../store/services/chatService";
-import { createUserAISubscription } from "../store/services/userService";
-import { fetchChats } from "../store/slices/chats/thunks";
-import { ChatFeature } from "../store/states/chatsState";
+import { createNewChat, updateChatProfileBlockStatus } from "../../store/services/chatService";
+import { createUserAISubscription } from "../../store/services/userService";
+import { fetchChats } from "../../store/slices/chats/thunks";
+import { ChatFeature } from "../../store/states/chatsState";
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { IReportReasonDto } from "../store/dtos/business.dtos";
-import * as reportService from "../store/services/reportService";
+import { IReportReasonDto } from "../../store/dtos/business.dtos";
+import * as reportService from "../../store/services/reportService";
+import PostList from "../../components/profile/postList";
+import { PostDto, PostType } from "../../store/dtos/content.dtos";
+import * as postService from "../../store/services/postService";
+import { isFulfilled } from "../../utils/promise";
 
 export default function ProfilePage({ navigation }: { navigation: HomePageNavigationProp }) {
     const theme = useTheme();
@@ -29,6 +33,10 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
     const me = useAppSelector(state => state.user.me);
     const { showActionSheetWithOptions } = useActionSheet();
     const [reportReasons, setReportReasons] = useState<IReportReasonDto[]>();
+    const [photos, setPhotos] = useState<PostDto[]>();
+    const [videos, setVideos] = useState<PostDto[]>();
+    const [pageIndex, setPageIndex] = useState(0);
+    const postsPerLoad = 9;
 
     const dispatch = useAppDispatch();
 
@@ -43,6 +51,8 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
         getReportReasons();
 
         initHeaderRight();
+
+        getPosts();
     }, []);
 
     useEffect(() => {
@@ -79,6 +89,37 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
                 </Pressable>
             )
         });
+    }
+
+    const getPosts = async () => {
+        try {
+            const photosQuery = postService.getPosts(
+                route.params.profileId,
+                PostType[PostType.PHOTO],
+                pageIndex,
+                postsPerLoad);
+
+            const videosQuery = postService.getPosts(
+                route.params.profileId,
+                PostType[PostType.VIDEO],
+                pageIndex,
+                postsPerLoad)
+
+            const results = await Promise.allSettled([
+                photosQuery,
+                videosQuery
+            ]);
+
+            if (isFulfilled(results[0])) {
+                setPhotos(results[0].value);
+            }
+
+            if (isFulfilled(results[1])) {
+                setVideos(results[1].value);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const getReportReasons = async () => {
@@ -281,7 +322,7 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
                 width: "100%"
             }
         }, async (index) => {
-            if (index != null && reportReasons && index < reportReasons.length) {                
+            if (index != null && reportReasons && index < reportReasons.length) {
                 const { reportReasonCode } = reportReasons[index]
 
                 try {
@@ -294,6 +335,10 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
                 }
             }
         });
+    }
+
+    const viewPost = (post: PostDto) => {
+        navigation.navigate("ViewPost", { post });
     }
 
     if (profile) {
@@ -365,22 +410,25 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
                         style={{
                             backgroundColor: "transparent"
                         }}>
-                        <TabScreen label="Images" icon="image-outline">
+                        <TabScreen label="" icon="image-outline">
                             <View style={{
-                                flex: 1,
-                                justifyContent: "center",
-                                alignItems: "center"
+                                flex: 1
                             }}>
-                                <Text>No images yet.</Text>
+                                <PostList style={{
+                                    flex: 1,
+                                    borderWidth: 1
+                                }} posts={photos}
+                                    onPostListItemPress={viewPost} />
                             </View>
                         </TabScreen>
-                        <TabScreen label="Videos" icon="video-outline">
+                        <TabScreen label="" icon="video-outline">
                             <View style={{
-                                flex: 1,
-                                justifyContent: "center",
-                                alignItems: "center"
+                                flex: 1
                             }}>
-                                <Text>No videos yet.</Text>
+                                <PostList style={{
+                                    flex: 1,
+                                }} posts={videos}
+                                    onPostListItemPress={viewPost} />
                             </View>
                         </TabScreen>
                     </Tabs>

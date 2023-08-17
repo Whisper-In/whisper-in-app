@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { Text, TouchableRipple, useTheme } from "react-native-paper";
 import Icon from "react-native-paper/src/components/Icon";
-import { useAppSelector } from "../../store/store";
+import { useAppSelector } from "../../../store/store";
 
 export default function SettingListItem(props: {
     icon: string,

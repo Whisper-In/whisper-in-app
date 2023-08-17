@@ -1,8 +1,8 @@
 import { memo } from "react";
 import { GestureResponderEvent, View } from "react-native";
 import { Text, TouchableRipple } from "react-native-paper";
-import { formatDateTimeTo12HoursTimeString } from "../../utils/dateUtil";
 import ChatMessageListItemAvatar from "./chatMessageListItemAvatar";
+import { formatDateTimeTo12HoursTimeString } from "../../../utils/dateUtil";
 
 function ChatMessageListItem(props: {
   imgSrc?: string;

@@ -18,7 +18,7 @@ import { Image } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import BottomPopup from "../components/bottomPopup";
 import { updateUserProfile, updateUserTnC } from "../store/services/userService";
-import TermsAndConditions from "../components/content/termsAndConditions";
+import TermsAndConditions from "../components/info/termsAndConditions";
 import AppleSignInButton from "../components/signin/appleSignInButton";
 
 export default function SignInPage({

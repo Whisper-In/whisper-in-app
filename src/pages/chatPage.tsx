@@ -17,8 +17,9 @@ import NavBarBackButton from "../components/nav/navBarBackButton";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { IProfileDto } from "../store/dtos/profile.dtos";
 import { getChat } from "../store/services/chatService";
-import ChatMessageList from "../components/home/chatMessageList";
+import ChatMessageList from "../components/home/chats/chatMessageList";
 import NavBarHeaderRightChatPage from "../components/nav/navBarHeaderRightChatPage";
+import CustomKeyboardAvoidingView from "../components/customKeyboardAvoidingView";
 
 export default function ChatPage({ navigation }: { navigation: HomePageNavigationProp }) {
   const theme = useTheme();
@@ -27,7 +28,6 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
   const { chatId, contactId, isAI } = route.params;
   const chat = useAppSelector((state) => state.chats.chats.find(chat => chat.chatId == chatId))!;
   const userId = useAppSelector((state) => state.user.me!.id);
-  const inset = useSafeAreaInsets();
 
   const contact = chat.profiles.find((p) => p.id == contactId);
 
@@ -104,12 +104,9 @@ export default function ChatPage({ navigation }: { navigation: HomePageNavigatio
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.select({ ios: 64 + inset.bottom })}
-      style={{ flex: 1 }}>
+    <CustomKeyboardAvoidingView>
       <ChatMessageList contactName={contact!.name} isBlocked={contact?.isBlocked} chatMessageList={chatMessageList} isTyping={isTyping} />
       <ChatInputBar onSent={onSent} />
-    </KeyboardAvoidingView>
+    </CustomKeyboardAvoidingView>
   );
 }

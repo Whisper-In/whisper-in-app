@@ -2,7 +2,7 @@ import { FlatList, ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Chat } from "../../store/states/chatsState";
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
-import ChatMessageListItem from "../home/chatMessageListItem";
+import ChatMessageListItem from "../home/chats/chatMessageListItem";
 
 export default function ChatHistoryList(props: {
   data: Chat[];

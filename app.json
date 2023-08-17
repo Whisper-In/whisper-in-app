@@ -18,8 +18,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.whisperin.whisperin",
       "infoPlist": {
-        "NSCameraUsageDescription": "This app uses the camera to take photos and videos to share with friends.", 
-        "NSPhotoLibraryUsageDescription": "This app uses the photo library to share photos and videos with friends.", 
+        "NSCameraUsageDescription": "This app uses the camera to take photos and videos to share with friends.",
+        "NSPhotoLibraryUsageDescription": "This app uses the photo library to share photos and videos with friends.",
         "NSMicrophoneUsageDescription": "This app uses the microphone to record audio to share with friends.",
         "NSPhotoLibraryAddUsageDescription": "This app uses the photo library to save photos and videos to share with friends.",
         "NSCalendarsUsageDescription": "This app uses the calendar to schedule events with friends.",
@@ -54,6 +54,20 @@
       "eas": {
         "projectId": "9e72f34a-21d8-48a2-93ca-8a23b82ad511"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+        }
+      ]
+    ]
   }
 }

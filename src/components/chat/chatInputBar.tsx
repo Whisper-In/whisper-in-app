@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Keyboard, Platform, TextInput, View } from "react-native";
 import { IconButton, useTheme } from "react-native-paper";
+import RoundedTextInput from "../roundedTextInput";
 
 export default function ChatInputBar(props: {
   onSent: (message: string) => void;
@@ -26,8 +27,13 @@ export default function ChatInputBar(props: {
   };
 
   useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () => { setPaddingBottom(paddingBottomKeyboardOpen) });
-    const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", () => { setPaddingBottom(paddingBottomKeyboardClosed) });
+    const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () => {
+      setPaddingBottom(paddingBottomKeyboardOpen)
+    });
+    
+    const keyboardDidHideListener = Keyboard.addListener("keyboardDidHide", () => {
+      setPaddingBottom(paddingBottomKeyboardClosed)
+    });
 
     return (() => {
       keyboardDidHideListener.remove();
@@ -49,18 +55,13 @@ export default function ChatInputBar(props: {
       }}
     >
       <View style={{ flexGrow: 1, flexBasis: 1, marginRight: 10 }}>
-        <TextInput
+        <RoundedTextInput
           style={{
-            color: theme.colors.onSurface,
-            backgroundColor: theme.colors.background,
-            borderRadius: 25,
-            paddingHorizontal: 10,
             paddingTop: textinputVerticalPadding,
             paddingBottom: textinputVerticalPadding
           }}
           multiline={true}
           placeholder="Message"
-          placeholderTextColor={theme.colors.onSurface}
           onChangeText={(text) => { setMessage(text) }}
           value={message}
           maxLength={3000}
