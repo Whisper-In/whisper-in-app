@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Whisper In",
-    "slug": "whisperin",
+    "slug": "whisper-in",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icons/icon.png",
@@ -52,7 +52,7 @@
     "scheme": "whisperin",
     "extra": {
       "eas": {
-        "projectId": "9e72f34a-21d8-48a2-93ca-8a23b82ad511"
+        "projectId": "fdf0289b-f721-4f0f-ae41-7cb2552f3c33"
       }
     },
     "plugins": [
