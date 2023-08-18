@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, StatusBar, View } from "react-native";
+import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, Platform, StatusBar, View } from "react-native";
 import { ICreatorProfileDto, IPostDto } from "../../store/dtos/content.dtos";
 import * as postService from "../../store/services/postService";
 import { useTheme } from "react-native-paper";
@@ -8,6 +8,7 @@ import { isFulfilled } from "../../utils/promise";
 import { HomePageNavigationProp } from "../../navigation/types";
 import { showToast } from "../../utils/toast";
 import RecommendedPostList from "../../components/home/recommended/recommendedPostList";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 export default function RecommendedTab({ navigation }
     : { navigation: HomePageNavigationProp }) {
@@ -17,6 +18,7 @@ export default function RecommendedTab({ navigation }
     const [isLoading, setIsLoading] = useState(false);
     const [isBlur, setIsBlur] = useState(false);
     const theme = useTheme();
+    const bottomBarHeight = useBottomTabBarHeight();
 
     const postsPerLoad = 15;
     const maxFilterPostIDs = 100;
@@ -24,7 +26,7 @@ export default function RecommendedTab({ navigation }
     let { width, height } = Dimensions.get("window");
     const statusBarHeight = (StatusBar.currentHeight ?? 0);
     const statusBarHeightOffset = 10;
-    height -= Math.max(statusBarHeight - statusBarHeightOffset, 0);
+    height -= Math.max(statusBarHeight - statusBarHeightOffset, 0) + (Platform.OS == "ios" ? bottomBarHeight : 0);
 
     useEffect(() => {
         const getRecommendedPosts = async () => {

@@ -2,10 +2,8 @@ import { HomePageNavigationProp as HomePageNavigationProp } from "../../navigati
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import SettingsTab from "./settingsTab";
 import Icon from "react-native-paper/src/components/Icon";
-import NavBarHeaderRight from "../../components/nav/navBarHeaderRight";
-import { TabScreen } from "react-native-paper-tabs";
 import { useTheme } from "react-native-paper/src/core/theming";
-import { Image, Linking, View } from "react-native";
+import { Linking } from "react-native";
 import CreatePostButton from "../../components/home/createPostButton";
 import EmptyPage from "../emptyPage";
 import { useAppSelector } from "../../store/store";

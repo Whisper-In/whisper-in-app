@@ -24,7 +24,8 @@ export default function RecommendedPostList({ posts, height, width, isHidden, on
         changed: Array<ViewToken>;
     }) => {
         const { viewableItems } = info;
-        if (viewableItems.length && viewableItems[0].index != currentIndex) {
+
+        if (viewableItems.length) {            
             setCurrentIndex(viewableItems[0].index!);
         }
     }

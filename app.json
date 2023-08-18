@@ -44,7 +44,11 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.org.whisperin",
-      "versionCode": 2
+      "versionCode": 2,
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -52,7 +56,7 @@
     "scheme": "whisperin",
     "extra": {
       "eas": {
-        "projectId": "9e72f34a-21d8-48a2-93ca-8a23b82ad511"
+        "projectId": "5f25c368-0dfe-4277-924d-5f1400552b5f"
       }
     },
     "plugins": [
