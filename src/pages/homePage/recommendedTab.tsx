@@ -15,9 +15,10 @@ export default function RecommendedTab({ navigation }
     const [followingPosts, setFollowingPosts] = useState<PostDto[]>([]);
     const [recommendedType, setRecommendedType] = useState<RecommendedType>(RecommendedType.FORYOU);
     const [isLoading, setIsLoading] = useState(false);
+    const [isBlur, setIsBlur] = useState(false);
     const theme = useTheme();
 
-    const sizePerLoad = 5;
+    const postsPerLoad = 15;
 
     let { width, height } = Dimensions.get("window");
     const statusBarHeight = (StatusBar.currentHeight ?? 0);
@@ -27,8 +28,8 @@ export default function RecommendedTab({ navigation }
     useEffect(() => {
         const getRecommendedPosts = async () => {
             try {
-                const forYouQuery = postService.getRecommendedPosts(sizePerLoad);
-                const followingQuery = postService.getRecommendedPosts(sizePerLoad, true);
+                const forYouQuery = postService.getRecommendedPosts(postsPerLoad);
+                const followingQuery = postService.getRecommendedPosts(postsPerLoad, true);
 
                 const results = await Promise.allSettled([
                     forYouQuery,
@@ -50,6 +51,25 @@ export default function RecommendedTab({ navigation }
         getRecommendedPosts();
     }, []);
 
+    useEffect(() => {
+        const focusCallback = () => {
+            setIsBlur(false);
+        };
+
+        navigation.addListener("focus", focusCallback);
+
+        const blurCallback = () => {
+            setIsBlur(true);
+        }
+
+        navigation.addListener("blur", blurCallback);
+
+        return () => {
+            navigation.removeListener("focus", focusCallback);
+            navigation.removeListener("blur", blurCallback);
+        }
+    }, [navigation]);
+
     const loadMore = async (recommendedType: RecommendedType) => {
         if (isLoading) {
             return;
@@ -57,7 +77,7 @@ export default function RecommendedTab({ navigation }
 
         try {
             setIsLoading(true);
-            const results = await postService.getRecommendedPosts(sizePerLoad, recommendedType == RecommendedType.FOLLOWING);
+            const results = await postService.getRecommendedPosts(postsPerLoad, recommendedType == RecommendedType.FOLLOWING);
             setIsLoading(false);
 
             if (recommendedType == RecommendedType.FORYOU) {
@@ -72,7 +92,7 @@ export default function RecommendedTab({ navigation }
         }
     }
 
-    const onScrollNearBottom = (event: NativeSyntheticEvent<NativeScrollEvent>, itemHeightOffset = 3) => {
+    const onScrollNearBottom = (event: NativeSyntheticEvent<NativeScrollEvent>, itemHeightOffset = 1) => {
         return event.nativeEvent.contentOffset.y >= event.nativeEvent.contentSize.height - (event.nativeEvent.layoutMeasurement.height * Math.max(0, itemHeightOffset + 1))
     }
 
@@ -100,7 +120,7 @@ export default function RecommendedTab({ navigation }
             <RecommendedPostList posts={forYouPosts}
                 height={height}
                 width={width}
-                isHidden={recommendedType != RecommendedType.FORYOU}
+                isHidden={recommendedType != RecommendedType.FORYOU || isBlur}
                 onScroll={(event) => {
                     if (onScrollNearBottom(event)) {
                         loadMore(recommendedType);
@@ -112,7 +132,7 @@ export default function RecommendedTab({ navigation }
             <RecommendedPostList posts={followingPosts}
                 height={height}
                 width={width}
-                isHidden={recommendedType != RecommendedType.FOLLOWING}
+                isHidden={recommendedType != RecommendedType.FOLLOWING || isBlur}
                 onScroll={(event) => {
                     if (onScrollNearBottom(event)) {
                         loadMore(RecommendedType.FOLLOWING);

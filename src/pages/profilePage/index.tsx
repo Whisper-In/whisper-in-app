@@ -48,9 +48,9 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
                 });
         }
 
-        getReportReasons();
-
         initHeaderRight();
+        
+        getReportReasons();
 
         getPosts();
     }, []);

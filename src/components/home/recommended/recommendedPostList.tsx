@@ -1,8 +1,8 @@
 import { FlatList, NativeScrollEvent, NativeSyntheticEvent, ViewToken } from "react-native";
-import { CreatorProfileDto, PostDto } from "../../../store/dtos/content.dtos";
+import { CreatorProfileDto, PostDto, PostType } from "../../../store/dtos/content.dtos";
 import Post from "../../post";
 import { ProfileModels } from "../../../store/dtos/profile.dtos";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function RecommendedPostList({ posts, height, width, isHidden, onScroll, onAvatarPress, onLikePress }
     : {
@@ -14,7 +14,7 @@ export default function RecommendedPostList({ posts, height, width, isHidden, on
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const viewabilityConfig = {        
+    const viewabilityConfig = {
         waitForInteraction: true,
         viewAreaCoveragePercentThreshold: 70
     };
@@ -23,35 +23,51 @@ export default function RecommendedPostList({ posts, height, width, isHidden, on
         viewableItems: Array<ViewToken>;
         changed: Array<ViewToken>;
     }) => {
-        setCurrentIndex(info.changed[0].index!)
+        const { viewableItems } = info;
+        if (viewableItems.length && viewableItems[0].index != currentIndex) {
+            setCurrentIndex(viewableItems[0].index!);
+        }
     }
 
     const viewabilityConfigCallbackPairs = useRef([{ viewabilityConfig, onViewableItemsChanged }])
 
+    const renderItem = ({ item, index }: { item: PostDto, index: number }) =>
+        <Post
+            shouldPlay={!isHidden && currentIndex == index}
+            key={index}
+            post={item}
+            width={width}
+            height={height}
+            onAvatarPress={() => onAvatarPress(item.creator, item.creatorModel == ProfileModels[ProfileModels.AIProfile])}
+            onLikePress={() => onLikePress(item._id)}
+        />
+
+    const getItemLayout = (
+        data: Array<PostDto> | null | undefined,
+        index: number,
+    ) => ({
+        length: height,
+        offset: height * index,
+        index
+    });
+
     return (
         <FlatList
             style={[isHidden && {
-                display: "none"
+                height: 0
             }]}
-            maxToRenderPerBatch={5}
+            initialScrollIndex={currentIndex}
+            maxToRenderPerBatch={1}
+            initialNumToRender={1}
             removeClippedSubviews={true}
             snapToAlignment="start"
             decelerationRate="fast"
             snapToInterval={height}
-            data={posts}
+            getItemLayout={getItemLayout}
             viewabilityConfig={viewabilityConfig}
             viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
-            renderItem={({ item, index }) =>
-                <Post
-                    shouldPlay={index == currentIndex}
-                    key={index}
-                    post={item}
-                    width={width}
-                    height={height}
-                    onAvatarPress={() => onAvatarPress(item.creator, item.creatorModel == ProfileModels[ProfileModels.AIProfile])}
-                    onLikePress={() => onLikePress(item._id)}
-                />
-            }
+            data={posts}
+            renderItem={renderItem}
             onScroll={onScroll}
         />
     );

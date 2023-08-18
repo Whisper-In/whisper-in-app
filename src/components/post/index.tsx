@@ -4,7 +4,7 @@ import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
 import ButtonGroup from "./buttonGroup";
 import InfoGroup from "./infoGroup";
 import { LinearGradient, Rect, Stop, Svg } from "react-native-svg";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import TouchableWithDoubleTap from "../touchableWithDoubleTap";
 import Icon from "react-native-paper/src/components/Icon";
 import LikePrompt, { LikePromptComponentType } from "./likePrompt";
@@ -13,7 +13,7 @@ import {
     ActivityIndicator as PaperActivityIndicator,
 } from "react-native-paper";
 
-export default function Post({ post, style, width, height, onAvatarPress, onLikePress, hideAvatar, shouldPlay }
+function Post({ post, style, width, height, onAvatarPress, onLikePress, hideAvatar, shouldPlay }
     : {
         post: PostDto, style?: ViewStyle, width: string | number, height: string | number,
         onAvatarPress?: () => void, onLikePress?: () => void, hideAvatar?: boolean, shouldPlay?: boolean
@@ -169,3 +169,5 @@ export default function Post({ post, style, width, height, onAvatarPress, onLike
         </TouchableWithDoubleTap>
     );
 }
+
+export default React.memo(Post, (prevProps, nextProps) => prevProps.shouldPlay == nextProps.shouldPlay);
