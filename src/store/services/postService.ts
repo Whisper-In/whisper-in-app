@@ -53,9 +53,9 @@ export const getExplorePosts = async (size: number) => {
     }
 }
 
-export const getRecommendedPosts = async (size: number, showFollowingOnly?: boolean) => {
+export const getRecommendedPosts = async (size: number, filterPostIds?:string[], showFollowingOnly?: boolean) => {
     try {
-        const results = await axiosInstance.get(`${route}/recommended`, { params: { size, showFollowingOnly } });
+        const results = await axiosInstance.get(`${route}/recommended`, { params: { size, filterPostIds, showFollowingOnly } });
 
         return results.data as IPostDto[];
     } catch (error) {

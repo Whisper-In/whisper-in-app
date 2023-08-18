@@ -19,6 +19,7 @@ export default function RecommendedTab({ navigation }
     const theme = useTheme();
 
     const postsPerLoad = 15;
+    const maxFilterPostIDs = 100;
 
     let { width, height } = Dimensions.get("window");
     const statusBarHeight = (StatusBar.currentHeight ?? 0);
@@ -29,7 +30,7 @@ export default function RecommendedTab({ navigation }
         const getRecommendedPosts = async () => {
             try {
                 const forYouQuery = postService.getRecommendedPosts(postsPerLoad);
-                const followingQuery = postService.getRecommendedPosts(postsPerLoad, true);
+                const followingQuery = postService.getRecommendedPosts(postsPerLoad, undefined, true);
 
                 const results = await Promise.allSettled([
                     forYouQuery,
@@ -70,14 +71,18 @@ export default function RecommendedTab({ navigation }
         }
     }, [navigation]);
 
-    const loadMore = async (recommendedType: RecommendedType) => {        
+    const loadMore = async (recommendedType: RecommendedType) => {
         if (isLoading) {
             return;
         }
 
         try {
+            const showFollowingOnly = recommendedType == RecommendedType.FOLLOWING;
+            let filterPostIds = showFollowingOnly ? followingPosts.map(p => p._id) : forYouPosts.map(p => p._id);
+            filterPostIds.splice(0, filterPostIds.length - maxFilterPostIDs);
+
             setIsLoading(true);
-            const results = await postService.getRecommendedPosts(postsPerLoad, recommendedType == RecommendedType.FOLLOWING);
+            const results = await postService.getRecommendedPosts(postsPerLoad, filterPostIds, showFollowingOnly);
             setIsLoading(false);
 
             if (recommendedType == RecommendedType.FORYOU) {
