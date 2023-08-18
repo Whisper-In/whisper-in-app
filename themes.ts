@@ -2,7 +2,7 @@ import { Platform } from "react-native";
 import { DefaultTheme, MD3Theme, configureFonts } from "react-native-paper";
 import { MD3Type } from "react-native-paper/src/types";
 
-const fontConfig:Partial<MD3Type> = {
+const fontConfig: Partial<MD3Type> = {
   fontFamily: Platform.select({
     web: 'Inter-Regular',
     ios: 'Inter-Regular',
@@ -12,7 +12,7 @@ const fontConfig:Partial<MD3Type> = {
 
 export const lightTheme: MD3Theme = {
   ...DefaultTheme,
-  fonts: configureFonts({config: fontConfig}),
+  fonts: configureFonts({ config: fontConfig }),
   colors: {
     primary: "#3B96EB",
     onPrimary: "#FFF",
@@ -35,7 +35,7 @@ export const lightTheme: MD3Theme = {
     surface: "#FFF",
     onSurface: "#64696D",
     surfaceVariant: "rgb(222, 227, 235)",
-    onSurfaceVariant: "rgb(66, 71, 78)",
+    onSurfaceVariant: "#888",
     outline: "rgb(114, 119, 127)",
     outlineVariant: "rgb(194, 199, 207)",
     shadow: "rgb(0, 0, 0)",
@@ -59,7 +59,7 @@ export const lightTheme: MD3Theme = {
 
 export const darkTheme: MD3Theme = {
   ...DefaultTheme,
-  fonts: configureFonts({config: fontConfig}),
+  fonts: configureFonts({ config: fontConfig }),
   dark: true,
   colors: {
     primary: "#3B96EB",
@@ -83,7 +83,7 @@ export const darkTheme: MD3Theme = {
     surface: "#16191F",
     onSurface: "#bbbbbb",
     surfaceVariant: "rgb(66, 71, 78)",
-    onSurfaceVariant: "rgb(194, 199, 207)",
+    onSurfaceVariant: "#777",
     outline: "rgb(140, 145, 152)",
     outlineVariant: "rgb(66, 71, 78)",
     shadow: "rgb(0, 0, 0)",

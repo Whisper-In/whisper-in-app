@@ -42,4 +42,7 @@ export interface IProfileDto {
   isSubscribed?: boolean;
   isSubscriptionExpired?: boolean;
   isBlocked?: boolean;
+  postCount?: number;
+  followerCount?: number;
+  totalLikeCount?: number;
 }

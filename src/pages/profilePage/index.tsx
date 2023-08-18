@@ -23,6 +23,7 @@ import PostList from "../../components/profile/postList";
 import { PostDto, PostType } from "../../store/dtos/content.dtos";
 import * as postService from "../../store/services/postService";
 import { isFulfilled } from "../../utils/promise";
+import ProfileStatItem from "../../components/profile/profileStatItem";
 
 export default function ProfilePage({ navigation }: { navigation: HomePageNavigationProp }) {
     const theme = useTheme();
@@ -49,7 +50,7 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
         }
 
         initHeaderRight();
-        
+
         getReportReasons();
 
         getPosts();
@@ -352,37 +353,33 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
                     }}>
                         <Avatar.Image
                             source={{ uri: profile.avatar }}
-                            size={150}
+                            size={96}
                             style={{ marginBottom: 20 }} />
 
                         <Text style={{
                             ...theme.fonts.titleLarge,
-                            marginBottom: 30
+                            marginBottom: 10
                         }}>
                             {profile.name ?? profile.email}
                         </Text>
 
-                        {
-                            profile.aboutMe &&
-                            <View style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                marginBottom: 30,
-                                paddingHorizontal: 10
-                            }}>
-                                <View style={{ marginRight: 10 }}>
-                                    <Icon source="information-outline"
-                                        size={20} />
-                                </View>
+                        <View style={{
+                            flexDirection: "row",
+                            gap: 50,
+                            marginBottom: 20
+                        }}>
+                            <ProfileStatItem label="Posts">
+                                {profile.postCount ?? 0}
+                            </ProfileStatItem>
 
+                            <ProfileStatItem label="Followers">
+                                {profile.followerCount ?? 0}
+                            </ProfileStatItem>
 
-                                <Text style={{
-                                    ...theme.fonts.bodyMedium,
-                                }}>
-                                    {profile.aboutMe}
-                                </Text>
-                            </View>
-                        }
+                            <ProfileStatItem label="Likes">
+                                {profile.totalLikeCount ?? 0}
+                            </ProfileStatItem>
+                        </View>
 
                         {route.params.isAI &&
                             <SubscribeButton
