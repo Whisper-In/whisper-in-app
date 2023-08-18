@@ -2,11 +2,11 @@ import { View, ViewStyle } from "react-native";
 import CreatorAvatar from "./creatorAvatar";
 import LikeButton from "./likeButton";
 import ShareButton from "./shareButton";
-import { PostDto } from "../../../store/dtos/content.dtos";
+import { IPostDto } from "../../../store/dtos/content.dtos";
 
 export default function ButtonGroup({ style, post, hideAvatar, onAvatarPress, onLikePress }
     : {
-        style?: ViewStyle, post: PostDto, hideAvatar?: boolean
+        style?: ViewStyle, post: IPostDto, hideAvatar?: boolean
         onAvatarPress?: () => void, onLikePress?: () => void
     }) {
 

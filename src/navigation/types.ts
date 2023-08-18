@@ -1,5 +1,5 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { PostDto } from "../store/dtos/content.dtos";
+import { IPostDto } from "../store/dtos/content.dtos";
 
 export enum UploadType {
   PHOTO, VIDEO
@@ -22,7 +22,7 @@ export type HomeStackNavigatorParamList = {
     isAI: boolean;
   },
   ViewPost: {
-    post: PostDto;
+    post: IPostDto;
   },
   Camera: undefined;
   Upload: {

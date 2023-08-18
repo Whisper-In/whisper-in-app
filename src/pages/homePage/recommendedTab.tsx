@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Dimensions, NativeScrollEvent, NativeSyntheticEvent, StatusBar, View } from "react-native";
-import { CreatorProfileDto, PostDto } from "../../store/dtos/content.dtos";
+import { ICreatorProfileDto, IPostDto } from "../../store/dtos/content.dtos";
 import * as postService from "../../store/services/postService";
 import { useTheme } from "react-native-paper";
 import RecommendedTypeButtons, { RecommendedType } from "../../components/home/recommended/recommendedTypeButtons";
@@ -11,8 +11,8 @@ import RecommendedPostList from "../../components/home/recommended/recommendedPo
 
 export default function RecommendedTab({ navigation }
     : { navigation: HomePageNavigationProp }) {
-    const [forYouPosts, setForYouPosts] = useState<PostDto[]>([]);
-    const [followingPosts, setFollowingPosts] = useState<PostDto[]>([]);
+    const [forYouPosts, setForYouPosts] = useState<IPostDto[]>([]);
+    const [followingPosts, setFollowingPosts] = useState<IPostDto[]>([]);
     const [recommendedType, setRecommendedType] = useState<RecommendedType>(RecommendedType.FORYOU);
     const [isLoading, setIsLoading] = useState(false);
     const [isBlur, setIsBlur] = useState(false);
@@ -70,7 +70,7 @@ export default function RecommendedTab({ navigation }
         }
     }, [navigation]);
 
-    const loadMore = async (recommendedType: RecommendedType) => {
+    const loadMore = async (recommendedType: RecommendedType) => {        
         if (isLoading) {
             return;
         }
@@ -92,11 +92,7 @@ export default function RecommendedTab({ navigation }
         }
     }
 
-    const onScrollNearBottom = (event: NativeSyntheticEvent<NativeScrollEvent>, itemHeightOffset = 1) => {
-        return event.nativeEvent.contentOffset.y >= event.nativeEvent.contentSize.height - (event.nativeEvent.layoutMeasurement.height * Math.max(0, itemHeightOffset + 1))
-    }
-
-    const navigateToProfile = (creator: CreatorProfileDto, isAI: boolean) => {
+    const navigateToProfile = (creator: ICreatorProfileDto, isAI: boolean) => {
         navigation.navigate("Profile", {
             isAI,
             profileId: creator._id
@@ -121,11 +117,7 @@ export default function RecommendedTab({ navigation }
                 height={height}
                 width={width}
                 isHidden={recommendedType != RecommendedType.FORYOU || isBlur}
-                onScroll={(event) => {
-                    if (onScrollNearBottom(event)) {
-                        loadMore(recommendedType);
-                    }
-                }}
+                onScrollEnd={() => loadMore(recommendedType)}
                 onAvatarPress={navigateToProfile}
                 onLikePress={likePost} />
 
@@ -133,11 +125,7 @@ export default function RecommendedTab({ navigation }
                 height={height}
                 width={width}
                 isHidden={recommendedType != RecommendedType.FOLLOWING || isBlur}
-                onScroll={(event) => {
-                    if (onScrollNearBottom(event)) {
-                        loadMore(RecommendedType.FOLLOWING);
-                    }
-                }}
+                onScrollEnd={() => loadMore(recommendedType)}
                 onAvatarPress={navigateToProfile}
                 onLikePress={likePost} />
 

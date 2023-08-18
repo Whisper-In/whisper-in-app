@@ -1,5 +1,5 @@
 import { Image, Pressable, View, ViewStyle } from "react-native";
-import { PostDto, PostType } from "../../store/dtos/content.dtos";
+import { IPostDto, PostType } from "../../store/dtos/content.dtos";
 import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
 import ButtonGroup from "./buttonGroup";
 import InfoGroup from "./infoGroup";
@@ -15,7 +15,7 @@ import {
 
 function Post({ post, style, width, height, onAvatarPress, onLikePress, hideAvatar, shouldPlay }
     : {
-        post: PostDto, style?: ViewStyle, width: string | number, height: string | number,
+        post: IPostDto, style?: ViewStyle, width: string | number, height: string | number,
         onAvatarPress?: () => void, onLikePress?: () => void, hideAvatar?: boolean, shouldPlay?: boolean
     }) {
 

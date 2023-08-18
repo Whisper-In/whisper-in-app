@@ -1,11 +1,11 @@
-import { Dimensions, FlatList, View, ViewStyle } from "react-native";
-import { PostDto, PostType } from "../../store/dtos/content.dtos";
+import { Dimensions, FlatList, NativeScrollEvent, NativeSyntheticEvent, View, ViewStyle } from "react-native";
+import { IPostDto, PostType } from "../../store/dtos/content.dtos";
 import Post from "../post";
 import { Text } from "react-native-paper";
 import PostListItem from "./postListItem";
 
-export default function PostList({ style, posts, onPostListItemPress }
-    : { style?: ViewStyle, posts?: PostDto[], onPostListItemPress?: (post: PostDto) => void }) {
+export default function PostList({ style, posts, onPostListItemPress, onScrollEnd }
+    : { style?: ViewStyle, posts?: IPostDto[], onPostListItemPress?: (post: IPostDto) => void, onScrollEnd?: () => void }) {
     const { width, height } = Dimensions.get("window");
     const numOfColumns = 3;
     const heightToWidthRatio = 1.33;
@@ -24,10 +24,22 @@ export default function PostList({ style, posts, onPostListItemPress }
         );
     }
 
+    const isScrollNearBottom = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        return postHeight * posts.length/numOfColumns - event.nativeEvent.contentOffset.y < event.nativeEvent.layoutMeasurement.height
+    }
+
+    const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        if (isScrollNearBottom(event)) {            
+            onScrollEnd && onScrollEnd();
+        }
+    }
+
+
     return (
         <FlatList style={style}
             data={posts}
             numColumns={numOfColumns}
+            onScroll={onScroll}
             renderItem={({ item, index }) =>
                 <PostListItem key={index}
                     style={{

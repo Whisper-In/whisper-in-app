@@ -20,7 +20,7 @@ import { useActionSheet } from "@expo/react-native-action-sheet";
 import { IReportReasonDto } from "../../store/dtos/business.dtos";
 import * as reportService from "../../store/services/reportService";
 import PostList from "../../components/profile/postList";
-import { PostDto, PostType } from "../../store/dtos/content.dtos";
+import { IPostDto, IPostResultsDto, PostType } from "../../store/dtos/content.dtos";
 import * as postService from "../../store/services/postService";
 import { isFulfilled } from "../../utils/promise";
 import ProfileStatItem from "../../components/profile/profileStatItem";
@@ -34,9 +34,10 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
     const me = useAppSelector(state => state.user.me);
     const { showActionSheetWithOptions } = useActionSheet();
     const [reportReasons, setReportReasons] = useState<IReportReasonDto[]>();
-    const [photos, setPhotos] = useState<PostDto[]>();
-    const [videos, setVideos] = useState<PostDto[]>();
-    const [pageIndex, setPageIndex] = useState(0);
+    const [photos, setPhotos] = useState<IPostDto[]>([]);
+    const [videos, setVideos] = useState<IPostDto[]>([]);
+    const [totalPhotos, setTotalPhotos] = useState(Number.MAX_SAFE_INTEGER);
+    const [totalVideos, setTotalVideos] = useState(Number.MAX_SAFE_INTEGER);
     const postsPerLoad = 9;
 
     const dispatch = useAppDispatch();
@@ -53,7 +54,8 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
 
         getReportReasons();
 
-        getPosts();
+        getPhotos();
+        getVideos();
     }, []);
 
     useEffect(() => {
@@ -92,34 +94,39 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
         });
     }
 
-    const getPosts = async () => {
+    const getPosts = async (postType: PostType, callback: (results: IPostResultsDto) => void) => {
         try {
-            const photosQuery = postService.getPosts(
+            const pageIndex = photos.length / postsPerLoad;
+
+            const results = await postService.getPosts(
                 route.params.profileId,
-                PostType[PostType.PHOTO],
+                PostType[postType],
                 pageIndex,
                 postsPerLoad);
 
-            const videosQuery = postService.getPosts(
-                route.params.profileId,
-                PostType[PostType.VIDEO],
-                pageIndex,
-                postsPerLoad)
-
-            const results = await Promise.allSettled([
-                photosQuery,
-                videosQuery
-            ]);
-
-            if (isFulfilled(results[0])) {
-                setPhotos(results[0].value);
-            }
-
-            if (isFulfilled(results[1])) {
-                setVideos(results[1].value);
+            if (results) {
+                callback(results);
             }
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    const getPhotos = async () => {
+        if ((photos?.length ?? 0) < totalPhotos) {
+            getPosts(PostType.PHOTO, (results) => {
+                setPhotos(photos?.concat(results.posts));
+                setTotalPhotos(results.totalPosts);
+            });
+        }
+    }
+
+    const getVideos = async () => {
+        if ((videos?.length ?? 0) < totalVideos) {
+            getPosts(PostType.VIDEO, (results) => {
+                setVideos(videos?.concat(results.posts));
+                setTotalVideos(results.totalPosts);
+            });
         }
     }
 
@@ -338,7 +345,7 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
         });
     }
 
-    const viewPost = (post: PostDto) => {
+    const viewPost = (post: IPostDto) => {
         navigation.navigate("ViewPost", { post });
     }
 
@@ -388,9 +395,7 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
                                 price={getSubscriptionPrice(profile.priceTiers)}
                                 onPress={() => !profile.isSubscribed ? openPaymentSheet() : cancelSubscription()}
                                 features={getFeatures(profile.priceTiers)}
-                                style={{
-                                    marginBottom: 20
-                                }} />}
+                            />}
 
                         <View style={{
                             flexDirection: "row",
@@ -415,6 +420,7 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
                                     flex: 1,
                                     borderWidth: 1
                                 }} posts={photos}
+                                    onScrollEnd={getPhotos}
                                     onPostListItemPress={viewPost} />
                             </View>
                         </TabScreen>
@@ -425,6 +431,7 @@ export default function ProfilePage({ navigation }: { navigation: HomePageNaviga
                                 <PostList style={{
                                     flex: 1,
                                 }} posts={videos}
+                                    onScrollEnd={getVideos}
                                     onPostListItemPress={viewPost} />
                             </View>
                         </TabScreen>

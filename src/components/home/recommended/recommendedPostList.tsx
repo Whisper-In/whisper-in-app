@@ -1,14 +1,14 @@
 import { FlatList, NativeScrollEvent, NativeSyntheticEvent, ViewToken } from "react-native";
-import { CreatorProfileDto, PostDto, PostType } from "../../../store/dtos/content.dtos";
+import { ICreatorProfileDto, IPostDto, PostType } from "../../../store/dtos/content.dtos";
 import Post from "../../post";
 import { ProfileModels } from "../../../store/dtos/profile.dtos";
 import { useEffect, useRef, useState } from "react";
 
-export default function RecommendedPostList({ posts, height, width, isHidden, onScroll, onAvatarPress, onLikePress }
+export default function RecommendedPostList({ posts, height, width, isHidden, onScrollEnd, onAvatarPress, onLikePress }
     : {
-        posts: PostDto[], height: number, width: number, isHidden?: boolean,
-        onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void,
-        onAvatarPress: (creator: CreatorProfileDto, isAI: boolean) => void,
+        posts: IPostDto[], height: number, width: number, isHidden?: boolean,
+        onScrollEnd?: () => void,
+        onAvatarPress: (creator: ICreatorProfileDto, isAI: boolean) => void,
         onLikePress: (postId: string) => void
     }) {
 
@@ -29,9 +29,19 @@ export default function RecommendedPostList({ posts, height, width, isHidden, on
         }
     }
 
+    const isScrollNearBottom = (event: NativeSyntheticEvent<NativeScrollEvent>, itemHeightOffset = 1) => {
+        return event.nativeEvent.contentOffset.y >= event.nativeEvent.contentSize.height - (event.nativeEvent.layoutMeasurement.height * Math.max(0, itemHeightOffset + 1))
+    }
+
+    const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        if(isScrollNearBottom(event)) {
+            onScrollEnd && onScrollEnd();
+        }
+    }
+
     const viewabilityConfigCallbackPairs = useRef([{ viewabilityConfig, onViewableItemsChanged }])
 
-    const renderItem = ({ item, index }: { item: PostDto, index: number }) =>
+    const renderItem = ({ item, index }: { item: IPostDto, index: number }) =>
         <Post
             shouldPlay={!isHidden && currentIndex == index}
             key={index}
@@ -43,7 +53,7 @@ export default function RecommendedPostList({ posts, height, width, isHidden, on
         />
 
     const getItemLayout = (
-        data: Array<PostDto> | null | undefined,
+        data: Array<IPostDto> | null | undefined,
         index: number,
     ) => ({
         length: height,
