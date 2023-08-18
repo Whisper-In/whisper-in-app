@@ -1,4 +1,4 @@
-import { Image, Pressable, View, ViewStyle } from "react-native";
+import { Image, Pressable, Share, View, ViewStyle } from "react-native";
 import { IPostDto, PostType } from "../../store/dtos/content.dtos";
 import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
 import ButtonGroup from "./buttonGroup";
@@ -12,6 +12,8 @@ import PlayButton from "./playButton";
 import {
     ActivityIndicator as PaperActivityIndicator,
 } from "react-native-paper";
+import appJson from "../../../app.json";
+import { REACT_APP_WHISPERIN_SERVICE_BASEURL } from "@env";
 
 function Post({ post, style, width, height, onAvatarPress, onLikePress, hideAvatar, shouldPlay }
     : {
@@ -67,6 +69,16 @@ function Post({ post, style, width, height, onAvatarPress, onLikePress, hideAvat
 
             setIsVideoPlaying(status.isPlaying);
         }
+    }
+
+    const onSharePress = () => {
+        Share.share(({
+            message: `${REACT_APP_WHISPERIN_SERVICE_BASEURL}/content/posts/view-post/${post._id}`
+        })).then(() => {
+
+        }).catch((error) => {
+            console.log(error);
+        });
     }
 
     return (
@@ -140,7 +152,8 @@ function Post({ post, style, width, height, onAvatarPress, onLikePress, hideAvat
                         post={_post}
                         hideAvatar={hideAvatar}
                         onAvatarPress={onAvatarPress}
-                        onLikePress={_onLikePress} />
+                        onLikePress={_onLikePress}
+                        onSharePress={onSharePress} />
 
                     <Svg style={{
                         position: "absolute",

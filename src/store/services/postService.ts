@@ -53,7 +53,7 @@ export const getExplorePosts = async (size: number) => {
     }
 }
 
-export const getRecommendedPosts = async (size: number, filterPostIds?:string[], showFollowingOnly?: boolean) => {
+export const getRecommendedPosts = async (size: number, filterPostIds?: string[], showFollowingOnly?: boolean) => {
     try {
         const results = await axiosInstance.get(`${route}/recommended`, { params: { size, filterPostIds, showFollowingOnly } });
 
@@ -68,6 +68,16 @@ export const likePost = async (postId: string) => {
         const results = await axiosInstance.post(`${route}/like`, { postId });
 
         return results.data as { isLiked: boolean, likeCount: number };
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getPostDetails = async (postId: string) => {
+    try {        
+        const result = await axiosInstance.get(`${route}/details/${postId}`);
+
+        return result.data as IPostDto;
     } catch (error) {
         throw error;
     }

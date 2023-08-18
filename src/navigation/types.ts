@@ -22,7 +22,9 @@ export type HomeStackNavigatorParamList = {
     isAI: boolean;
   },
   ViewPost: {
-    post: IPostDto;
+    postId?: string;
+    post?: IPostDto;
+    showAvatar?: boolean;
   },
   Camera: undefined;
   Upload: {

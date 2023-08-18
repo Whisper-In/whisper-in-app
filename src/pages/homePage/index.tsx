@@ -5,13 +5,14 @@ import Icon from "react-native-paper/src/components/Icon";
 import NavBarHeaderRight from "../../components/nav/navBarHeaderRight";
 import { TabScreen } from "react-native-paper-tabs";
 import { useTheme } from "react-native-paper/src/core/theming";
-import { Image, View } from "react-native";
+import { Image, Linking, View } from "react-native";
 import CreatePostButton from "../../components/home/createPostButton";
 import EmptyPage from "../emptyPage";
 import { useAppSelector } from "../../store/store";
 import SearchTab from "./searchTab";
 import RecommendedTab from "./recommendedTab";
 import ChatsTab from "./chatsTab";
+import { useEffect } from "react";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +23,26 @@ export default function HomePage({
 }) {
   const theme = useTheme();
   const me = useAppSelector((state) => state.user.me);
+
+  const handleOpenURL = (event: { url: string }) => {
+    const route = event.url.replace(/.*?:\/\//g, '').split("?")[0];
+    const url = new URL(decodeURI(event.url));
+    const params = new URLSearchParams(url.search);
+
+    const postId = params.get("postId");
+
+    if (route == "viewpost") {
+      if (postId) {
+        navigation.navigate("ViewPost", { postId, showAvatar: true })
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (navigation) {
+      Linking.addEventListener("url", handleOpenURL);
+    }
+  }, [navigation]);
 
   return (
     <Tab.Navigator screenOptions={{

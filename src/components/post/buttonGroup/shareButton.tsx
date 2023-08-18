@@ -2,12 +2,13 @@ import { Pressable } from "react-native";
 import { Text } from "react-native-paper";
 import Icon from "react-native-paper/src/components/Icon";
 
-export default function ShareButton() {
+export default function ShareButton({ onPress }
+    : { onPress?: () => void }) {
     return (
         <Pressable style={{
             alignItems: "center"
-        }}>
-            <Icon source="share" size={50} color="white"/>
+        }} onPress={onPress}>
+            <Icon source="share" size={50} color="white" />
 
             <Text style={{
                 color: "white",

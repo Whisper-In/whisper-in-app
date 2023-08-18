@@ -4,10 +4,10 @@ import LikeButton from "./likeButton";
 import ShareButton from "./shareButton";
 import { IPostDto } from "../../../store/dtos/content.dtos";
 
-export default function ButtonGroup({ style, post, hideAvatar, onAvatarPress, onLikePress }
+export default function ButtonGroup({ style, post, hideAvatar, onAvatarPress, onLikePress, onSharePress }
     : {
         style?: ViewStyle, post: IPostDto, hideAvatar?: boolean
-        onAvatarPress?: () => void, onLikePress?: () => void
+        onAvatarPress?: () => void, onLikePress?: () => void, onSharePress?: () => void
     }) {
 
     return (
@@ -29,7 +29,7 @@ export default function ButtonGroup({ style, post, hideAvatar, onAvatarPress, on
 
             <LikeButton onPress={onLikePress} isLiked={post.isLiked} likeCount={post.likeCount} />
 
-            <ShareButton />
+            <ShareButton onPress={onSharePress}/>
         </View>
     );
 }
